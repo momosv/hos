@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="context1" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true"></property>
+		</commentGenerator>
+		
+		<jdbcConnection
+			connectionURL="jdbc:mysql://momosv.cn:3306/blog?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false"
+			driverClass="com.mysql.jdbc.Driver" password="LLLSWmomo" userId="momo" />
+		
+		
+		<javaModelGenerator targetPackage="cn.momosv.springboot.bean"
+			targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		
+		<sqlMapGenerator targetPackage="cn.momosv.springboot.dao" targetProject=".\src\main\java" >
+		 <property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--     <collection property="user_id" resultMap="cn.momosv.springboot.dao.TbTestMapper.BaseResultMap"></collection> -->
+		<javaClientGenerator targetPackage="cn.momosv.springboot.dao"
+			targetProject=".\src\main\java" type="XMLMAPPER" />
+		
+ 		<table  tableName="tb_basic_blog_category" domainObjectName="TbBasicBlogCategoryPO" ></table>
+		<table  tableName="tb_blog" domainObjectName="TbBlogPO" ></table>
+		<table  tableName="tb_blog_comment" domainObjectName="TbBlogCommentPO" ></table>
+		<table  tableName="tb_blog_comment_reply" domainObjectName="TbBlogCommentReplyPO" ></table>
+		<table  tableName="tb_blog_host" domainObjectName="TbBlogHostPO" ></table>
+		<table  tableName="tb_blog_label" domainObjectName="TbBlogLabelPO" ></table>
+		<table  tableName="tb_blog_reader" domainObjectName="TbBlogReaderPO" ></table>
+		<table  tableName="tb_host_visit" domainObjectName="TbHostVisitPO" ></table>
+		<table  tableName="tb_my_blog_category" domainObjectName="TbMyBlogCategoryPO" ></table>
+		<table  tableName="tb_sys_message" domainObjectName="TbSysMessagePO" ></table> 
+		<table  tableName="tb_user_base" domainObjectName="TbUserBasePO" ></table>
+		<table  tableName="tb_user_concern" domainObjectName="TbUserConcernPO" ></table>
+		<table  tableName="tb_user_login_log" domainObjectName="TbUserLoginLogPO" ></table>
+		<table  tableName="tb_user_rank" domainObjectName="TbUserRankPO" ></table>
+		<table  tableName="tb_user_security" domainObjectName="TbUserSecurityPO" ></table>
+		<table  tableName="tb_test" domainObjectName="TbTest" ></table> 
+	</context>
+</generatorConfiguration>
