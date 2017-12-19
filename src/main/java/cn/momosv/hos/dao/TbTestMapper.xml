@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.momosv.mybatis.dao.TbTestMapper" >
-  <resultMap id="BaseResultMap" type="cn.momosv.mybatis.bean.TbTest" extends="ChildResultMap">
+<mapper namespace="cn.momosv.hos.dao.TbTestMapper" >
+  <resultMap id="BaseResultMap" type="cn.momosv.hos.bean.TbTest" extends="ChildResultMap">
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap id="ChildResultMap" type="cn.momosv.mybatis.bean.TbTest" >
+  <resultMap id="ChildResultMap" type="cn.momosv.hos.bean.TbTest" >
     <result column="test" property="test" jdbcType="VARCHAR" />
   </resultMap>
   
-   <resultMap id="ForeignResultMap" type="cn.momosv.mybatis.bean.TbTest" extends="ChildResultMap">
+   <resultMap id="ForeignResultMap" type="cn.momosv.hos.bean.TbTest" extends="ChildResultMap">
     <result column="test_id" property="id" jdbcType="VARCHAR" />
     <result column="id" property="userId" jdbcType="VARCHAR" />
   </resultMap>
@@ -76,7 +76,7 @@
   <sql id="Base_Column_List" >
     id, user_id, test
   </sql>
-  <!--  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.momosv.mybatis.bean.BasicExample" >
+  <!--  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.momosv.hos.bean.BasicExample" >
     select
     <if test="distinct" >
       distinct

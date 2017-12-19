@@ -2,7 +2,12 @@ package cn.momosv.hos.bean;
 
 import java.io.Serializable;
 
-public  abstract class IBaseDBPO<T> implements Serializable, Cloneable{
+public  abstract class IBaseDBPO implements Serializable, Cloneable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	abstract public  String _getTableName();
 
 	abstract public String _getPKColumnName();

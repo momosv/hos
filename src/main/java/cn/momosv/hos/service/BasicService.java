@@ -12,11 +12,9 @@ import java.util.Map;
 
 
 /**
- * @Title: BasicService.java
- * @Package com.yjw.andy.service
- * @Description: TODO
- * @author 余健文
- * @date 2016年9月19日
+ *
+ * @param <T>
+ * @param <E>
  */
 public interface BasicService<T ,E > {
 

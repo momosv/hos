@@ -5,7 +5,7 @@ import cn.momosv.hos.util.RegexUtils;
 import java.util.*;
 
 
-public class BasicExample {
+public class BasicExample <T extends IBaseDBPO>{
     
 	protected  Object tName;
 	
@@ -22,6 +22,13 @@ public class BasicExample {
 	protected Map<String,Object> tMap=new HashMap<>();
 
 	public BasicExample() {
+		oredCriteria = new ArrayList<Criteria>();
+	}
+	public BasicExample(Class<T> clazz) throws InstantiationException, IllegalAccessException {
+		T t=clazz.newInstance();
+		this.tName=t._getTableName();
+		this.pkName=t._getPKColumnName();
+		this.pkValue=t._getPKValue();
 		oredCriteria = new ArrayList<Criteria>();
 	}
 	
