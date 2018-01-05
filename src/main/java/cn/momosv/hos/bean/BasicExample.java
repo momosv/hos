@@ -39,8 +39,6 @@ public class BasicExample <T extends IBaseDBPO>{
 		return tMap;
 	}
 
-
-
 	public void setTName(String tableName) {
 		tMap.put("tName", tableName);
 		this.tName = tableName;
@@ -141,17 +139,17 @@ public class BasicExample <T extends IBaseDBPO>{
 
 		public static final String NOT_IN = "notIn";
 
-		public static final String BETWEEN = "bet";
+		public static final String BETWEEN = "between";
 
-		public static final String NOT_BETWEEN = "notBet";
+		public static final String NOT_BETWEEN = "notBetween";
 
-		public static final String LESS_THAN = "lessT";
+		public static final String LESS_THAN = "lessThan";
 
-		public static final String LESS_THAN_OR_EQ = "lessTE";
+		public static final String LESS_THAN_OR_EQ = "lessThanOrEq";
 
-		public static final String GREAT_THAN = "GreaterT";
+		public static final String GREAT_THAN = "GreaterThan";
 
-		public static final String GREAT_THAN_OR_EQ = "GreaterTE";
+		public static final String GREAT_THAN_OR_EQ = "GreaterThanOrEq";
 		
 		protected List<Criterion> criteria;
 
