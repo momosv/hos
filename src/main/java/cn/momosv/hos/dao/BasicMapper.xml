@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.momosv.mybatis.dao.BasicMapper">
+<mapper namespace="cn.momosv.hos.dao.BasicMapper">
 	<sql id="Example_Where_Clause">
 		<where>
 			<foreach collection="example.oredCriteria" item="criteria"
@@ -157,7 +157,7 @@
 		</where>
 	</update>
 
-	<select id="countByExample" parameterType="cn.momosv.mybatis.bean.BasicExample"
+	<select id="countByExample" parameterType="cn.momosv.hos.bean.BasicExample"
 		resultType="java.lang.Integer">
 		select count(*) from ${example.tName}
 		<if test="_parameter != null">
@@ -173,7 +173,7 @@
 			#{pk}
 		</foreach>
 	</delete>
-	<delete id="deleteByExample" parameterType="cn.momosv.mybatis.bean.BasicExample" >
+	<delete id="deleteByExample" parameterType="cn.momosv.hos.bean.BasicExample" >
     delete from ${example.tName}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -187,7 +187,7 @@
 			#{pk}
 		</foreach>
   </select>
-    <select id="selectByExample" resultType="java.util.Map" parameterType="cn.momosv.mybatis.bean.BasicExample" >
+    <select id="selectByExample" resultType="java.util.Map" parameterType="cn.momosv.hos.bean.BasicExample" >
     select
     <if test="example.distinct" >
       distinct

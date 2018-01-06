@@ -1,8 +1,12 @@
 package cn.momosv.hos.controller;
 
+import cn.momosv.hos.bean.BasicExample;
+import cn.momosv.hos.bean.IBaseDBPO;
 import cn.momosv.hos.bean.Msg;
 import cn.momosv.hos.bean.TbTest;
 import cn.momosv.hos.service.BasicService;
+import cn.momosv.hos.service.ITestService;
+import cn.momosv.hos.service.ITestService2;
 import cn.momosv.hos.service.impl.BasicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,30 +14,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/mybatis")
 public class BaseController {
 	@Autowired
-	TbTest tb;
+	private TbTest tb;
 
-   	private	BasicService basicService=new BasicServiceImpl<>();
+
+   	@Autowired
+	private ITestService testService;
+ 	@Autowired
+	private ITestService2 testService2;
+	@Autowired
+   	private BasicService basicService;
+	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping("/hello")
-	public String hello() throws Exception {
-		System.out.println(tb);
-		TbTest tb1=new TbTest();
-		System.out.println(tb1);
-		TbTest tb2=new TbTest();
-		System.out.println(tb2);
-		basicService.findAll(TbTest.class);
-		return "hello";
+	public List<TbTest> hello() throws Exception {
+		
+		BasicExample example=new BasicExample();
+		
+	List<TbTest> list=basicService.selectByExample(TbTest.class,example);
+		return  list;
 	}
 	
 	@ResponseBody
 	@RequestMapping("/map")
-	public Map mmp(){
+	public Map<String, Object> mmp(){
 		Map<String, Object> map=new HashMap<>();
 		map.put("liao", "傻了吧");
 		Msg msg= new Msg();

@@ -6,7 +6,7 @@ import cn.momosv.hos.bean.TbUserBasePO;
 import java.util.List;
 
 
-public interface TbUserBasePOMapper extends BasicMapper<TbUserBasePO, BasicExample>{
+public interface TbUserBasePOMapper {
 	
 	 List<TbUserBasePO> selectUserWithTest(BasicExample example);
 

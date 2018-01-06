@@ -14,7 +14,10 @@ import cn.momosv.hos.dao.BasicMapper;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.util.ObjectMapUtils;
 import cn.momosv.hos.util.RegexUtils;
+
+import org.mybatis.generator.plugins.SqlMapConfigPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
@@ -33,11 +36,12 @@ import java.util.Map;
  * @param <T>
  * @date 2016年9月19日
  */
-
+@Service("basicService")
 public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> implements BasicService<T, E> {
-
+ 
 	@Autowired
 	private BasicMapper<T, E> basicMapper;
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll(Class<T> t) throws Exception {
 		return this.selectByExample(t,(E) new BasicExample());

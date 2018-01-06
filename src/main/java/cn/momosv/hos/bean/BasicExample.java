@@ -5,7 +5,7 @@ import cn.momosv.hos.util.RegexUtils;
 import java.util.*;
 
 
-public class BasicExample {
+public class BasicExample <T extends IBaseDBPO>{
     
 	protected  Object tName;
 	
@@ -24,6 +24,13 @@ public class BasicExample {
 	public BasicExample() {
 		oredCriteria = new ArrayList<Criteria>();
 	}
+	public BasicExample(Class<T> clazz) throws InstantiationException, IllegalAccessException {
+		T t=clazz.newInstance();
+		this.tName=t._getTableName();
+		this.pkName=t._getPKColumnName();
+		this.pkValue=t._getPKValue();
+		oredCriteria = new ArrayList<Criteria>();
+	}
 	
 	public Object getTName() {
 		return tName;
@@ -31,8 +38,6 @@ public class BasicExample {
 	public Object getTMap() {
 		return tMap;
 	}
-
-
 
 	public void setTName(String tableName) {
 		tMap.put("tName", tableName);
@@ -134,17 +139,17 @@ public class BasicExample {
 
 		public static final String NOT_IN = "notIn";
 
-		public static final String BETWEEN = "bet";
+		public static final String BETWEEN = "between";
 
-		public static final String NOT_BETWEEN = "notBet";
+		public static final String NOT_BETWEEN = "notBetween";
 
-		public static final String LESS_THAN = "lessT";
+		public static final String LESS_THAN = "lessThan";
 
-		public static final String LESS_THAN_OR_EQ = "lessTE";
+		public static final String LESS_THAN_OR_EQ = "lessThanOrEq";
 
-		public static final String GREAT_THAN = "GreaterT";
+		public static final String GREAT_THAN = "GreaterThan";
 
-		public static final String GREAT_THAN_OR_EQ = "GreaterTE";
+		public static final String GREAT_THAN_OR_EQ = "GreaterThanOrEq";
 		
 		protected List<Criterion> criteria;
 

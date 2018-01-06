@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.momosv.mybatis.dao.TbUserBasePOMapper">
-	<resultMap id="BaseResultMap" type="cn.momosv.mybatis.bean.TbUserBasePO">
+<mapper namespace="cn.momosv.hos.dao.TbUserBasePOMapper">
+	<resultMap id="BaseResultMap" type="cn.momosv.hos.bean.TbUserBasePO">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="user_name" property="userName" jdbcType="VARCHAR" />
 		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
@@ -21,9 +21,9 @@
 		<result column="act_code" property="actCode" jdbcType="VARCHAR" />
 	</resultMap>
 	
-<!-- 	<resultMap id="WithTestBaseResultMap" type="cn.momosv.mybatis.vo.TbUserBaseVO"  extends="cn.momosv.mybatis.dao.TbUserBasePOMapper.BaseResultMap">
+<!-- 	<resultMap id="WithTestBaseResultMap" type="cn.momosv.hos.vo.TbUserBaseVO"  extends="cn.momosv.hos.dao.TbUserBasePOMapper.BaseResultMap">
 		<collection property="testList"
-			resultMap="cn.momosv.mybatis.dao.TbTestMapper.ForeignResultMap"></collection>
+			resultMap="cn.momosv.hos.dao.TbTestMapper.ForeignResultMap"></collection>
 	</resultMap> -->
 
 	<sql id="Example_Where_Clause_Trim">	
