@@ -1,6 +1,4 @@
 package cn.momosv.hos.bean.base;
-
-import cn.momosv.hos.bean.IBaseDBPO;
 import cn.momosv.hos.util.RegexUtils;
 
 import java.util.*;

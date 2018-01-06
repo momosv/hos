@@ -74,7 +74,7 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		T t=clazz.newInstance();
 		example.setPkName(t._getPKColumnName());
 		example.setTName(t._getTableName());
-		List<Map> mapL=  (List<Map>) basicMapper.selectByExample(example);
+		List<Map> mapL=   basicMapper.selectByExample(example);
 		List<T> list=new ArrayList<>();
 	    for(Map map:mapL) {
 	    	T t1=(T) ObjectMapUtils.mapToObject(map, clazz, true);

@@ -2,43 +2,81 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<context id="context1" targetRuntime="MyBatis3">
-		<commentGenerator>
-			<property name="suppressAllComments" value="true"></property>
+
+		<!-- 注释 -->
+		<commentGenerator >
+			<property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
 		</commentGenerator>
+
 		
 		<jdbcConnection
-			connectionURL="jdbc:mysql://momosv.cn:3306/blog?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false"
+			connectionURL="jdbc:mysql://momosv.cn:3306/tracking_treatment?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false"
 			driverClass="com.mysql.jdbc.Driver" password="LLLSWmomo" userId="momo" />
 		
 		
-		<javaModelGenerator targetPackage="cn.momosv.springboot.bean"
+		<javaModelGenerator targetPackage="cn.momosv.hos.model"
 			targetProject=".\src\main\java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		
-		<sqlMapGenerator targetPackage="cn.momosv.springboot.dao" targetProject=".\src\main\java" >
+		<sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources" >
 		 <property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!--     <collection property="user_id" resultMap="cn.momosv.springboot.dao.TbTestMapper.BaseResultMap"></collection> -->
-		<javaClientGenerator targetPackage="cn.momosv.springboot.dao"
+		<javaClientGenerator targetPackage="cn.momosv.hos.dao"
 			targetProject=".\src\main\java" type="XMLMAPPER" />
 		
- 		<table  tableName="tb_basic_blog_category" domainObjectName="TbBasicBlogCategoryPO" ></table>
-		<table  tableName="tb_blog" domainObjectName="TbBlogPO" ></table>
-		<table  tableName="tb_blog_comment" domainObjectName="TbBlogCommentPO" ></table>
-		<table  tableName="tb_blog_comment_reply" domainObjectName="TbBlogCommentReplyPO" ></table>
-		<table  tableName="tb_blog_host" domainObjectName="TbBlogHostPO" ></table>
-		<table  tableName="tb_blog_label" domainObjectName="TbBlogLabelPO" ></table>
-		<table  tableName="tb_blog_reader" domainObjectName="TbBlogReaderPO" ></table>
-		<table  tableName="tb_host_visit" domainObjectName="TbHostVisitPO" ></table>
-		<table  tableName="tb_my_blog_category" domainObjectName="TbMyBlogCategoryPO" ></table>
-		<table  tableName="tb_sys_message" domainObjectName="TbSysMessagePO" ></table> 
-		<table  tableName="tb_user_base" domainObjectName="TbUserBasePO" ></table>
-		<table  tableName="tb_user_concern" domainObjectName="TbUserConcernPO" ></table>
-		<table  tableName="tb_user_login_log" domainObjectName="TbUserLoginLogPO" ></table>
-		<table  tableName="tb_user_rank" domainObjectName="TbUserRankPO" ></table>
-		<table  tableName="tb_user_security" domainObjectName="TbUserSecurityPO" ></table>
-		<table  tableName="tb_test" domainObjectName="TbTest" ></table> 
+ 		<table  tableName="tb_base_user" domainObjectName="TbBaseUserPO"
+				enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_data_authority" domainObjectName="TbDataAuthorityPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_department" domainObjectName="TbDepartmentPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_doctor" domainObjectName="TbDoctorPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_medical_org" domainObjectName="TbMedicalOrgPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_org_manager" domainObjectName="TbOrgManagerPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_org_patient" domainObjectName="TbOrgPatientPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
 	</context>
 </generatorConfiguration>

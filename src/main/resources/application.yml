@@ -25,7 +25,7 @@ security:
   basic:
     enabled: false
 mybatis:
-     mapperLocations: classpath:/cn/momosv/hos/dao/*.xml
+     mapperLocations: classpath:/mapper/*.xml
      typeAliasesPackage: cn.momosv.hos.dao    
      mapperScanPackage: cn.momosv.hos.dao
      configLocation: classpath:/mybatis-config.xml

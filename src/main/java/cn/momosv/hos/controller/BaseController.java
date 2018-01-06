@@ -3,10 +3,10 @@ package cn.momosv.hos.controller;
 import cn.momosv.hos.bean.TbTest;
 import cn.momosv.hos.bean.base.BasicExample;
 import cn.momosv.hos.bean.base.Msg;
+import cn.momosv.hos.controller.base.BasicController;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.ITestService;
 import cn.momosv.hos.service.ITestService2;
-import cn.momosv.hos.service.impl.BasicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/mybatis")
-public class BaseController {
+public class BaseController extends BasicController{
 	@Autowired
 	private TbTest tb;
 
@@ -32,12 +32,12 @@ public class BaseController {
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping("/hello")
-	public List<TbTest> hello() throws Exception {
-		
-		BasicExample example=new BasicExample();
-		
-	List<TbTest> list=basicService.selectByExample(TbTest.class,example);
-		return  list;
+	public Object hello() throws Exception {
+		BasicExample example=new BasicExample(TbTest.class);
+		List<TbTest> list=basicService.selectByExample(TbTest.class,example);
+		int i= basicService.countByExample(example);
+		addResult("list",list);
+		return  successMsg;
 	}
 	
 	@ResponseBody
