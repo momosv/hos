@@ -35,7 +35,7 @@ spring:
         name: db      
         url: jdbc:mysql://119.29.215.46:3306/blog?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
         username: momo
-        password: ***
+        password: LLLSWmomo
         driver-class-name: com.mysql.jdbc.Driver
         type: com.alibaba.druid.pool.DruidDataSource
         minIdle: 5
@@ -89,7 +89,7 @@ spring:
     mail:  
       host: smtp.exmail.qq.com
       username: momosv@momosv.cn
-      password: ***
+      password: LLLswg123
       properties:  
         mail: 
           self: 

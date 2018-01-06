@@ -1,8 +1,7 @@
 package cn.momosv.hos.service.impl;
 
-import cn.momosv.hos.bean.BasicExample;
+import cn.momosv.hos.bean.base.BasicExample;
 import cn.momosv.hos.bean.TbTest;
-import cn.momosv.hos.service.ITestService;
 import cn.momosv.hos.service.ITestService2;
 
 import org.springframework.stereotype.Service;

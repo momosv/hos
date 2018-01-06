@@ -1,9 +1,8 @@
 package cn.momosv.hos.controller;
 
-import cn.momosv.hos.bean.BasicExample;
-import cn.momosv.hos.bean.IBaseDBPO;
-import cn.momosv.hos.bean.Msg;
 import cn.momosv.hos.bean.TbTest;
+import cn.momosv.hos.bean.base.BasicExample;
+import cn.momosv.hos.bean.base.Msg;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.ITestService;
 import cn.momosv.hos.service.ITestService2;

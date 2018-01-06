@@ -1,4 +1,4 @@
-package cn.momosv.hos.bean;
+package cn.momosv.hos.bean.base;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,14 +32,14 @@ public class Msg {
 		return result;
 	}
 	
-	public static Msg success(int code,String msg){
+	public static Msg success(int code, String msg){
 		Msg result = new Msg();
 		result.setCode(code);
 		result.setMsg(msg);
 		return result;
 	}
 	
-	public static Msg fail(int code,String msg){
+	public static Msg fail(int code, String msg){
 		Msg result = new Msg();
 		result.setCode(code);
 		result.setMsg(msg);
@@ -60,7 +60,7 @@ public class Msg {
 		return result;
 	}
 	
-	public  Msg add(String key,Object value){
+	public Msg add(String key, Object value){
 		this.getExtend().put(key, value);
 		return this;
 	}

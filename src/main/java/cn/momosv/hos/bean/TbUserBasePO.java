@@ -1,13 +1,12 @@
 package cn.momosv.hos.bean;
 
-import org.springframework.context.annotation.Scope;
+import cn.momosv.hos.bean.base.IBaseDBPO;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-@Scope("prototype")
-public class TbUserBasePO extends IBaseDBPO{
+public class TbUserBasePO extends IBaseDBPO {
     private String id;
 
     private String userName;

@@ -1,11 +1,10 @@
 package cn.momosv.hos.bean;
 
-import org.springframework.context.annotation.Scope;
+import cn.momosv.hos.bean.base.IBaseDBPO;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("singleton")
-public class TbTest extends IBaseDBPO{
+public class TbTest extends IBaseDBPO {
     private String id;
 
     private String userId;

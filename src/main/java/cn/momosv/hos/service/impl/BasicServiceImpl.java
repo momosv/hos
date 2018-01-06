@@ -8,14 +8,13 @@
 package cn.momosv.hos.service.impl;
 
 
-import cn.momosv.hos.bean.BasicExample;
-import cn.momosv.hos.bean.IBaseDBPO;
+import cn.momosv.hos.bean.base.BasicExample;
+import cn.momosv.hos.bean.base.IBaseDBPO;
 import cn.momosv.hos.dao.BasicMapper;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.util.ObjectMapUtils;
 import cn.momosv.hos.util.RegexUtils;
 
-import org.mybatis.generator.plugins.SqlMapConfigPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
