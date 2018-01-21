@@ -28,7 +28,7 @@ public class LoginController extends BasicController{
 
 	@ResponseBody
 	@RequestMapping("/login")
-	public String login(String account, String , String type, HttpSession session) throws Exception {
+	public String login(String account, String psw, String type, HttpSession session) throws Exception {
 		BasicExample example;
 		if(type.equals(DOCTOR)){
 			example=new BasicExample(TbDoctorPO.class);
