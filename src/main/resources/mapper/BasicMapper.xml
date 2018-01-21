@@ -157,7 +157,7 @@
 		</where>
 	</update>
 
-	<select id="countByExample" parameterType="cn.momosv.hos.bean.base.BasicExample"
+	<select id="countByExample" parameterType="cn.momosv.hos.model.base.BasicExample"
 		resultType="java.lang.Integer">
 		select count(*) from ${example.tName}
 		<if test="_parameter != null">
@@ -173,7 +173,7 @@
 			#{pk}
 		</foreach>
 	</delete>
-	<delete id="deleteByExample" parameterType="cn.momosv.hos.bean.base.BasicExample" >
+	<delete id="deleteByExample" parameterType="cn.momosv.hos.model.base.BasicExample" >
     delete from ${example.tName}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -187,7 +187,7 @@
 			#{pk}
 		</foreach>
   </select>
-    <select id="selectByExample" resultType="java.util.Map" parameterType="cn.momosv.hos.bean.base.BasicExample" >
+    <select id="selectByExample" resultType="java.util.Map" parameterType="cn.momosv.hos.model.base.BasicExample" >
     select
     <if test="example.distinct" >
       distinct
