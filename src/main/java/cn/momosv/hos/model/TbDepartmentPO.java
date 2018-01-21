@@ -1,8 +1,32 @@
 package cn.momosv.hos.model;
 
+import cn.momosv.hos.model.base.IBaseDBPO;
+import cn.momosv.hos.util.RegexUtils;
+
 import java.util.Date;
 
-public class TbDepartmentPO {
+public class TbDepartmentPO extends IBaseDBPO{
+    @Override
+    public String _getTableName() {
+        String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
+        name=name.substring(1,name.length()-4);
+        return name;
+    }
+
+    @Override
+    public String _getPKColumnName() {
+        return "id";
+    }
+
+    @Override
+    public String _getPKValue() {
+        return id;
+    }
+
+    @Override
+    public void _setPKValue(Object var1) {
+        this.id= (String) var1;
+    }
     private String id;
 
     private String name;

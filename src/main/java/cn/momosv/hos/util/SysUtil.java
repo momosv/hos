@@ -1,10 +1,11 @@
 package cn.momosv.hos.util;//package cn.momosv.util;
 
+import cn.momosv.hos.dao.TbUserBasePO;
+
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import cn.momosv.hos.bean.TbUserBasePO;
 
 
 public class SysUtil {
@@ -12,13 +13,13 @@ public class SysUtil {
 	 protected static final String BASE_PATH = "basePath";
 
 	    //① 获取保存在Session中的用户对象
-	    public static TbUserBasePO getSessionUser(HttpServletRequest request) throws LoginException {
+	   /* public static TbUserBasePO getSessionUser(HttpServletRequest request) throws LoginException {
 	    	TbUserBasePO userBasePO = (TbUserBasePO) request.getSession().getAttribute("USER");
 	    	if(userBasePO==null){
 	    		throw new LoginException("用户不存在,请登录注册再使用");
 	    	}
 	    	return userBasePO;
-	    }
+	    }*/
 
 	     //②将用户对象保存到Session中
 	    public static void setSessionUser(HttpServletRequest request,TbUserBasePO TbUserBasePO) {

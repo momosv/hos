@@ -1,8 +1,11 @@
 package cn.momosv.hos.model;
 
+import cn.momosv.hos.model.base.IBaseDBPO;
+import cn.momosv.hos.util.RegexUtils;
+
 import java.util.Date;
 
-public class TbBaseUserPO {
+public class TbBaseUserPO extends IBaseDBPO{
     private String id;
 
     private String account;
@@ -32,6 +35,10 @@ public class TbBaseUserPO {
     private Date birthday;
 
     private Integer maritalstatus;
+
+    private String booldType;
+
+    private Double weight;
 
     public String getId() {
         return id;
@@ -151,5 +158,42 @@ public class TbBaseUserPO {
 
     public void setMaritalstatus(Integer maritalstatus) {
         this.maritalstatus = maritalstatus;
+    }
+
+    public String getBooldType() {
+        return booldType;
+    }
+
+    public void setBooldType(String booldType) {
+        this.booldType = booldType == null ? null : booldType.trim();
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+    @Override
+    public String _getTableName() {
+        String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
+        name=name.substring(1,name.length()-4);
+        return name;
+    }
+
+    @Override
+    public String _getPKColumnName() {
+        return "id";
+    }
+
+    @Override
+    public String _getPKValue() {
+        return id;
+    }
+
+    @Override
+    public void _setPKValue(Object var1) {
+        this.id= (String) var1;
     }
 }

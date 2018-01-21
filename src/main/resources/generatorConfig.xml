@@ -28,6 +28,14 @@
 		<javaClientGenerator targetPackage="cn.momosv.hos.dao"
 			targetProject=".\src\main\java" type="XMLMAPPER" />
 		
+ 		<table  tableName="tb_analyze_plan" domainObjectName="TbAnalyzePlanPO"
+				enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
  		<table  tableName="tb_base_user" domainObjectName="TbBaseUserPO"
 				enableInsert="false"
 				enableSelectByExample="false"
@@ -36,6 +44,24 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+		<table  tableName="tb_case" domainObjectName="TbCasePO"
+				enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<!--会诊-->
+		<table  tableName="tb_consultation" domainObjectName="TbConsultationPO"
+				enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<!--权限表-->
 		<table  tableName="tb_data_authority" domainObjectName="TbDataAuthorityPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -43,6 +69,7 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+
 		<table  tableName="tb_department" domainObjectName="TbDepartmentPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -50,6 +77,7 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+
 		<table  tableName="tb_doctor" domainObjectName="TbDoctorPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -57,6 +85,25 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+
+		<!--住院记录-->
+		<table  tableName="tb_hospitalized" domainObjectName="TbHospitalizedPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+
+		<!--住院记录-->
+		<table  tableName="tb_leave_hospital" domainObjectName="TbLeaveHospitalAbstractPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+
 		<table  tableName="tb_medical_org" domainObjectName="TbMedicalOrgPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -64,6 +111,7 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+
 		<table  tableName="tb_org_manager" domainObjectName="TbOrgManagerPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -71,7 +119,37 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
+
 		<table  tableName="tb_org_patient" domainObjectName="TbOrgPatientPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+
+		<table  tableName="tb_return_visit" domainObjectName="TbReturnVisitPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_surgery" domainObjectName="TbSurgeryPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_sys_manager" domainObjectName="TbSysManagerPO" enableInsert="false"
+				enableSelectByExample="false"
+				enableUpdateByPrimaryKey="false"
+				enableDeleteByPrimaryKey="false"
+				enableDeleteByExample="false"
+				enableCountByExample="false"
+				enableUpdateByExample="false"></table>
+		<table  tableName="tb_transfer" domainObjectName="TbTransferPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
 				enableDeleteByPrimaryKey="false"

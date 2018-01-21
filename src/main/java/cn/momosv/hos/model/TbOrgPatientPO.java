@@ -1,8 +1,33 @@
 package cn.momosv.hos.model;
 
+import cn.momosv.hos.model.base.IBaseDBPO;
+import cn.momosv.hos.util.RegexUtils;
+
 import java.util.Date;
 
-public class TbOrgPatientPO {
+public class TbOrgPatientPO   extends IBaseDBPO {
+    @Override
+    public String _getTableName() {
+        String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
+        name=name.substring(1,name.length()-4);
+        return name;
+    }
+
+    @Override
+    public String _getPKColumnName() {
+        return "id";
+    }
+
+    @Override
+    public String _getPKValue() {
+        return id;
+    }
+
+    @Override
+    public void _setPKValue(Object var1) {
+        this.id= (String) var1;
+    }
+
     private String id;
 
     private String orgId;
@@ -12,6 +37,8 @@ public class TbOrgPatientPO {
     private Integer treatCode;
 
     private Date createTime;
+
+    private Byte isAgent;
 
     public String getId() {
         return id;
@@ -51,5 +78,13 @@ public class TbOrgPatientPO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Byte getIsAgent() {
+        return isAgent;
+    }
+
+    public void setIsAgent(Byte isAgent) {
+        this.isAgent = isAgent;
     }
 }

@@ -1,4 +1,4 @@
-package cn.momosv.hos.bean.base;
+package cn.momosv.hos.model.base;
 
 import java.io.Serializable;
 
@@ -14,7 +14,9 @@ public  abstract class IBaseDBPO implements Serializable, Cloneable{
 
 	abstract public  String _getTableName();
 
-	abstract public String _getPKColumnName();
+	 public String _getPKColumnName(){
+	 	return "id";
+	 };
 
 	abstract public String _getPKValue();
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.momosv.hos.dao.TbCasePOMapper" >
+  <resultMap id="BaseResultMap" type="cn.momosv.hos.model.TbCasePO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="patient_id" property="patientId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="doctor_id" property="doctorId" jdbcType="VARCHAR" />
+    <result column="complaint" property="complaint" jdbcType="VARCHAR" />
+    <result column="pre_history" property="preHistory" jdbcType="VARCHAR" />
+    <result column="past_history" property="pastHistory" jdbcType="VARCHAR" />
+    <result column="family_history" property="familyHistory" jdbcType="VARCHAR" />
+    <result column="surgical_history" property="surgicalHistory" jdbcType="VARCHAR" />
+    <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
+    <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
+    <result column="diagnosis" property="diagnosis" jdbcType="VARCHAR" />
+    <result column="treat" property="treat" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="inpatient_area" property="inpatientArea" jdbcType="VARCHAR" />
+    <result column="bed_num" property="bedNum" jdbcType="VARCHAR" />
+    <result column="from_case_id" property="fromCaseId" jdbcType="VARCHAR" />
+    <result column="from_dept_name" property="fromDeptName" jdbcType="VARCHAR" />
+    <result column="to_dept_name" property="toDeptName" jdbcType="VARCHAR" />
+    <result column="from_org" property="fromOrg" jdbcType="VARCHAR" />
+    <result column="to_org" property="toOrg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_archived" property="isArchived" jdbcType="TINYINT" />
+    <result column="archive_remark" property="archiveRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, patient_id, org_id, dept_id, doctor_id, complaint, pre_history, past_history, 
+    family_history, surgical_history, phy_exam, medical_record, diagnosis, treat, remark, 
+    inpatient_area, bed_num, from_case_id, from_dept_name, to_dept_name, from_org, to_org, 
+    create_time, update_time, is_archived, archive_remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_case
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

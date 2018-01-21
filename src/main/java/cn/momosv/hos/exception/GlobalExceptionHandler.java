@@ -1,6 +1,6 @@
 package cn.momosv.hos.exception;
 
-import cn.momosv.hos.bean.base.Msg;
+import cn.momosv.hos.model.base.Msg;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,7 +17,7 @@ public class GlobalExceptionHandler{
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
-    private  Msg  exceptionHandle(Exception e) {
+    private Msg exceptionHandle(Exception e) {
     	if (e instanceof LoginException) {
             return Msg.fail().add("msg", e.getMessage());
         }

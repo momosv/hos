@@ -5,7 +5,7 @@ import cn.momosv.hos.util.RegexUtils;
 
 import java.util.Date;
 
-public class TbOrgManagerPO  extends IBaseDBPO {
+public class TbSysManagerPO   extends IBaseDBPO {
     @Override
     public String _getTableName() {
         String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
@@ -30,19 +30,19 @@ public class TbOrgManagerPO  extends IBaseDBPO {
 
     private String id;
 
-    private String orgId;
+    private String name;
 
     private String account;
 
     private String passwd;
 
+    private String phone;
+
+    private String email;
+
     private Integer grade;
 
-    private String creator;
-
     private Date createTime;
-
-    private Date updateTime;
 
     public String getId() {
         return id;
@@ -52,12 +52,12 @@ public class TbOrgManagerPO  extends IBaseDBPO {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getOrgId() {
-        return orgId;
+    public String getName() {
+        return name;
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId == null ? null : orgId.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getAccount() {
@@ -72,8 +72,24 @@ public class TbOrgManagerPO  extends IBaseDBPO {
         return passwd;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd == null ? null : passwd.trim();
+    public void setPasswd(String psw) {
+        this.passwd = psw == null ? null : psw.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public Integer getGrade() {
@@ -84,27 +100,11 @@ public class TbOrgManagerPO  extends IBaseDBPO {
         this.grade = grade;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }

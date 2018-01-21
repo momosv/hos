@@ -50,7 +50,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         }
         // 需要拦截处理的请求
         if (!flag) {
-            SysUtil.getSessionUser(request);
+           // SysUtil.getSessionUser(request);
             flag = true;
         }
         return flag;

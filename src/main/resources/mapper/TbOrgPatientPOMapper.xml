@@ -7,9 +7,10 @@
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="treat_code" property="treatCode" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_agent" property="isAgent" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, org_id, user_id, treat_code, create_time
+    id, org_id, user_id, treat_code, create_time, is_agent
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

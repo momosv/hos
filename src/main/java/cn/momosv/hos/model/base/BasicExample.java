@@ -1,4 +1,4 @@
-package cn.momosv.hos.bean.base;
+package cn.momosv.hos.model.base;
 import cn.momosv.hos.util.RegexUtils;
 
 import java.util.*;

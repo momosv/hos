@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.momosv.hos.dao.TbAnalyzePlanPOMapper" >
+  <resultMap id="BaseResultMap" type="cn.momosv.hos.model.TbAnalyzePlanPO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="pre_state" property="preState" jdbcType="VARCHAR" />
+    <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
+    <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
+    <result column="treat" property="treat" jdbcType="VARCHAR" />
+    <result column="analyze" property="analyze" jdbcType="VARCHAR" />
+    <result column="plan" property="plan" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, case_id, summary, pre_state, phy_exam, medical_record, treat, analyze, plan, 
+    remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_analyze_plan
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

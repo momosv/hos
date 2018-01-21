@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.momosv.hos.dao.TbTransferPOMapper" >
+  <resultMap id="BaseResultMap" type="cn.momosv.hos.model.TbTransferPO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
+    <result column="diagnosis" property="diagnosis" jdbcType="VARCHAR" />
+    <result column="in_process" property="inProcess" jdbcType="VARCHAR" />
+    <result column="final_diagnosis" property="finalDiagnosis" jdbcType="VARCHAR" />
+    <result column="pathology_report" property="pathologyReport" jdbcType="VARCHAR" />
+    <result column="transfer_reason" property="transferReason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="transfer_org" property="transferOrg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, case_id, summary, phy_exam, diagnosis, in_process, final_diagnosis, pathology_report, 
+    transfer_reason, create_time, transfer_org
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_transfer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

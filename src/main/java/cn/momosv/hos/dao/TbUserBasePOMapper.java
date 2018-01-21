@@ -1,7 +1,7 @@
 package cn.momosv.hos.dao;
 
-import cn.momosv.hos.bean.TbUserBasePO;
-import cn.momosv.hos.bean.base.BasicExample;
+
+import cn.momosv.hos.model.base.BasicExample;
 
 import java.util.List;
 

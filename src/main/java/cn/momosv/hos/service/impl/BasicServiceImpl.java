@@ -8,9 +8,10 @@
 package cn.momosv.hos.service.impl;
 
 
-import cn.momosv.hos.bean.base.BasicExample;
-import cn.momosv.hos.bean.base.IBaseDBPO;
+
 import cn.momosv.hos.dao.BasicMapper;
+import cn.momosv.hos.model.base.BasicExample;
+import cn.momosv.hos.model.base.IBaseDBPO;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.util.ObjectMapUtils;
 import cn.momosv.hos.util.RegexUtils;

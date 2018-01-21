@@ -1,5 +1,6 @@
 package cn.momosv.hos;
 
+import cn.momosv.hos.util.RegexUtils;
 import org.junit.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MybatisGenerator {
+public class MybatisGeneratorPO {
 @Test
 public void test()  throws Exception{
 	 List<String> warnings = new ArrayList<String>();
@@ -23,4 +24,11 @@ public void test()  throws Exception{
 	   MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
 	   myBatisGenerator.generate(null);
    }
+	@Test
+	public void test1()  throws Exception{
+	String name=RegexUtils.humpToLine2(this.getClass().getSimpleName());
+	name=name.substring(1,name.length()-4);
+		System.out.println(name);
+
+	}
 }

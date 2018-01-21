@@ -17,10 +17,12 @@
     <result column="old_eamil" property="oldEamil" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="maritalStatus" property="maritalstatus" jdbcType="INTEGER" />
+    <result column="boold_type" property="booldType" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, account, passwd, name, sex, id_card, telephone, email, address, create_time, 
-    head_image, act_code, old_eamil, birthday, maritalStatus
+    head_image, act_code, old_eamil, birthday, maritalStatus, boold_type, weight
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
