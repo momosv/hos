@@ -75,7 +75,7 @@ spring:
         expose-spring-macro-helpers: true  
         prefer-file-system-access: true  
         suffix: .html
-        template-loader-path: classpath:/templates
+        template-loader-path: classpath:/static/html
         settings:
           template_update_delay: 0  
           default_encoding: UTF-8  

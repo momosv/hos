@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="${basePath}/webjars/bootstrap/3.3.7/css/bootstrap.css">
+ <script type="text/javascript" src="${basePath}/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+<body>
+<form action="/sys/checkLogin" method="post" >
+	<input type="text" name="user.id" value="1" />
+	<input type="text" name="user.userName" value="momo" />
+	<input type="submit" value="goin"/>
+	
+</form>
+<h4>亲爱的${toUserName}，你好！</h4>  
+   ${basePath}
+<p id="hello"> ${hello}mmp</p>  
+  
+祝：开心！  
+</br>  
+<a class="btn btn-default" href="#" role="button">Link</a>
+<button class="btn btn-default" type="submit">Button</button>
+<input class="btn btn-default" type="button" value="Input">
+<input class="btn btn-default" type="submit" value="Submit">
+</body>
+</html>

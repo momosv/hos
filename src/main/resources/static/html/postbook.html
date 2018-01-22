@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8"/>
+    <title>我要发布</title>
+    <!-- <link href="style/reset.css" type="text/css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/css/otherhtm.css">
+    <script type="text/javascript" src="/js/demo.js"></script>
+    <script type="text/javascript">
+    function get_imag() {
+        document.getElementById("image").src = document.getElementById("pic_url").value;
+    }
+
+    function submit_book() {
+        var formData = new FormData(document.getElementById('upform'));
+        $.ajax({
+            url: "postbook.php",
+            type: 'POST',
+            data: formData,
+            // 告诉jQuery不要去处理发送的数据
+            processData: false,
+            // 告诉jQuery不要去设置Content-Type请求头
+            contentType: false,
+            beforeSend: function() {
+                $("#logintips").html("正在进行，请稍候");
+            },
+            success: function(responseStr) {
+                if (responseStr == 1) {
+                    layer.alert("发布成功")
+                } else {
+                    layer.alert("发布失败");
+                }
+            },
+            error: function(responseStr) {
+                layer.alert("系统出错");
+            }
+        });
+    }
+    function uploadimag(){
+    	var formData = new FormData(document.getElementById('upload_my_img'));
+    	 $.ajax({
+            url: "https://sm.ms/api/upload",
+            type: 'POST',
+            data: formData,
+            // 告诉jQuery不要去处理发送的数据
+            processData: false,
+            // 告诉jQuery不要去设置Content-Type请求头
+            contentType: false,
+            datatype:"json",
+            success: function(rs) {
+              if(rs.code!="error"){
+              	$('#pic_url').val(rs.data.url);
+              	    document.getElementById("image").src = rs.data.url;
+              }else{
+              	layer.alert(rs.msg);
+              }
+            }
+        });
+    }
+    function find_isbn1() {
+    var isbn = document.getElementById("findISBN").value;
+
+    $.ajax({
+        type: 'get',
+        url: "https://api.douban.com/v2/book/isbn/:"+isbn,
+        dataType: 'jsonp',
+        success: function(rs) {
+            if (rs != 0) {
+                dealISBN(rs);
+            } else layer.alert("查无此书！请手动输入相关信息！");
+        }
+    });
+
+}
+    </script>
+</head>
+
+<body>
+    <a href="index.html"><img src="images/gohome.png" style="z-index: 9999px;margin-top: 25px;margin-left: 10px; position: absolute;padding-left:23px;"> </a><a href="index.html" style="position: absolute;left: 76px;top: 30px;text-decoration: none;font-size: 18px;">返回首页</a>
+    <div id="post" >
+        <div>
+            <div id="titleText">
+                <h2>发布卖书信息</h2>
+            </div>
+        </div>
+        <form action="" id="upform">
+            <table>
+                <tr>
+                    <td>
+                        <div id="isbnText"><span>ISBN：</span></div>
+                    </td>
+                    <td>
+                        <input type="text" name="b_isbn" id="findISBN" value="" placeholder="例如：9787121242533" required="required">
+                    </td>
+                    <input type="button" value="联网查询图书信息" onclick="find_isbn1()" style="margin-left: 540px;margin-top: 15px;position: absolute;z-index: 9999;border-radius: 5px;">
+                </tr>
+                <tr>
+                    <td><span>书籍名称：</span></td>
+                    <td>
+                        <input type="text" name="b_name" id="b_name"> </td>
+                </tr>
+                <tr>
+                    <td><span>作者：</span></td>
+                    <td>
+                        <input type="text" name="b_author" id="b_author"> </td>
+                </tr>
+                <tr>
+                    <td><span>出版社：</span></td>
+                    <td>
+                        <input type="text" name="b_press" id="b_press"> </td>
+                </tr>
+                <tr>
+                    <td><span>原价参考：</span></td>
+                    <td>
+                        <input type="text" id="price">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>出售单价：</span></td>
+                    <td>
+                        <input type="text" name="b_price" id="b_price" placeholder="请输入出售价格，免费赠送请输入0">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>出售数量：</span></td>
+                    <td>
+                        <input type="text" name="b_quantity" placeholder="请输入出售数量">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>封面链接：</span></td>
+                    <td>
+                        <input type="text" name="pic_url" id="pic_url" oninput="get_imag()" placeholder="如联网查询不到可通过图床添加图片外链">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <img src="" id="image">
+            </table>
+            <tr>
+                <td>
+                    <input type="button" value="发布图书" id="submitbtn" onclick="submit_book()">
+                </td>
+            </tr>
+        </form>
+        <div id="" style="position: relative;width: 400px;top: -65px;left: 240px;">
+        	
+     
+        <form method="post" action="" enctype="multipart/form-data" id="upload_my_img" >
+          <input type="file" id="files" name="smfile" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+          <!-- <span></span> -->
+        	<input type="button" value="点击上传本地图片" onclick="uploadimag()" 
+          	style="color: lightsteelblue;width: 110px;height: 24px;color: lightsalmon; float: left;text-align: center;margin: 2px; padding: 0;"/>
+
+
+        </form>
+         </div>
+    </div>
+</body>
+
+</html>
