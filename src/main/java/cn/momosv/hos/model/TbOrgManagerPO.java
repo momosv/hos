@@ -36,6 +36,8 @@ public class TbOrgManagerPO  extends IBaseDBPO {
 
     private String passwd;
 
+    private String name;
+
     private Integer grade;
 
     private String creator;
@@ -45,6 +47,14 @@ public class TbOrgManagerPO  extends IBaseDBPO {
     private Date updateTime;
 
     private String email;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getEmail() {
         return email;
