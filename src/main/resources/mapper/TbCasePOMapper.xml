@@ -28,12 +28,13 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="is_archived" property="isArchived" jdbcType="TINYINT" />
     <result column="archive_remark" property="archiveRemark" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, patient_id, org_id, dept_id, doctor_id, complaint, pre_history, past_history, 
     family_history, surgical_history, phy_exam, medical_record, diagnosis, treat, remark, 
     inpatient_area, bed_num, from_case_id, from_dept_name, to_dept_name, from_org, to_org, 
-    create_time, update_time, is_archived, archive_remark
+    create_time, update_time, is_archived, archive_remark,title
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -14,15 +14,19 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="head_image" property="headImage" jdbcType="VARCHAR" />
     <result column="act_code" property="actCode" jdbcType="INTEGER" />
-    <result column="old_eamil" property="oldEamil" jdbcType="VARCHAR" />
+    <result column="old_email" property="oldEmail" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="DATE" />
-    <result column="maritalStatus" property="maritalstatus" jdbcType="INTEGER" />
-    <result column="boold_type" property="booldType" jdbcType="VARCHAR" />
+    <result column="marital_Status" property="maritalStatus" jdbcType="INTEGER" />
+    <result column="blood_type" property="bloodType" jdbcType="VARCHAR" />
     <result column="weight" property="weight" jdbcType="DOUBLE" />
+    <result column="id_national" property="idNational" jdbcType="VARCHAR" />
+    <result column="id_face" property="idFace" jdbcType="VARCHAR" />
+    <result column="id_hand" property="idHand" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, account, passwd, name, sex, id_card, telephone, email, address, create_time, 
-    head_image, act_code, old_eamil, birthday, maritalStatus, boold_type, weight
+    head_image, act_code, old_email, birthday, maritalStatus, blood_type, weight,id_national,
+    id_face,id_hand
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

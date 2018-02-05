@@ -31,6 +31,8 @@ mybatis:
      configLocation: classpath:/mybatis-config.xml
 
 spring:
+    session:
+        store-type: none
     datasource:
         name: db      
         url: jdbc:mysql://119.29.215.46:3306/tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true

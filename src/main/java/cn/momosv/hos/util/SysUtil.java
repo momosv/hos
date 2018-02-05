@@ -1,8 +1,7 @@
 package cn.momosv.hos.util;//package cn.momosv.util;
 
-import cn.momosv.hos.dao.TbUserBasePO;
+import cn.momosv.hos.model.TbBaseUserPO;
 
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +21,7 @@ public class SysUtil {
 	    }*/
 
 	     //②将用户对象保存到Session中
-	    public static void setSessionUser(HttpServletRequest request,TbUserBasePO TbUserBasePO) {
+	    public static void setSessionUser(HttpServletRequest request,TbBaseUserPO TbUserBasePO) {
 	        request.getSession().setAttribute(USER,TbUserBasePO);
 	    }
 	  //②将用户对象保存到Session中

@@ -7,11 +7,12 @@
     <result column="English_name" property="englishName" jdbcType="VARCHAR" />
     <result column="org_id" property="orgId" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, English_name, org_id, code, create_time, update_time
+    id, name, English_name, org_id, code, create_time, update_time,desc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -30,15 +30,43 @@ public class TbBaseUserPO extends IBaseDBPO{
 
     private Integer actCode;
 
-    private String oldEamil;
+    private String oldEmail;
 
     private Date birthday;
 
-    private Integer maritalstatus;
+    private Integer maritalStatus;
 
-    private String booldType;
+    private String bloodType;
 
     private Double weight;
+
+    private String idNational;
+    private String idFace;
+    private String idHand;
+
+    public String getIdNational() {
+        return idNational;
+    }
+
+    public void setIdNational(String idNational) {
+        this.idNational = idNational;
+    }
+
+    public String getIdFace() {
+        return idFace;
+    }
+
+    public void setIdFace(String idFace) {
+        this.idFace = idFace;
+    }
+
+    public String getIdHand() {
+        return idHand;
+    }
+
+    public void setIdHand(String idHand) {
+        this.idHand = idHand;
+    }
 
     public String getId() {
         return id;
@@ -136,12 +164,12 @@ public class TbBaseUserPO extends IBaseDBPO{
         this.actCode = actCode;
     }
 
-    public String getOldEamil() {
-        return oldEamil;
+    public String getOldEmail() {
+        return oldEmail;
     }
 
-    public void setOldEamil(String oldEamil) {
-        this.oldEamil = oldEamil == null ? null : oldEamil.trim();
+    public void setOldEmail(String oldEmail) {
+        this.oldEmail = oldEmail == null ? null : oldEmail.trim();
     }
 
     public Date getBirthday() {
@@ -152,20 +180,20 @@ public class TbBaseUserPO extends IBaseDBPO{
         this.birthday = birthday;
     }
 
-    public Integer getMaritalstatus() {
-        return maritalstatus;
+    public Integer getMaritalStatus() {
+        return maritalStatus;
     }
 
-    public void setMaritalstatus(Integer maritalstatus) {
-        this.maritalstatus = maritalstatus;
+    public void setMaritalStatus(Integer maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 
-    public String getBooldType() {
-        return booldType;
+    public String getBloodType() {
+        return bloodType;
     }
 
-    public void setBooldType(String booldType) {
-        this.booldType = booldType == null ? null : booldType.trim();
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType == null ? null : bloodType.trim();
     }
 
     public Double getWeight() {

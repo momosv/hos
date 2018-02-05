@@ -18,15 +18,15 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler
     private Msg exceptionHandle(Exception e) {
-    	if (e instanceof LoginException) {
+        if (e instanceof LoginException) {
             return Msg.fail().add("msg", e.getMessage());
         }
         if (e instanceof NullPointerException) {
-            return Msg.fail().add("msg", "参数空异常");
+            return Msg.fail().add("msg", e.getMessage());
         }
         if (e instanceof MissingServletRequestParameterException) {
-            return Msg.fail().add("msg", "MissingServletRequestParameterException");
+            return Msg.fail().add("msg", e.getMessage());
         }
-        return  Msg.fail().add("msg", "系统异常");
+        return  Msg.fail().add("msg",e.getMessage());
     }
 }
