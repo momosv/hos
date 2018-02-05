@@ -16,7 +16,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     /**
      * 用来存储不拦截的路径
      */
-    private static final String[] IGNORE_URI = {"/user","/login","/register","/exit","/get","/druid/","/webjars/","/static/","/templates/"};
+    private static final String[] IGNORE_URI = {"/user","/login","/register","/exit","/druid/","/webjars/","/static/","/templates/"};
     @Value("${server.port}")
     private String port;
 //    @Value("${server.address}")
