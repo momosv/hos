@@ -16,7 +16,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     //省略部分代码
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userLoginInterceptor).addPathPatterns("/user/**");
+        registry.addInterceptor(userLoginInterceptor).addPathPatterns("/**");
     }
  /*   @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

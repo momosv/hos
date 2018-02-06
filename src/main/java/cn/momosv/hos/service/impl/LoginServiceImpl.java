@@ -9,6 +9,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -27,11 +28,20 @@ public class LoginServiceImpl implements LoginService{
     @Autowired
     MailService mailService;
 
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${server.contextPath}")
+    public static String contextPath;
+
+    @Value("${cloudAddress}")
+    public static String cloudAddress;
+
     @Override
     public void sendUserRegisterMail(TbBaseUserPO user) throws IOException, TemplateException {
         Map<String,String> map=new HashedMap();
         map.put("email",user.getEmail());
-        map.put(SysUtil.BASE_PATH, UserLoginInterceptor.cloudAddress);
+        map.put(SysUtil.BASE_PATH, "http://"+cloudAddress+":"+port+contextPath);
         // 通过指定模板名获取FreeMarker模板实例
         Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");
         // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。

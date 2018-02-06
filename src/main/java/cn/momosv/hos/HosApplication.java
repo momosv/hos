@@ -9,9 +9,10 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Controller;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-@Controller
+@EnableScheduling//定时任务
+@EnableAsync // 开启异步任务支持
 @SpringBootApplication
 @MapperScan("cn.momosv.hos.dao")
 @ConfigurationProperties("classpath:application.yml") //接收application.yml中的myProps下面的属性

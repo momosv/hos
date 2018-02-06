@@ -23,6 +23,7 @@ import java.util.UUID;
 
 
 @Controller
+@RequestMapping("/hos")
 public class LoginController extends BasicController{
 
 	@Autowired

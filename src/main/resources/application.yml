@@ -14,10 +14,10 @@ management:
       expose: /
 server:
   port: 8081
-  context-path: /hos
+  context-path: /
   session-timeout: 60
   cloudAddress: 119.29.215.46
-     
+
 security:
   user:
     name: momo
