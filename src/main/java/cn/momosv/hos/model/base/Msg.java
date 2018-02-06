@@ -69,8 +69,9 @@ public class Msg {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public Msg setCode(int code) {
 		this.code = code;
+		return this;
 	}
 
 	public String getMsg() {

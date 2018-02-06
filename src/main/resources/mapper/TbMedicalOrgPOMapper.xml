@@ -13,10 +13,17 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="licence" property="licence" jdbcType="VARCHAR" />
+    <result column="legal" property="legal" jdbcType="VARCHAR" />
+    <result column="principal" property="principal" jdbcType="VARCHAR" />
+    <result column="linkman" property="linkman" jdbcType="VARCHAR" />
+    <result column="eamil" property="eamil" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="licence_image" property="licenceImage" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, address, province, city, county, telephone, type, create_time, update_time, 
-    code
+    code,principal,linkman,eamil,licence,legal,image,licence_image
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

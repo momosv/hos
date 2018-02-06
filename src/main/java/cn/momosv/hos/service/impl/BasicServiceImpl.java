@@ -36,6 +36,7 @@ import java.util.Map;
  * @param <T>
  * @date 2016年9月19日
  */
+@Transactional
 @Service("basicService")
 public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> implements BasicService<T, E> {
  
@@ -156,7 +157,6 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		// 判断是否有必要分批
 		int part = size / pointsDataLimit;// 分批数
 		if (pointsDataLimit < size) {
-			System.out.println("共有 ： " + size + "条，！" + " 分为 ：" + part + "批");
 			for (int i = 0; i < part; i++) {
 				List<T> listPage = list.subList(0, pointsDataLimit);
 				list.subList(0, pointsDataLimit).clear();
@@ -308,7 +308,4 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		fmap.put("_PKs", _PKs);
 		return fmap;
 	}
-
-
-
 }

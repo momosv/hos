@@ -49,6 +49,69 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
     private Date updateTime;
 
     private String code;
+    private String licence;
+    private String legal;
+    private String principal;
+    private String linkman;
+    private String eamil;
+    private String image;
+    private String licence_image;
+
+    public String getLicence_image() {
+        return licence_image;
+    }
+
+    public void setLicence_image(String licence_image) {
+        this.licence_image = licence_image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getLicence() {
+        return licence;
+    }
+
+    public void setLicence(String licence) {
+        this.licence = licence;
+    }
+
+    public String getLegal() {
+        return legal;
+    }
+
+    public void setLegal(String legal) {
+        this.legal = legal;
+    }
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    public String getLinkman() {
+        return linkman;
+    }
+
+    public void setLinkman(String linkman) {
+        this.linkman = linkman;
+    }
+
+    public String getEamil() {
+        return eamil;
+    }
+
+    public void setEamil(String eamil) {
+        this.eamil = eamil;
+    }
 
     public String getId() {
         return id;

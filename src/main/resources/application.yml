@@ -14,7 +14,7 @@ management:
       expose: /
 server:
   port: 8081
-  context-path: /
+  context-path: /hos
   session-timeout: 60
   cloudAddress: 119.29.215.46
      
@@ -91,7 +91,7 @@ spring:
     mail:  
       host: smtp.exmail.qq.com
       username: momosv@momosv.cn
-      password: LLLswg123
+      password: k8f4yavHZ4jQgUnx
       properties:  
         mail: 
           self: 
@@ -103,4 +103,9 @@ spring:
             auth: true  
             starttls:  
               enable: true  
-              required: true   
+              required: true
+
+    #http:
+     # multipart:
+      #  maxFileSize: 100Mb
+       # maxRequestSize: 100Mb

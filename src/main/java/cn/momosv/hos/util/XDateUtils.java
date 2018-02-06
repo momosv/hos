@@ -13,50 +13,8 @@ import java.util.TimeZone;
  * 日期处理相关工具类
  */
 public class XDateUtils {
-	/** 日期格式枚举类，根据需要添加其他格式 **/
-	public enum DatePattern{
-		ISO_SECOND("yyyy-MM-dd'T'HH:mm:ss", "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"),
-		ISO_MINUTE("yyyy-MM-dd'T'HH:mm", "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"),
-		DATE_TIME("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"),
-		DATE_TIME_FULL("yyyy-MM-dd HH:mm:ss,SSS", "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{3}$"),
-		DATE_ONLY("yyyy-MM-dd", "^\\d{4}-\\d{2}-\\d{2}$"),
-		YEAR_MONTH("yyyy-MM", "^\\d{4}-\\d{2}$");
-		
-		DatePattern(String pattern, String regex){
-			this.pattern = pattern;
-			this.regex = regex;
-		}
-		
-		public String getPattern() {
-			return pattern;
-		}
-		public String getRegex() {
-			return regex;
-		}
-
-		private String pattern;
-		private String regex;
-		
-		/**
-		 * 根据日期字符串，判断该日期的格式类型。
-		 * 
-		 * @param dateStr 日期字符串
-		 * @return 日期的格式类型，比如getPatternByDateStr("2016-04-27 10:15:08")返回："yyyy-MM-dd HH:mm:ss"
-		 */
-		public static String getPatternByDateStr(String dateStr){
-			for(DatePattern df : DatePattern.values()){
-				if(RegexUtils.matches(dateStr, df.getRegex())){
-					return df.getPattern();
-				}
-			}
-			return null;
-		}
-	}
-	
 	/**
 	 * 字符串转换为Date对象，自动匹配日期格式
-	 * 
-	 * @param strDate 日期字符串
 	 * @return Date
 	 */
 	public static Date stringToDate(String dateStr) {
@@ -65,8 +23,7 @@ public class XDateUtils {
 
 	/**
 	 * 把字符串转换为Date类型
-	 * 
-	 * @param dateStr 日期字符串
+	 *
 	 * @param pattern 日期格式
 	 * @return
 	 */
@@ -102,8 +59,7 @@ public class XDateUtils {
 
 	/**
 	 * 将指定的日期转换成long时间戳
-	 * 
-	 * @param String date 需要转换的日期，自动匹配日期格式
+	 *
 	 * @return long 时间戳，单位：秒
 	 */
 	public static long stringToTimestamp(String dateStr) {
@@ -116,8 +72,8 @@ public class XDateUtils {
 	/**
 	 * 将指定的日期转换成long时间戳
 	 * 
-	 * @param String date 需要转换的日期
-	 * @param String dateFormat 需要转换的日期格式
+	 * @param
+	 * @param
 	 * @return long 时间戳，单位：秒
 	 */
 	public static long stringToTimestamp(String dateStr, String pattern) {

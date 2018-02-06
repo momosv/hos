@@ -6,23 +6,29 @@ import cn.momosv.hos.model.base.Msg;
 import java.util.UUID;
 
 public class BasicController {
-    public Msg successMsg= Msg.success();
+    public Msg successMsg(){
+        return Msg.success();
+    }
 
-    public Msg failMsg= Msg.fail();
+    public Msg failMsg(){
+        return Msg.fail();
+    }
 
     public Msg addResult(String key,Object obj){
-        return  successMsg.add(key,obj);
+        Msg msg = Msg.success();
+        msg.add(key,obj);
+        return msg;
     }
 
     public Msg successMsg(String msg){
-        return  successMsg.setMsg(msg);
+        return Msg.success(msg);
     }
 
     public Msg failMsg(String msg){
-        return  failMsg.setMsg(msg);
+        return Msg.fail(msg);
     }
     public String UUID36(){
-       return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString();
     }
 
 }

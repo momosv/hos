@@ -8,8 +8,8 @@ import javax.servlet.http.HttpSession;
 
 
 public class SysUtil {
-	 protected static final String USER = "user";
-	 protected static final String BASE_PATH = "basePath";
+	 public static final String USER = "user";
+	 public static final String BASE_PATH = "basePath";
 
 	    //① 获取保存在Session中的用户对象
 	   /* public static TbUserBasePO getSessionUser(HttpServletRequest request) throws LoginException {

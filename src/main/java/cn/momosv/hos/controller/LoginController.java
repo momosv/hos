@@ -2,14 +2,13 @@ package cn.momosv.hos.controller;
 
 
 import cn.momosv.hos.controller.base.BasicController;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbDoctorPO;
-import cn.momosv.hos.model.TbOrgManagerPO;
-import cn.momosv.hos.model.TbSysManagerPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
+import cn.momosv.hos.service.LoginService;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 
 @Controller
-@RequestMapping("hos")
 public class LoginController extends BasicController{
 
 	@Autowired
    	private BasicService basicService;
+	@Autowired
+	private LoginService loginService;
+
 
 	private final static String NORMAL="normal";
 	private final static String DOCTOR="doctor";
@@ -56,7 +58,7 @@ public class LoginController extends BasicController{
 	 */
 	@ResponseBody
 	@RequestMapping("login/accept")
-	public Object login(@RequestParam(required = true) String account, @RequestParam(required = true) String psw, String orgId , String type, HttpSession session) throws Exception {
+	public Object login(@RequestParam(required = true) String account, @RequestParam(required = true) String psw, String orgId , @RequestParam(required = true)String type, HttpSession session) throws Exception {
 		BasicExample example;
 		if(type.equals(DOCTOR)){
 			if(StringUtils.isEmpty(orgId)){
@@ -109,16 +111,52 @@ public class LoginController extends BasicController{
 	}
 
 	@ResponseBody
-	@RequestMapping("register/accept")
-	public Msg register(@RequestParam(required = true)TbBaseUserPO user){
+	@RequestMapping("register/user")
+	public Msg register(TbBaseUserPO user,@RequestParam(required = true) String type) throws IOException, TemplateException {
 		if(StringUtils.isEmpty(user.getAccount())||StringUtils.isEmpty(user.getPasswd())){
-			failMsg.setMsg("账号/邮箱或者密码不能为空");
+			failMsg("账号/邮箱或者密码不能为空");
 		}
 		if(StringUtils.isEmpty(user.getIdCard())){
-			failMsg.setMsg("身份证号不能为空");
+			failMsg("身份证号不能为空");
 		}
 		user.setId(UUID.randomUUID().toString());
-		return failMsg;
+		if(NORMAL.equals(type)){
+			basicService.insertOne(user);
+			loginService.sendUserRegisterMail(user);
+			return successMsg("注册成功");
+		}
+		return failMsg("注册身份不能为空");
 	}
 
+	@ResponseBody
+	@RequestMapping("register/org")
+	public Msg registerOrg(@RequestParam(required = true) TbMedicalOrgPO org){
+		if(StringUtils.isEmpty(org.getName())){
+			failMsg("机构名称不能为空");
+		}
+		if(StringUtils.isEmpty(org.getLicence())){
+			failMsg("机构许可证不能为空");
+		}
+		if(StringUtils.isEmpty(org.getEamil())){
+			failMsg("邮箱不能为空");
+		}
+		if(StringUtils.isEmpty(org.getLegal())){
+			failMsg("法定负责人不能为空");
+		}
+		if(StringUtils.isEmpty(org.getPrincipal())){
+			failMsg("机构负责人不能为空");
+		}
+		if(StringUtils.isEmpty(org.getLinkman())){
+			failMsg("机构许联系人不能为空");
+		}
+		if(StringUtils.isEmpty(org.getTelephone())){
+			failMsg("机构联系方式不能为空");
+		}
+		if(StringUtils.isEmpty(org.getLicence_image())){
+			failMsg("机构许可证照片不能为空");
+		}
+		org.setId(UUID36());
+		basicService.insertOne(org);
+		return successMsg("注册成功");
+	}
 }

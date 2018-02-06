@@ -16,16 +16,16 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     /**
      * 用来存储不拦截的路径
      */
-    private static final String[] IGNORE_URI = {"/user","/login","/register","/exit","/druid/","/webjars/","/static/","/templates/"};
+    private static final String[] IGNORE_URI = {"/upload","/user","/login","/register","/exit","/druid/","/webjars/","/static/","/templates/"};
     @Value("${server.port}")
     private String port;
 //    @Value("${server.address}")
 //    private String address;
     @Value("${server.context-path}")
-    private String contextPath;
+    public static String contextPath;
 	
 	@Value("${server.cloudAddress}")
-	private String cloudAddress;
+	public static String cloudAddress;
 	 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -71,8 +71,4 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         System.out.println("控制器处理完成之后");
 
     }
-
-
-
-
 }
