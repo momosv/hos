@@ -10,7 +10,6 @@ import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.LoginService;
 import cn.momosv.hos.util.SysUtil;
 import freemarker.template.TemplateException;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
@@ -170,10 +170,13 @@ public class LoginController extends BasicController{
 	}
 
 	@RequestMapping("login/act/{id}")
-	public Object actEmail(@PathVariable String id,String email,Map map) throws Exception {
+	public Object actEmail(@PathVariable String id, String email, Map map, HttpServletRequest request,HttpSession session) throws Exception {
 		BasicExample example=new BasicExample<>(TbBaseUserPO.class);
 		example.createCriteria().andVarEqualTo("id",id);
 		TbBaseUserPO user= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
+		request.setAttribute("user",user);
+		//SysUtil.getSessionUser();
+		SysUtil.setSessionUser(user);
 
 		if(null==user){
 			map.put("tips","链接已经失效，请重新注册！");

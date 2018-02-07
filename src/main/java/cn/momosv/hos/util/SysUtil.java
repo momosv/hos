@@ -1,33 +1,46 @@
 package cn.momosv.hos.util;//package cn.momosv.util;
 
 import cn.momosv.hos.model.TbBaseUserPO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
-
+@Component
 public class SysUtil {
 	 public static final String USER = "user";
 	 public static final String BASE_PATH = "basePath";
 
+	 @Autowired
+	 private static HttpServletRequest request;
+
+	@Autowired
+	private static HttpSession session;
+	static{
+
+	}
 	    //① 获取保存在Session中的用户对象
-	   /* public static TbUserBasePO getSessionUser(HttpServletRequest request) throws LoginException {
-	    	TbUserBasePO userBasePO = (TbUserBasePO) request.getSession().getAttribute("USER");
-	    	if(userBasePO==null){
-	    		throw new LoginException("用户不存在,请登录注册再使用");
-	    	}
-	    	return userBasePO;
-	    }*/
+	  public static TbBaseUserPO getSessionUser() throws Exception {
+		  if(null!=session.getAttribute(USER)) {
+			  TbBaseUserPO userBasePO = (TbBaseUserPO) session.getAttribute(USER);
+			  if (userBasePO == null) {
+				  //throw new Exception("请登录再使用系统");
+			  }
+			  return userBasePO;
+		  }
+		return null;
+	    }
 
 	     //②将用户对象保存到Session中
-	    public static void setSessionUser(HttpServletRequest request,TbBaseUserPO TbUserBasePO) {
-	        request.getSession().setAttribute(USER,TbUserBasePO);
+	    public static void setSessionUser(TbBaseUserPO TbUserBasePO) {
+			request.getSession().setAttribute(USER,TbUserBasePO);
 	    }
 	  //②将用户对象保存到Session中
-	    public static void removeSessionUser(HttpSession session) {
-	       if (session.getAttribute(USER) != null) {
-				session.removeAttribute(USER);// 将用户信息移除session
+	    public static void removeSessionUser() {
+	       if (request.getSession().getAttribute(USER) != null) {
+			   request.getSession().removeAttribute(USER);// 将用户信息移除session
 			}
 	    }
 
