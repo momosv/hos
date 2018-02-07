@@ -38,12 +38,12 @@ public interface BasicMapper<T ,E> {
     /*
      * public
      */
-    int deleteByPrimaryKey(String[] pks, String pkName, String tbName);
+    int deleteByPrimaryKey(@Param("pks")String[] pks, @Param("pkName")String pkName, @Param("tbName")String tbName);
 
 
     List<Map> selectByExample(@Param("example") E example);
 
-    List<Map> selectByPrimaryKey(String[] pks, String pkName, String tbName);
+    List<Map> selectByPrimaryKey(@Param("pks")String[] pks, @Param("pkName")String pkName, @Param("tbName")String tbName);
 
 
     /*

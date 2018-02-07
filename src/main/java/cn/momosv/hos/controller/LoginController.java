@@ -8,17 +8,22 @@ import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.LoginService;
+import cn.momosv.hos.util.SysUtil;
 import freemarker.template.TemplateException;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -121,6 +126,9 @@ public class LoginController extends BasicController{
 			failMsg("身份证号不能为空");
 		}
 		user.setId(UUID.randomUUID().toString());
+		user.setEmail(user.getAccount());
+		user.setCreateTime(new Date());
+		user.setActCode(0);
 		if(NORMAL.equals(type)){
 			basicService.insertOne(user);
 			loginService.sendUserRegisterMail(user);
@@ -159,5 +167,35 @@ public class LoginController extends BasicController{
 		org.setId(UUID36());
 		basicService.insertOne(org);
 		return successMsg("注册成功");
+	}
+
+	@RequestMapping("login/act/{id}")
+	public Object actEmail(@PathVariable String id,String email,Map map) throws Exception {
+		BasicExample example=new BasicExample<>(TbBaseUserPO.class);
+		example.createCriteria().andVarEqualTo("id",id);
+		TbBaseUserPO user= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
+
+		if(null==user){
+			map.put("tips","链接已经失效，请重新注册！");
+			map.put("actCode","0");
+		}else if(user.getActCode().equals(1)){
+			map.put("tips","该邮箱已经激活，可以直接登录使用！");
+			map.put("actCode","1");
+		}else if(null!=user.getCreateTime()&&user.getCreateTime().getTime()-(new Date()).getTime()+24*60*60*1000>0){
+			user.setActCode(1);
+			if(basicService.updateOne(user,true)>0){
+				map.put("tips","该邮箱已经激活，可以直接登录使用！");
+				map.put("actCode","1");
+			}else{
+				basicService.deleteByPrimaryKey(user,id);
+				map.put("tips","该邮箱激活失败，请重新注册！");
+				map.put("actCode","0");
+			}
+		}else{
+			basicService.deleteByPrimaryKey(user,id);
+			map.put("tips","链接已经失效，请重新注册！");
+			map.put("actCode","0");
+		}
+		return  "actTips";
 	}
 }

@@ -18,6 +18,7 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler
     private Msg exceptionHandle(Exception e) {
+        e.printStackTrace();
         if (e instanceof LoginException) {
             return Msg.fail().add("msg", e.getMessage());
         }

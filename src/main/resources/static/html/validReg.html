@@ -4,8 +4,16 @@
         <meta charset="UTF-8"/>
         <title>激活邮箱</title>
     </head>
-    <body>
-                    您好,这是账号：【${userName}】的验证邮件,请点击下面的链接完成验证！</br>
-        ${basePath}sys/getValidUser?eamil=${email}&actCode=${actCode}    
+    <br>
+    你好!
+    <br/>
+    感谢你注册病人跟踪治疗信息管理系统。
+    <br/>
+    你的登录邮箱为：${email}。请点击以下链接激活帐号：
+    ！</br>
+        ${basePath}hos/login/act/${id}?eamil=${email}
+    <br/>
+    <br/>
+    如果以上链接无法点击，请将上面的地址复制到你的浏览器(如IE)的地址栏进入病人跟踪治疗信息管理系统。 （该链接在48小时内有效，48小时后需要重新注册）
     </body>
 </html>

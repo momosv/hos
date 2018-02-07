@@ -31,31 +31,23 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         System.out.println("开始preHandle,判断请求是否需要拦截");
-     // 如果不是映射到方法直接通过
+        SysUtil.setBasePath(request,"http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/");
+         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        boolean flag = false;
         String servletPath = request.getServletPath();
-        System.out.println("请求路径是: "+servletPath);
-        cloudAddress=request.getLocalAddr().toString().equals("10.135.181.103")?cloudAddress:"localhost";
-        SysUtil.setBasePath(request,"http://"+cloudAddress+":"+port+contextPath);
         // 检测是否为需要拦截的请求
         for (String s : IGNORE_URI) {
             if (servletPath.contains(s)) {
                 System.out.println("该请求不需要拦截");
-                flag = true;
+                return true;
             }
-
         }
-        // 需要拦截处理的请求
-        if (!flag) {
-           // SysUtil.getSessionUser(request);
-            flag = true;
-        }
-        return flag;
-
-
+        if(null==request.getAttribute("user")){
+              response.sendRedirect("login");
+        };
+        return true;
     }
 
     @Override
@@ -69,6 +61,5 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
         System.out.println("控制器处理完成之后");
-
     }
 }

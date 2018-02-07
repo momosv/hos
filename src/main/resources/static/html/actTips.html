@@ -1,0 +1,62 @@
+
+<!DOCTYPE >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>注册病人跟踪治疗信息管理系统</title>
+    <link rel="stylesheet" href="/css/signup/register.css" type="text/css" />
+</head>
+<body class="B_reg">
+<div class="TX_reg">
+    <div class="reg_hd">
+        <h1 class="reg_logo">邮箱验证</h1>
+        <div class="top_lnk">
+            <a href="${basePath}/hos/login/index">病人跟踪治疗信息管理系统首页</a>
+        </div>
+    </div>
+
+    <div class="reg_main clearfix">
+        <#if actCode=="0">
+            <div class="opt_rslt clearfix">
+                <h2 class="tl"><span class="icon_del_42"></span>${tips}</h2>
+                <dl class="opt_info">
+                    <dt>操作提示:</dt>
+                    <dd>1、请到您邮箱中确认并完整复制邮箱验证链接后再次进行操作。</dd>
+                    <dd>2、验证邮件的有效期为48小时，如果您没能在48小时对您注册的账户进行验证，请<a href="${basePath}/hos/login/index">重新注册账号</a></dd>
+                </dl>
+            </div>
+        </#if>
+        <#if actCode=="1">
+            <div class="opt_rslt clearfix">
+                <h2 class="tl"><span class="icon_del_42"></span>${tips}</h2>
+                <dl class="opt_info">
+                   <a href="${basePath}/hos/login/index">马上去登录</a></dd>
+                </dl>
+            </div>
+        </#if>
+
+    </div>
+    <div class="reg_lang"></div>
+
+    <!-- SUDA_CODE_START -->
+    <script type="text/javascript" >
+        _S_PID_="179";
+        _S_pSt(_S_PID_);
+    </script>
+
+    <!-- SUDA_CODE_END -->
+
+
+    <script type="text/javascript">
+        //在这里输出配置信息
+        var $CONFIG = {};
+    </script>
+  <!--  <script type="text/javascript" charset="utf-8" src="/js/v1/apps/boot/js/boot.js"></script>-->
+
+
+</div>
+</body>
+</html>
+
+
+

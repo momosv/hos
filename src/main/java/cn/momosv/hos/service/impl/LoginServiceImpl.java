@@ -1,7 +1,6 @@
 package cn.momosv.hos.service.impl;
 
 import cn.momosv.hos.email.MailService;
-import cn.momosv.hos.interceptor.UserLoginInterceptor;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.service.LoginService;
 import cn.momosv.hos.util.SysUtil;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
 
@@ -37,11 +37,16 @@ public class LoginServiceImpl implements LoginService{
     @Value("${cloudAddress}")
     public static String cloudAddress;
 
+    @Autowired
+    HttpServletRequest request;
+
     @Override
     public void sendUserRegisterMail(TbBaseUserPO user) throws IOException, TemplateException {
         Map<String,String> map=new HashedMap();
         map.put("email",user.getEmail());
-        map.put(SysUtil.BASE_PATH, "http://"+cloudAddress+":"+port+contextPath);
+        map.put("id",user.getId());
+        map.put("userName",user.getEmail());
+        map.put(SysUtil.BASE_PATH, "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/");
         // 通过指定模板名获取FreeMarker模板实例
         Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");
         // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。

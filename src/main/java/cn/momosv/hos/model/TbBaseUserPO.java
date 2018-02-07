@@ -205,9 +205,7 @@ public class TbBaseUserPO extends IBaseDBPO{
     }
     @Override
     public String _getTableName() {
-        String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
-        name=name.substring(1,name.length()-4);
-        return name;
+        return "tb_base_user";
     }
 
     @Override
