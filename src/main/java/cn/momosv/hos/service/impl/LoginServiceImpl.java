@@ -15,6 +15,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
@@ -40,12 +41,15 @@ public class LoginServiceImpl implements LoginService{
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    HttpSession session;
+
     @Override
     public void sendUserRegisterMail(TbBaseUserPO user) throws IOException, TemplateException {
         Map<String,String> map=new HashedMap();
         map.put("email",user.getEmail());
         map.put("id",user.getId());
-        map.put("userName",user.getEmail());
+        map.put("userName", (String) session.getAttribute("momo"));
         map.put(SysUtil.BASE_PATH, "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/");
         // 通过指定模板名获取FreeMarker模板实例
         Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");

@@ -2,6 +2,7 @@ package cn.momosv.hos.exception;
 
 import cn.momosv.hos.model.base.Msg;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,6 @@ public class GlobalExceptionHandler{
         if (e instanceof MissingServletRequestParameterException) {
             return Msg.fail().add("msg", e.getMessage());
         }
-        return  Msg.fail().add("msg",e.getMessage());
+        return  Msg.fail().add("msg",StringUtils.isEmpty(e.getMessage())?"系统出现异常":e.getMessage());
     }
 }

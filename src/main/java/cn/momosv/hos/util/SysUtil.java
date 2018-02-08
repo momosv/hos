@@ -18,9 +18,6 @@ public class SysUtil {
 
 	@Autowired
 	private static HttpSession session;
-	static{
-
-	}
 	    //① 获取保存在Session中的用户对象
 	  public static TbBaseUserPO getSessionUser() throws Exception {
 		  if(null!=session.getAttribute(USER)) {

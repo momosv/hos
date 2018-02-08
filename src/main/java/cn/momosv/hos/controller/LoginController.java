@@ -52,6 +52,9 @@ public class LoginController extends BasicController{
 		return  "register";
 	}
 
+
+	@Autowired
+	HttpSession session;
 	/**
 	 * 登录
 	 * @param account
@@ -130,6 +133,7 @@ public class LoginController extends BasicController{
 		user.setCreateTime(new Date());
 		user.setActCode(0);
 		if(NORMAL.equals(type)){
+			session.setAttribute("momo","momo");
 			basicService.insertOne(user);
 			loginService.sendUserRegisterMail(user);
 			return successMsg("注册成功");
@@ -176,8 +180,7 @@ public class LoginController extends BasicController{
 		TbBaseUserPO user= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
 		request.setAttribute("user",user);
 		//SysUtil.getSessionUser();
-		SysUtil.setSessionUser(user);
-
+		String mo= (String) session.getAttribute("momo");
 		if(null==user){
 			map.put("tips","链接已经失效，请重新注册！");
 			map.put("actCode","0");
