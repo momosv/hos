@@ -53,16 +53,25 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
     private String legal;
     private String principal;
     private String linkman;
-    private String eamil;
+    private String email;
     private String image;
-    private String licence_image;
+    private String licenceImage;
+    private Integer actCode;
 
-    public String getLicence_image() {
-        return licence_image;
+    public Integer getActCode() {
+        return actCode;
     }
 
-    public void setLicence_image(String licence_image) {
-        this.licence_image = licence_image;
+    public void setActCode(Integer actCode) {
+        this.actCode = actCode;
+    }
+
+    public String getLicenceImage() {
+        return licenceImage;
+    }
+
+    public void setLicenceImage(String licenceImage) {
+        this.licenceImage = licenceImage;
     }
 
     public String getImage() {
@@ -105,12 +114,12 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
         this.linkman = linkman;
     }
 
-    public String getEamil() {
-        return eamil;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEamil(String eamil) {
-        this.eamil = eamil;
+    public void setEmail(String eamil) {
+        this.email = eamil;
     }
 
     public String getId() {

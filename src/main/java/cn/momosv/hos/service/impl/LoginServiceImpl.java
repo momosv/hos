@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Transactional
 @Service("LoginService")
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl  implements LoginService{
 
     @Autowired
     FreeMarkerConfig freeMarkerConfig;
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService{
         map.put("email",user.getEmail());
         map.put("id",user.getId());
         map.put("userName", (String) session.getAttribute("momo"));
-        map.put(SysUtil.BASE_PATH, "http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/");
+        map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
         // 通过指定模板名获取FreeMarker模板实例
         Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");
         // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。

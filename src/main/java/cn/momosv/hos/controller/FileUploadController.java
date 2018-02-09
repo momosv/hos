@@ -53,7 +53,7 @@ public class FileUploadController {
         if (!file.isEmpty()) {
             fileName= XDateUtils.dateToString(new Date(), DatePattern.DATE_TIME_FULL_NUM.getPattern())+file.getOriginalFilename();
             Files.copy(file.getInputStream(),  Paths.get(ROOT, fileName));
-            return "/upload/"+fileName;
+            return Msg.success().add("url","/upload/"+fileName);
         }
         return Msg.fail("上传的文件为空");
     }

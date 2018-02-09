@@ -36,25 +36,39 @@ public class LoginController extends BasicController{
 	@Autowired
 	private LoginService loginService;
 
-
 	private final static String NORMAL="normal";
 	private final static String DOCTOR="doctor";
 	private final static String SYS_MANAGER="sys";
 	private final static String ORG_MANAGER="org";
 
+	/**
+	 * 首页
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("login/index")
 	public String hello() throws Exception {
 		return  "login";
 	}
 
+	/**
+	 * 个人注册首页
+	 * @return
+	 */
 	@RequestMapping("register/index")
 	public Object registerIndex(){
 		return  "register";
 	}
 
+	/**
+	 * 机构注册首页
+	 * @return
+	 */
+	@RequestMapping("register/orgIndex")
+	public Object registerOrg(){
+		return  "registerOrg";
+	}
 
-	@Autowired
-	HttpSession session;
 	/**
 	 * 登录
 	 * @param account
@@ -143,34 +157,36 @@ public class LoginController extends BasicController{
 
 	@ResponseBody
 	@RequestMapping("register/org")
-	public Msg registerOrg(@RequestParam(required = true) TbMedicalOrgPO org){
+	public Msg registerOrg(TbMedicalOrgPO org){
 		if(StringUtils.isEmpty(org.getName())){
-			failMsg("机构名称不能为空");
+			return	failMsg("机构名称不能为空");
 		}
 		if(StringUtils.isEmpty(org.getLicence())){
-			failMsg("机构许可证不能为空");
+			return	failMsg("机构许可证不能为空");
 		}
-		if(StringUtils.isEmpty(org.getEamil())){
-			failMsg("邮箱不能为空");
+		if(StringUtils.isEmpty(org.getEmail())){
+			return	failMsg("邮箱不能为空");
 		}
 		if(StringUtils.isEmpty(org.getLegal())){
-			failMsg("法定负责人不能为空");
+			return	failMsg("法定负责人不能为空");
 		}
 		if(StringUtils.isEmpty(org.getPrincipal())){
-			failMsg("机构负责人不能为空");
+			return	failMsg("机构负责人不能为空");
 		}
 		if(StringUtils.isEmpty(org.getLinkman())){
-			failMsg("机构许联系人不能为空");
+			return	failMsg("机构许联系人不能为空");
 		}
 		if(StringUtils.isEmpty(org.getTelephone())){
-			failMsg("机构联系方式不能为空");
+			return failMsg("机构联系方式不能为空");
 		}
-		if(StringUtils.isEmpty(org.getLicence_image())){
-			failMsg("机构许可证照片不能为空");
+		if(StringUtils.isEmpty(org.getLicenceImage())){
+			return failMsg("机构许可证照片不能为空");
 		}
 		org.setId(UUID36());
+		org.setActCode(0);
+		org.setCreateTime(new Date());
 		basicService.insertOne(org);
-		return successMsg("注册成功");
+		return successMsg("注册成功,我们将会尽快审批并以邮件方式通知您审批结果");
 	}
 
 	@RequestMapping("login/act/{id}")

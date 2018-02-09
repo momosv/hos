@@ -2,10 +2,21 @@ package cn.momosv.hos.controller.base;
 
 
 import cn.momosv.hos.model.base.Msg;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 public class BasicController {
+
+    @Autowired
+    public HttpSession session;
+
+
+    @Autowired
+    public HttpServletRequest request;
+
     public Msg successMsg(){
         return Msg.success();
     }

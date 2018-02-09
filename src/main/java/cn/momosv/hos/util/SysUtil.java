@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 
 @Component
@@ -45,8 +46,20 @@ public class SysUtil {
 	    public static final String getBasePath(HttpServletRequest request) {
 	        return (String)request.getSession().getAttribute(BASE_PATH);
 	    }
+	    //③ 获取基于应用程序的url绝对路径
+	    public static final String getBasePath(HttpSession s) {
+	        return (String)s.getAttribute(BASE_PATH);
+	    }
 	  //③ 设置基于应用程序的url绝对路径
 	    public static final void setBasePath(HttpServletRequest request, String url) {
 	    	 request.getSession().setAttribute(BASE_PATH,url);
 	    }
+	    //③ 设置基于应用程序的url绝对路径
+	    public static final void setBasePath(HttpSession s, String url) {
+			s.setAttribute(BASE_PATH,url);
+	    }
+
+	public static String UUID36(){
+		return UUID.randomUUID().toString();
+	}
 }

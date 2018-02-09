@@ -28,14 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * @Title: BasicServiceImpl.java
- * @Package com.yjw.andy.service.Impl
- * @Description: TODO
- * @author 余健文
- * @param <T>
- * @date 2016年9月19日
- */
+
 @Transactional
 @Service("basicService")
 public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> implements BasicService<T, E> {
@@ -82,6 +75,16 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 	    	T t1=(T) ObjectMapUtils.mapToObject(map, clazz, true);
 	    	list.add(t1);
 	    }
+		return list;
+	}
+	@Override
+	public List<T> selectByExample(E example) throws Exception{
+		List<Map> mapL=   basicMapper.selectByExample(example);
+		List<T> list=new ArrayList<>();
+		for(Map map:mapL) {
+			T t1=(T) ObjectMapUtils.mapToObject(map, example.getClazz(), true);
+			list.add(t1);
+		}
 		return list;
 	}
 

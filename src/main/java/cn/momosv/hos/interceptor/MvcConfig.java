@@ -18,8 +18,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userLoginInterceptor).addPathPatterns("/**");
     }
- /*   @Override
+   @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //registry.addResourceHandler("/templatest/**").addResourceLocations("classpath:/templatest/");
-    }*/
+        registry.addResourceHandler("/html/**").addResourceLocations("classpath:/html/");
+    }
 }

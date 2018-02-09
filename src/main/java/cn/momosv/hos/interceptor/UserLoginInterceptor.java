@@ -16,7 +16,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     /**
      * 用来存储不拦截的路径
      */
-    private static final String[] IGNORE_URI = {"/upload","/user","/login","/register","/exit","/druid/","/webjars/","/static/","/templates/"};
+    private static final String[] IGNORE_URI = {"/error","/upload","/login","/register","/exit","/druid/","/static/","/templates/"};
+    private static final String[] DEAL_URI = {};
+
     @Value("${server.port}")
     private String port;
 //    @Value("${server.address}")
@@ -44,8 +46,8 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
-        if(null==request.getAttribute("user")){
-              response.sendRedirect("login");
+        if(null==request.getSession().getAttribute("user")){
+              response.sendRedirect("/hos/login/index");
         };
         return true;
     }

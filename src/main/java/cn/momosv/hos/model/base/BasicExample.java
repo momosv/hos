@@ -7,7 +7,9 @@ import java.util.*;
 public class BasicExample <T extends IBaseDBPO>{
     
 	protected  Object tName;
-	
+
+	protected  Class clazz;
+
 	protected  Object pkName;
 	
 	protected  Object pkValue;
@@ -25,12 +27,16 @@ public class BasicExample <T extends IBaseDBPO>{
 	}
 	public BasicExample(Class<T> clazz) throws InstantiationException, IllegalAccessException {
 		T t=clazz.newInstance();
+		this.clazz=clazz;
 		this.tName=t._getTableName();
 		this.pkName=t._getPKColumnName();
 		this.pkValue=t._getPKValue();
 		oredCriteria = new ArrayList<Criteria>();
 	}
-	
+
+	public Class getClazz() {
+		return clazz;
+	}
 	public Object getTName() {
 		return tName;
 	}
@@ -251,6 +257,11 @@ public class BasicExample <T extends IBaseDBPO>{
 		}
 
 		public Criteria andVarIn(String var,List<String> values) {
+			var = RegexUtils.humpToLine(var);
+			addCriterion(var + " in", values, var);
+			return (Criteria) this;
+		}
+		public Criteria andVarIn(String var,String values) {
 			var = RegexUtils.humpToLine(var);
 			addCriterion(var + " in", values, var);
 			return (Criteria) this;
