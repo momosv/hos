@@ -9,12 +9,14 @@ package cn.momosv.hos.service.impl;
 
 
 import cn.momosv.hos.email.MailService;
+import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbMedicalOrgPO;
 import cn.momosv.hos.model.TbOrgManagerPO;
 import cn.momosv.hos.model.TbSysManagerPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.SysService;
+import cn.momosv.hos.util.Constants;
 import cn.momosv.hos.util.SysUtil;
 import freemarker.template.Template;
 import org.apache.commons.collections.map.HashedMap;
@@ -95,6 +97,48 @@ public class SysServiceImpl implements SysService {
 			// 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
 			String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
 			mailService.sendHtmlMail(orgPO.getEmail(), "跟踪治疗系统机构审批不通过通知", htmlText);
+		}
+	}
+
+	@Override
+	public void updateUserAct(List id, Integer act) throws Exception {
+		BasicExample example=new BasicExample(TbBaseUserPO.class);
+		example.createCriteria().andVarIn("id",id);
+		List<TbBaseUserPO> mList=basicService.selectByExample(example);
+		TbMedicalOrgPO po=new TbMedicalOrgPO();
+		po.setActCode(act);
+		po.setUpdateTime(new Date());
+		basicService.updateByExample(po,example,true);
+		if(act.equals(Constants.USER_PASSED)) {//3是认证通过
+			List<TbOrgManagerPO> orgManagerPOS = new ArrayList<>();
+			TbSysManagerPO sys = (TbSysManagerPO) (session.getAttribute(SysUtil.USER));
+			for (TbBaseUserPO user : mList) {
+				//下发邮件
+				Map<String, String> map = new HashedMap();
+				map.put("email", user.getEmail());
+				map.put("name", user.getName());
+				map.put("act", act.toString());
+				map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+				// 通过指定模板名获取FreeMarker模板实例
+				Template template = freeMarkerConfig.getConfiguration().getTemplate("user/approve.html");
+				// 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+				String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+				mailService.sendHtmlMail(user.getEmail(), "跟踪治疗系统机构个人认证通过通知", htmlText);
+			}
+			return;
+		}
+		for (TbBaseUserPO userPO : mList) {
+			//下发邮件
+			Map<String, String> map = new HashedMap();
+			map.put("email", userPO.getEmail());
+			map.put("name", userPO.getName());
+			map.put("act", act.toString());
+			map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+			// 通过指定模板名获取FreeMarker模板实例
+			Template template = freeMarkerConfig.getConfiguration().getTemplate("user/approve.html");
+			// 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+			String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+			mailService.sendHtmlMail(userPO.getEmail(), "跟踪治疗系统机构个人认证不通过通知", htmlText);
 		}
 
 	}

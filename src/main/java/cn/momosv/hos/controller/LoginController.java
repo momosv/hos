@@ -32,8 +32,6 @@ import java.util.UUID;
 public class LoginController extends BasicController{
 
 	@Autowired
-   	private BasicService basicService;
-	@Autowired
 	private LoginService loginService;
 
 	private final static String NORMAL="normal";
@@ -46,7 +44,7 @@ public class LoginController extends BasicController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("login/index")
+	@RequestMapping("login")
 	public String hello() throws Exception {
 		return  "login";
 	}
@@ -55,7 +53,7 @@ public class LoginController extends BasicController{
 	 * 个人注册首页
 	 * @return
 	 */
-	@RequestMapping("register/index")
+	@RequestMapping("register")
 	public Object registerIndex(){
 		return  "register";
 	}
@@ -194,9 +192,6 @@ public class LoginController extends BasicController{
 		BasicExample example=new BasicExample<>(TbBaseUserPO.class);
 		example.createCriteria().andVarEqualTo("id",id);
 		TbBaseUserPO user= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
-		request.setAttribute("user",user);
-		//SysUtil.getSessionUser();
-		String mo= (String) session.getAttribute("momo");
 		if(null==user){
 			map.put("tips","链接已经失效，请重新注册！");
 			map.put("actCode","0");
@@ -209,15 +204,20 @@ public class LoginController extends BasicController{
 				map.put("tips","该邮箱已经激活，可以直接登录使用！");
 				map.put("actCode","1");
 			}else{
-				basicService.deleteByPrimaryKey(user,id);
+				basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
 				map.put("tips","该邮箱激活失败，请重新注册！");
 				map.put("actCode","0");
 			}
 		}else{
-			basicService.deleteByPrimaryKey(user,id);
+			basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
 			map.put("tips","链接已经失效，请重新注册！");
 			map.put("actCode","0");
 		}
 		return  "actTips";
+	}
+	@RequestMapping("exit")//1是邮箱认证，2是待审批，3是审批通过，4是不通过
+	public Object exit() throws Exception {
+		session.removeAttribute(SysUtil.USER);
+		return "login";
 	}
 }

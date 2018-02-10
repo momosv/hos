@@ -22,7 +22,7 @@ public interface BasicService<T ,E > {
 
     int deleteByExample(E example);
 
-    int deleteByPrimaryKey(T t, String id);
+    int deleteByPrimaryKey(Class<T> clazz, String id) throws InstantiationException, IllegalAccessException;
 
     List<T> selectByExample(Class<T> clazz, E example)throws Exception;
 
@@ -58,8 +58,8 @@ public interface BasicService<T ,E > {
 
 	int updateByExample(T record, E example, boolean selective);
 
-	int deleteByPrimaryKey(T t, List<String> id);
+	int deleteByPrimaryKey(Class<T> clazz, List<String> id) throws InstantiationException, IllegalAccessException;
 
-	int deleteByPrimaryKey(T t, String[] id);
+	int deleteByPrimaryKey(Class<T> clazz, String[] id) throws IllegalAccessException, InstantiationException;
 	
 }

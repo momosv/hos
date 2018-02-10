@@ -52,16 +52,17 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 	}
 
 	@Override
-	public int deleteByPrimaryKey(T t,List<String> id) {
-		return this.deleteByPrimaryKey(t, id.toArray(new String[id.size()]));
+	public int deleteByPrimaryKey(Class<T> clazz,List<String> id) throws InstantiationException, IllegalAccessException {
+		return this.deleteByPrimaryKey(clazz, id.toArray(new String[id.size()]));
 	}
 	@Override
-	public int deleteByPrimaryKey(T t,String[] id) {
+	public int deleteByPrimaryKey(Class<T> clazz,String[] id) throws IllegalAccessException, InstantiationException {
+		T t=clazz.newInstance();
 		return basicMapper.deleteByPrimaryKey(id,t._getPKColumnName(),t._getTableName());
 	}
 	@Override
-	public int deleteByPrimaryKey(T t,String id) {
-		return this.deleteByPrimaryKey(t, new String[] {id});
+	public int deleteByPrimaryKey(Class<T> clazz,String id) throws InstantiationException, IllegalAccessException {
+		return this.deleteByPrimaryKey(clazz, new String[] {id});
 	}
 	
 	@Override

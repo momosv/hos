@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8"/>
+        <title>跟踪治疗信息管理系统机构驻入审批通知</title>
+    </head>
+    <br>
+    亲爱的的${name}:
+    <#if act=="3">
+    <br/>
+    恭喜个人身份认证通过，感谢您使用病人跟踪治疗信息管理系统。
+    <br/>
+    <br/>
+        马上去使用，<a href="${basePath}/hos/login/index">病人跟踪治疗信息管理系统首页</a>
+    </#if>
+    <#if act=="4">
+        <br/>
+        很遗憾通知您，个人身份认证审批不通过。
+        <br/>
+        如需帮助，请进入<a href="${basePath}/hos/login/index">病人跟踪治疗信息管理系统首页</a>联系我们
+        <br/>
+    </#if>
+    <br/>
+    </body>
+</html>

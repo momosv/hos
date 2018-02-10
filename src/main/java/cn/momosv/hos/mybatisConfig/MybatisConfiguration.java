@@ -146,6 +146,9 @@ public class MybatisConfiguration implements TransactionManagementConfigurer{
             p.setProperty("reasonable", "true");
             p.setProperty("returnPageInfo", "check");
             p.setProperty("params", "count=countSql");
+            p.setProperty("pageSizeZero", "true");//分页尺寸为0时查询所有纪录不再执行分页
+            p.setProperty("reasonable", "true");//页码<=0 查询第一页，页码>=总页数查询最后一页
+            p.setProperty("supportMethodsArguments", "true");//支持通过 Mapper 接口参数来传递分页参数
             pageHelper.setProperties(p);
             return pageHelper;
         }

@@ -47,7 +47,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             }
         }
         if(null==request.getSession().getAttribute("user")){
-              response.sendRedirect("/hos/login/index");
+              response.sendRedirect("/hos/login");
         };
         return true;
     }
