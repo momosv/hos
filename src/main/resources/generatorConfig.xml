@@ -96,7 +96,7 @@
 				enableUpdateByExample="false"></table>
 
 		<!--住院记录-->
-		<table  tableName="tb_leave_hospital" domainObjectName="TbLeaveHospitalAbstractPO" enableInsert="false"
+		<table  tableName="tb_leave_hospital" domainObjectName="TbLeaveHospitalPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
 				enableDeleteByPrimaryKey="false"

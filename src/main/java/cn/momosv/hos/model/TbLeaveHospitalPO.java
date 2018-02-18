@@ -5,7 +5,7 @@ import cn.momosv.hos.util.RegexUtils;
 
 import java.util.Date;
 
-public class TbLeaveHospitalAbstractPO  extends IBaseDBPO {
+public class TbLeaveHospitalPO extends IBaseDBPO {
     @Override
     public String _getTableName() {
         String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());

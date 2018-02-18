@@ -29,7 +29,7 @@ mybatis:
      typeAliasesPackage: cn.momosv.hos.dao    
      mapperScanPackage: cn.momosv.hos.dao
      configLocation: classpath:/mybatis-config.xml
-
+#C:\ProgramData\Oracle\Java\javapath;%INTEL_DEV_REDIST%redist\intel64\compiler;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;E:\Program Files\Git\cmd;E:\apache-maven-3.5.0-bin\apache-maven-3.5.0-bin\apache-maven-3.5.0\bin;C:\Program Files\TortoiseSVN\bin;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;E:\apache-maven-3.5.0-bin\apache-maven-3.5.0-bin\apache-maven-3.5.0\bin
 spring:
     session:
         store-type: none

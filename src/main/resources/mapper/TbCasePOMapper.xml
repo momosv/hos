@@ -26,7 +26,7 @@
     <result column="to_org" property="toOrg" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="is_archived" property="isArchived" jdbcType="TINYINT" />
+    <result column="is_archived" property="isArchived" jdbcType="INTEGER" />
     <result column="archive_remark" property="archiveRemark" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
   </resultMap>
@@ -41,5 +41,16 @@
     <include refid="Base_Column_List" />
     from tb_case
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectCaseList" resultMap="BaseResultMap" parameterType="cn.momosv.hos.model.base.BasicExample" >
+    select
+    id,title,create_time
+    from tb_case
+    <if test="_parameter != null" >
+      <include refid="cn.momosv.hos.dao.BasicMapper.Example_Where_Clause" />
+    </if>
+    <if test="example.orderByClause != null" >
+      order by ${example.orderByClause}
+    </if>
   </select>
 </mapper>

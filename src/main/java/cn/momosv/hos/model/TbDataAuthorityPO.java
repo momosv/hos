@@ -41,11 +41,13 @@ public class TbDataAuthorityPO extends IBaseDBPO{
 
     private Date createTime;
 
+    private Date deadline;
+
     private String operator;
 
-    private Byte isAllow;
+    private Integer isAllow;
 
-    private Byte allowGrade;
+    private Integer allowGrade;
 
     public String getId() {
         return id;
@@ -111,19 +113,19 @@ public class TbDataAuthorityPO extends IBaseDBPO{
         this.operator = operator == null ? null : operator.trim();
     }
 
-    public Byte getIsAllow() {
+    public Integer getIsAllow() {
         return isAllow;
     }
 
-    public void setIsAllow(Byte isAllow) {
+    public void setIsAllow(Integer isAllow) {
         this.isAllow = isAllow;
     }
 
-    public Byte getAllowGrade() {
+    public Integer getAllowGrade() {
         return allowGrade;
     }
 
-    public void setAllowGrade(Byte allowGrade) {
+    public void setAllowGrade(Integer allowGrade) {
         this.allowGrade = allowGrade;
     }
 }

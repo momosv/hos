@@ -79,6 +79,17 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		return list;
 	}
 	@Override
+	public T selectOneByExample(E example) throws Exception{
+		List<Map> mapL=   basicMapper.selectByExample(example);
+		List<T> list=new ArrayList<>();
+		for(Map map:mapL) {
+			T t1=(T) ObjectMapUtils.mapToObject(map, example.getClazz(), true);
+			return t1;
+		}
+		return null;
+	}
+
+	@Override
 	public List<T> selectByExample(E example) throws Exception{
 		List<Map> mapL=   basicMapper.selectByExample(example);
 		List<T> list=new ArrayList<>();
@@ -99,7 +110,17 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 	}
 
 	@Override
+	public List<T> selectByPrimaryKey(Class<T> clazz,List<String> ids) throws Exception{
+		List<T> list =this.selectByPrimaryKey(clazz, ids.toArray(new String[ids.size()]));
+		if(list.size()>0) {
+			return list;
+			}
+		return null;
+	}
+
+	@Override
 	public List<T> selectByPrimaryKey(Class<T> clazz,String[] ids) throws Exception{
+		if(ids==null||ids.length<=0)return new ArrayList<>();
 		T t=clazz.newInstance();
 		List<Map> mapL=  basicMapper.selectByPrimaryKey(ids,t._getPKColumnName(),t._getTableName());
 		List<T> list=new ArrayList<>();

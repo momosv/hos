@@ -75,7 +75,7 @@ public class TbCasePO extends IBaseDBPO{
 
     private Date updateTime;
 
-    private Byte isArchived;
+    private Integer isArchived;
 
     private String archiveRemark;
 
@@ -281,11 +281,11 @@ public class TbCasePO extends IBaseDBPO{
         this.updateTime = updateTime;
     }
 
-    public Byte getIsArchived() {
+    public Integer getIsArchived() {
         return isArchived;
     }
 
-    public void setIsArchived(Byte isArchived) {
+    public void setIsArchived(Integer isArchived) {
         this.isArchived = isArchived;
     }
 

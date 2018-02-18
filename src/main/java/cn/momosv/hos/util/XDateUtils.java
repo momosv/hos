@@ -103,7 +103,7 @@ public class XDateUtils {
 	/**
 	 * 将long时间戳转换成日期
 	 * 
-	 * @param long timestamp 时间戳，单位：秒
+	 * @param  timestamp 时间戳，单位：秒
 	 * @return String 日期字符串
 	 */
 	public static Date timestampToDate(long timestamp) {
@@ -174,7 +174,7 @@ public class XDateUtils {
 	/**
 	 * 和当前时间比较（Date格式）
 	 * 
-	 * @param date
+	 * @param
 	 * @return 负数：之前；0：当前；正数：之后
 	 */
 	public static int compareDateWithNow(Date date1) {
@@ -186,7 +186,7 @@ public class XDateUtils {
 	/**
 	 * 和当前时间比较(时间戳比较)
 	 * 
-	 * @param date
+	 * @param
 	 * @return
 	 */
 	public static int compareDateWithNow(long date1) {

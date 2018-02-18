@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8"/>
+        <title>人员添加通知</title>
+    </head>
+    <br>
+    亲爱的${name}:
+    <br/>
+    您被${orgName}添加到部门/科室:${deptName},职位为:${position}，感谢使用病人跟踪治疗信息管理系统。
+    <br/>
+    你的医疗机构登录账号/邮箱为：${email}，密码：${passwd}。
+    <br/>
+        马上去使用，<a href="${basePath}/hos/login/index">病人跟踪治疗信息管理系统首页</a>
+    <#if new=="1">
+       同时通知您，默认为您添加个人登录账号/邮箱为：${email}，密码：${passwd}。
+    </#if>
+    <br/>
+    </body>
+</html>

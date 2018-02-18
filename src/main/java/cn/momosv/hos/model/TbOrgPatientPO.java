@@ -34,11 +34,11 @@ public class TbOrgPatientPO   extends IBaseDBPO {
 
     private String userId;
 
-    private Integer treatCode;
+    private String treatCode;
 
     private Date createTime;
 
-    private Byte isAgent;
+    private Integer isAgent;
 
     public String getId() {
         return id;
@@ -64,11 +64,11 @@ public class TbOrgPatientPO   extends IBaseDBPO {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Integer getTreatCode() {
+    public String getTreatCode() {
         return treatCode;
     }
 
-    public void setTreatCode(Integer treatCode) {
+    public void setTreatCode(String treatCode) {
         this.treatCode = treatCode;
     }
 
@@ -80,11 +80,11 @@ public class TbOrgPatientPO   extends IBaseDBPO {
         this.createTime = createTime;
     }
 
-    public Byte getIsAgent() {
+    public Integer getIsAgent() {
         return isAgent;
     }
 
-    public void setIsAgent(Byte isAgent) {
+    public void setIsAgent(Integer isAgent) {
         this.isAgent = isAgent;
     }
 }

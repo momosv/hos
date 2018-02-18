@@ -1,16 +1,14 @@
-package cn.momosv.hos.model;
+package cn.momosv.hos.vo;
 
 import cn.momosv.hos.model.base.IBaseDBPO;
 import cn.momosv.hos.util.RegexUtils;
 
 import java.util.Date;
 
-public class TbDoctorPO  extends IBaseDBPO {
+public class TbDoctorVO extends IBaseDBPO {
     @Override
     public String _getTableName() {
-        String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
-        name=name.substring(1,name.length()-4);
-        return name;
+        return "tb_doctor";
     }
 
     @Override
@@ -55,6 +53,17 @@ public class TbDoctorPO  extends IBaseDBPO {
     private Integer isLeave;
 
     private String workCode;
+
+
+    private String deptCode;//部门编码
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
 
     public String getWorkCode() {
         return workCode;

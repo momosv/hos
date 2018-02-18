@@ -8,8 +8,14 @@ import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.LoginService;
+import cn.momosv.hos.util.Constants;
+import cn.momosv.hos.util.SpringUtil;
 import cn.momosv.hos.util.SysUtil;
+import cn.momosv.hos.vo.TbDoctorVO;
+import cn.momosv.hos.vo.TbMedicalOrgVO;
+import cn.momosv.hos.vo.TbOrgManagerVO;
 import freemarker.template.TemplateException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -21,10 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 @Controller
@@ -85,33 +88,41 @@ public class LoginController extends BasicController{
 			if(StringUtils.isEmpty(orgId)){
 				throw new  NullPointerException("所属机构不能为空或者不存在");
 			}
-			example=new BasicExample(TbDoctorPO.class);
+			example=new BasicExample(TbDoctorVO.class);
 			Criteria criteria=  example.createCriteria();
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw).andVarEqualTo("org_id",orgId);
-			List<TbDoctorPO> list=basicService.selectByExample(TbDoctorPO.class,example);
+			List<TbDoctorVO> list=basicService.selectByExample(example);
+
 			if(list.size()>0){
-				TbDoctorPO po=list.get(0);
-				session.setAttribute("user",po);
-				return successMsg("登录成功").add("user",po.getName());
+				TbDoctorVO vo=list.get(0);
+				TbDepartmentPO deptPO= (TbDepartmentPO) basicService.selectByPrimaryKey(TbDepartmentPO.class,vo.getDeptId());
+				if(deptPO==null) {
+					return failMsg("登录失败,该用户所属部门/科室不存在");
+				}
+				vo.setDeptCode(deptPO.getCode());
+				session.setAttribute("user",vo);
+				return successMsg("登录成功").add("user",vo.getName());
 			}
 		}else if(type.equals(ORG_MANAGER)){
 			if(StringUtils.isEmpty(orgId)){
 				throw new  NullPointerException("所属机构不能为空或者不存在");
 			}
-			example=new BasicExample(TbOrgManagerPO.class);
+			example=new BasicExample(TbOrgManagerVO.class);
 			Criteria criteria=  example.createCriteria();
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw).andVarEqualTo("org_id",orgId);;
-			List<TbOrgManagerPO> list=basicService.selectByExample(TbOrgManagerPO.class,example);
+			List<TbOrgManagerVO> list=basicService.selectByExample(example);
 			if(list.size()>0){
-				TbOrgManagerPO po=list.get(0);
-				session.setAttribute("user",po);
-				return successMsg("登录成功").add("user",po.getName());
+				TbOrgManagerVO vo=list.get(0);
+				TbMedicalOrgPO orgPO= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,vo.getOrgId());
+				vo.setOrgName(orgPO.getName());
+				session.setAttribute("user",vo);
+				return successMsg("登录成功").add("user",vo.getName());
 			}
 		}else if(type.equals(SYS_MANAGER)){
 			example=new BasicExample(TbSysManagerPO.class);
 			Criteria criteria=  example.createCriteria();
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw);
-			List<TbSysManagerPO> list=basicService.selectByExample(TbSysManagerPO.class,example);
+			List<TbSysManagerPO> list=basicService.selectByExample(example);
 			if(list.size()>0){
 				TbSysManagerPO po=list.get(0);
 				session.setAttribute("user",po);
@@ -121,10 +132,8 @@ public class LoginController extends BasicController{
 			example=new BasicExample(TbBaseUserPO.class);
 			Criteria criteria=  example.createCriteria();
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw);
-			List<TbBaseUserPO> list=basicService.selectByExample(TbBaseUserPO.class,example);
-			if(list.size()>0){
-				TbBaseUserPO po=list.get(0);
-				session.setAttribute("user",po);
+			TbBaseUserPO po= (TbBaseUserPO) basicService.selectOneByExample(example);
+			if(po!=null){
 				return successMsg("登录成功").add("user",po.getName());
 			}
 		}
@@ -133,24 +142,35 @@ public class LoginController extends BasicController{
 
 	@ResponseBody
 	@RequestMapping("register/user")
-	public Msg register(TbBaseUserPO user,@RequestParam(required = true) String type) throws IOException, TemplateException {
-		if(StringUtils.isEmpty(user.getAccount())||StringUtils.isEmpty(user.getPasswd())){
-			failMsg("账号/邮箱或者密码不能为空");
-		}
+	public Msg register(TbBaseUserPO user) throws Exception {
+		user.setEmail(user.getAccount());
+		validUser(user);
 		if(StringUtils.isEmpty(user.getIdCard())){
-			failMsg("身份证号不能为空");
+			return failMsg("注册身份证号不能为空");
+		}
+
+		//检查是否有认证过得身份证
+		BasicExample example=new BasicExample(TbBaseUserPO.class);
+		example.createCriteria().andVarEqualTo("id_card",user.getIdCard());
+		TbBaseUserPO userPO= (TbBaseUserPO) basicService.selectOneByExample(example);
+		if(null!=userPO){
+			if(userPO.getActCode().equals(Constants.USER_PASSED)
+					||(userPO.getActCode().equals(Constants.USER_UN_APPROVED))){
+			return Msg.fail(201,"身份信息已经被注册认证或处于待审批认证中");
+			}else{
+				userPO.setCreateTime(new Date());
+				user.setActCode(0);
+				basicService.updateOne(user,true);
+				loginService.sendUserRegisterMail(userPO);
+				return successMsg("注册成功");
+			}
 		}
 		user.setId(UUID.randomUUID().toString());
-		user.setEmail(user.getAccount());
 		user.setCreateTime(new Date());
 		user.setActCode(0);
-		if(NORMAL.equals(type)){
-			session.setAttribute("momo","momo");
-			basicService.insertOne(user);
-			loginService.sendUserRegisterMail(user);
-			return successMsg("注册成功");
-		}
-		return failMsg("注册身份不能为空");
+		basicService.insertOne(user);
+		loginService.sendUserRegisterMail(user);
+		return successMsg("注册成功");
 	}
 
 	@ResponseBody
@@ -192,24 +212,24 @@ public class LoginController extends BasicController{
 		BasicExample example=new BasicExample<>(TbBaseUserPO.class);
 		example.createCriteria().andVarEqualTo("id",id);
 		TbBaseUserPO user= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
-		if(null==user){
+		if(null == user){
 			map.put("tips","链接已经失效，请重新注册！");
 			map.put("actCode","0");
 		}else if(user.getActCode().equals(1)){
 			map.put("tips","该邮箱已经激活，可以直接登录使用！");
 			map.put("actCode","1");
-		}else if(null!=user.getCreateTime()&&user.getCreateTime().getTime()-(new Date()).getTime()+24*60*60*1000>0){
+		}else if(null != user.getCreateTime()&&user.getCreateTime().getTime()-(new Date()).getTime()+24*60*60*1000>0){
 			user.setActCode(1);
 			if(basicService.updateOne(user,true)>0){
 				map.put("tips","该邮箱已经激活，可以直接登录使用！");
 				map.put("actCode","1");
 			}else{
-				basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
+				//basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
 				map.put("tips","该邮箱激活失败，请重新注册！");
 				map.put("actCode","0");
 			}
 		}else{
-			basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
+			//basicService.deleteByPrimaryKey(TbBaseUserPO.class,id);
 			map.put("tips","链接已经失效，请重新注册！");
 			map.put("actCode","0");
 		}
@@ -219,5 +239,46 @@ public class LoginController extends BasicController{
 	public Object exit() throws Exception {
 		session.removeAttribute(SysUtil.USER);
 		return "login";
+	}
+
+	@RequestMapping("validUser")
+	public Object validUser(TbBaseUserPO user) throws Exception {
+		BasicExample example;
+		if(StringUtils.isEmpty(user.getEmail())){
+			throw new Exception("邮箱不能为空");
+		}
+		if(!StringUtils.isEmpty(user.getEmail())){
+			example=new BasicExample(TbBaseUserPO.class);
+			example.createCriteria().andVarEqualTo("email",user.getEmail());
+			if(basicService.countByExample(example)>0){
+				throw new Exception("该用户邮箱已经被注册");
+			}
+		}
+		return successMsg().add("msg","验证通过");
+	}
+
+	@ResponseBody
+	@RequestMapping("login/getOrg")
+	public Msg getOrg(String loginAccount,String type) throws Exception {
+		BasicExample example;
+		List<String> orgId=new ArrayList<>();
+		if(type.equals(ORG_MANAGER)){
+			example = new BasicExample(TbOrgManagerPO.class);
+			example.createCriteria().andVarEqualTo("account",loginAccount);
+			List<TbOrgManagerPO> list=basicService.selectByExample(example);
+			for (TbOrgManagerPO po : list) {
+				orgId.add(po.getOrgId());
+			}
+
+		}else if(type.equals(DOCTOR)){
+			example = new BasicExample(TbDoctorPO.class);
+			example.createCriteria().andVarEqualTo("account",loginAccount);
+			List<TbDoctorPO> list=basicService.selectByExample(example);
+			for (TbDoctorPO po : list) {
+				orgId.add(po.getOrgId());
+			}
+		}
+		List<TbMedicalOrgPO> list=basicService.selectByPrimaryKey(TbMedicalOrgPO.class,orgId);
+		return Msg.success().add("list",list);
 	}
 }

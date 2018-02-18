@@ -17,7 +17,7 @@
     <result column="is_leave" property="isLeave" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, account, passwd, position, user_id, dept_id, org_id, entry_time, create_time,
+    id, name, account,work_code, passwd, position, user_id, dept_id, org_id, entry_time, create_time,
     update_time, leave_time, is_leave
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

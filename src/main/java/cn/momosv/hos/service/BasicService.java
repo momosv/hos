@@ -24,13 +24,18 @@ public interface BasicService<T ,E > {
 
     int deleteByPrimaryKey(Class<T> clazz, String id) throws InstantiationException, IllegalAccessException;
 
+    @Deprecated
     List<T> selectByExample(Class<T> clazz, E example)throws Exception;
+
+    T selectOneByExample(E example) throws Exception;
 
     List<T> selectByExample(E example) throws Exception;
 
     T selectByPrimaryKey(Class<T> clazz, String ids)throws Exception;
 
     List<T> selectByPrimaryKey(Class<T> clazz, String[] ids) throws Exception;
+
+    List<T> selectByPrimaryKey(Class<T> clazz, List<String> ids) throws Exception;
 
     int updateByExample(T record, E example);
 
