@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script language="JavaScript">
+        $(function(){
+            //查询机构系详情
+            init();
+        });
+
+        function init(){
+            $.ajax({
+                url: "/org/getDoctorDetail",
+                type: 'post',
+                data:{id:$("#docId").val()},
+                success: function(re){
+                    if(re.code==200){
+                        jQuery.alertWindow(re.msg);
+                        return;
+                    }
+                    var user=re.extend.user;
+                    var doctor=re.extend.doctor;
+                    var list=re.extend.list;
+
+                    if(user!=null||user!=undefined){
+                        $("#telephone").val(user.telephone);
+                        $("#idCard").val(user.idCard);
+                        $("#address").val(user.address);
+                    }
+                    if(doctor!=null||doctor!=undefined){
+                        $("#name").val(doctor.name);
+                        $("#position").val(doctor.position);
+                        $("#entryTime").val(doctor.entryTime);
+                        $("#workCode").val(doctor.workCode);
+                        $("#email").val(doctor.account);
+                        $("#passwd").val(doctor.passwd);
+                    }
+                    if(user.sex==1){
+                        $("#woman").attr("selected",true);
+                    }
+                    if(doctor.isLeave==1){
+                        $("#isLeave1").attr("selected",true);
+                    }
+                    $("#dept").empty();
+                    for(var obj of list) {
+                        if(obj.id==doctor.deptId){
+                            $("#dept").append("<option selected  value = " + obj.id + " >" + obj.name + "</option>")
+                        }else {
+                            $("#dept").append("<option  value = " + obj.id + " >" + obj.name + "</option>")
+                        }
+                    }
+                }
+            });
+        }
+        function update() {
+            $.ajax({
+                url: "/org/updateDoctor",
+                type: 'post',
+                data:{
+                    docId:$("#docId").val(),
+                    name:$("#name").val(),
+                    sex:$("#sex").val(),
+                    deptId:$("#dept").val(),
+                    position:$("#position").val(),
+                    entryTime:$("#entryTime").val(),
+                    workCode:$("#workCode").val(),
+                    passwd:$("#passwd").val(),
+                    telephone:$("#telephone").val(),
+                    address:$("#address").val(),
+                    isLeave:$("#isLeave").val(),
+                    deptName:$("#dept").find("option:selected").text()
+                },
+                success: function(re) {
+                    if(re.code!=200){
+                        jQuery.alertWindow(re.msg);
+                        init();
+                    }else {
+                        jQuery.alertWindow(re.msg)
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
+        table tr td{
+            padding-left: 20px;
+            width: 700px;
+
+        }
+        table tr td:first-child{
+            text-align: right;
+            width: 200px;
+
+        }
+        #userName{
+            border: none;outline: none;font-size: 44px;
+            margin:auto 0;
+            width: 1100px;
+            text-align: center;
+        }
+        .button{
+            width: 100px;
+            height: 40px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            outline: none;
+            border: none;
+        }
+    </style>
+</head>
+<body style="width: 1100px;margin:0 auto">
+<input type="hidden" value="${id}" id="docId">
+<input type="text" readonly="readonly"  id="userName" value="">
+<table>
+    <tr>
+        <td>姓名</td>
+        <td>
+            <input id="name" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>性别</td>
+        <td>
+            <select id="sex" >
+                <option value="0" selected=true id="man">男</option>
+                <option value="1" id="woman">女</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>部门(科室):</td>
+        <td >
+            <select id="dept">
+                <option>内二科</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>职位:</td>
+        <td >
+            <input id="position" type="text">
+        </td>
+    </tr>
+
+    <tr>
+        <td>状态:</td>
+        <td >
+            <select id="isLeave">
+                <option value="0" selected id="isLeave0">在职</option>
+                <option value="1" id="isLeave1">离职</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>工号:</td>
+        <td >
+            <input id="workCode" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>邮箱:</td>
+        <td >
+            <input id="email" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>密码:</td>
+        <td >
+            <input id="passwd" type="text">
+
+        </td>
+    </tr>
+    <tr>
+        <td>联系电话:</td>
+        <td >
+            <input id="telephone" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>居民身份证号:</td>
+        <td >
+            <input id="idCard" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td>地址:</td>
+        <td >
+            <input id="address" type="text">
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td >
+            <input id="save" type="button" value="保存更新" onclick="update()">
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>

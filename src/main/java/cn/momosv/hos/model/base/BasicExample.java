@@ -37,6 +37,15 @@ public class BasicExample <T extends IBaseDBPO>{
 	public Class getClazz() {
 		return clazz;
 	}
+
+	public void setClazz(Class<T> clazz) throws IllegalAccessException, InstantiationException {
+		T t=clazz.newInstance();
+		this.clazz=clazz;
+		this.tName=t._getTableName();
+		this.pkName=t._getPKColumnName();
+		this.pkValue=t._getPKValue();
+	}
+
 	public Object getTName() {
 		return tName;
 	}

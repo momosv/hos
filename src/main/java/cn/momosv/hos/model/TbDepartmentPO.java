@@ -40,14 +40,14 @@ public class TbDepartmentPO extends IBaseDBPO{
     private Date createTime;
 
     private Date updateTime;
-    private String desc;
+    private String descr;
 
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     public String getId() {

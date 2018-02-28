@@ -16,7 +16,7 @@ server:
   port: 8081
   context-path: /
   session-timeout: 60
-  cloudAddress: 119.29.215.46
+  cloudAddress: 123.207.23.166
 
 security:
   user:
@@ -35,9 +35,9 @@ spring:
         store-type: none
     datasource:
         name: db      
-        url: jdbc:mysql://119.29.215.46:3306/tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
+        url: jdbc:mysql:///tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
         username: momo
-        password: LLLSWmomo
+        password: LLLSWlllsw123
         driver-class-name: com.mysql.jdbc.Driver
         type: com.alibaba.druid.pool.DruidDataSource
         minIdle: 5
@@ -104,8 +104,3 @@ spring:
             starttls:  
               enable: true  
               required: true
-
-    #http:
-     # multipart:
-      #  maxFileSize: 100Mb
-       # maxRequestSize: 100Mb

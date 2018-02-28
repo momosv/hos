@@ -6,12 +6,17 @@ import cn.momosv.hos.model.TbDepartmentPO;
 import cn.momosv.hos.model.TbDoctorPO;
 import cn.momosv.hos.model.TbOrgManagerPO;
 import cn.momosv.hos.model.base.BasicExample;
+import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.OrgService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbOrgManagerVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -27,6 +32,7 @@ public class OrgController extends BasicController {
     @RequestMapping("addDoctor")
     public Object addDoctor( TbDoctorPO doctor,TbBaseUserPO user,String deptName) throws Exception {
         TbOrgManagerVO org = validOrgManager();
+        doctor.setOrgId(org.getOrgId());
         if(StringUtils.isEmpty(user.getEmail())||StringUtils.isEmpty(doctor.getPasswd())){
             return  failMsg("邮箱或者密码不能为空");
         }
@@ -45,6 +51,96 @@ public class OrgController extends BasicController {
       //  List<TbDoctorPO> list=orgService.getDoctorByIdCard(org.getOrgId(),user.getIdCard());
         orgService.insertDoctor(user,doctor,deptName);
         return successMsg();
+    }
+
+    @RequestMapping("updateDoctor")
+    public Object updateDoctor(String docId,
+                               String name,
+                                Integer sex,
+                                Integer isLeave,
+                               String deptId,
+                               String position,
+                                Date entryTime,
+                               String workCode,
+                               String passwd,
+                                String telephone,
+                                 String address,
+                                 String deptName
+                               ) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        TbDoctorPO doctorPO= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,docId);
+        if(null==doctorPO){
+            return failMsg("该人员不存在");
+        }
+        if(!org.getOrgId().equals(doctorPO.getOrgId())){
+            return failMsg("您无权限查看非本机构人员");
+        }
+        doctorPO.setName(name);
+        doctorPO.setDeptId(deptId);
+        doctorPO.setPosition(  position);
+        doctorPO.setEntryTime(  entryTime);
+        doctorPO.setWorkCode(workCode);
+        doctorPO.setWorkCode(passwd);
+        doctorPO.setIsLeave(isLeave);
+
+        TbBaseUserPO userPO= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,doctorPO.getUserId());
+        userPO.setSex(sex);
+        userPO.setTelephone(telephone);
+        userPO.setAddress(address);
+        orgService.updateDoctor(doctorPO,userPO,org,deptName);
+        return successMsg();
+
+    }
+
+    @RequestMapping("getDoctorDetail")
+    public Msg getDoctorDetail(String id) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        TbDoctorPO doctorPO= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,id);
+        if(!org.getOrgId().equals(doctorPO.getOrgId())){
+            return failMsg("您无权限查看非本机构人员");
+        }
+        TbBaseUserPO userPO= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,doctorPO.getUserId());
+        if(null!=userPO) {
+            userPO.setPasswd("");
+            userPO.setIdFace("");
+            userPO.setIdHand("");
+            userPO.setIdNational("");
+        }
+
+        return getDeptList().add("doctor",doctorPO).add("user",userPO);
+
+    }
+
+    @RequestMapping("getDoctorList")
+    public Msg getDoctorList(@RequestParam(defaultValue = "-1") Integer isLeave,
+                             @RequestParam(defaultValue = "",required = true)String deptId,
+                             String key,
+                             @RequestParam(defaultValue = "1")Integer pageNum,
+                             @RequestParam(defaultValue = "10")Integer pageSize) throws Exception {
+        TbOrgManagerVO org= validOrgManager();
+        BasicExample example =new BasicExample(TbDoctorPO.class);
+        BasicExample.Criteria criteria=example.createCriteria();
+        criteria.andVarEqualTo("org_id",org.getOrgId())
+                .andVarEqualTo("dept_id",deptId);
+        example.setOrderByClause("name");
+        if(!isLeave.equals(-1)){
+            criteria.andVarEqualTo("is_leave",isLeave.toString());
+        }
+        if(!StringUtils.isEmpty(key)){
+            criteria.andVarLike("name","%"+key+"%");
+        }
+        Page page= PageHelper.startPage(pageNum,pageSize);
+     basicService.selectByExample(example);
+      return successMsg().add("page",new PageInfo(page.getResult()));
+    }
+
+    @RequestMapping("getDeptList")
+    public Msg getDeptList() throws Exception {
+        TbOrgManagerVO org= validOrgManager();
+        BasicExample example =new BasicExample(TbDepartmentPO.class);
+        example.createCriteria().andVarEqualTo("org_id",org.getOrgId());
+        example.setOrderByClause("name");
+        return successMsg().add("list",basicService.selectByExample(example));
     }
 
     @RequestMapping("addDept")

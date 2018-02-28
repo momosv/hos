@@ -14,6 +14,9 @@ import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbMedicalOrgVO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import freemarker.template.TemplateException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +51,13 @@ public class LoginController extends BasicController{
 	 * @throws Exception
 	 */
 	@RequestMapping("login")
-	public String hello() throws Exception {
+	public String hello(Map map) throws Exception {
+		BasicExample example =new BasicExample(TbMedicalOrgPO.class);
+		example.setOrderByClause("create_time desc");
+		Page page=PageHelper.startPage(1,3);
+		basicService.selectByExample(example);
+		PageInfo data=new PageInfo<>(page.getResult());
+		map.put("orgList",data.getList());
 		return  "login";
 	}
 
@@ -101,7 +110,8 @@ public class LoginController extends BasicController{
 				}
 				vo.setDeptCode(deptPO.getCode());
 				session.setAttribute("user",vo);
-				return successMsg("登录成功").add("user",vo.getName());
+				session.setAttribute("identity",DOCTOR);
+				return successMsg("登录成功").add("user",vo.getName()).add("identity",DOCTOR);
 			}
 		}else if(type.equals(ORG_MANAGER)){
 			if(StringUtils.isEmpty(orgId)){
@@ -116,7 +126,8 @@ public class LoginController extends BasicController{
 				TbMedicalOrgPO orgPO= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,vo.getOrgId());
 				vo.setOrgName(orgPO.getName());
 				session.setAttribute("user",vo);
-				return successMsg("登录成功").add("user",vo.getName());
+				session.setAttribute("identity",ORG_MANAGER);
+				return successMsg("登录成功").add("user",vo.getName()).add("identity",ORG_MANAGER);
 			}
 		}else if(type.equals(SYS_MANAGER)){
 			example=new BasicExample(TbSysManagerPO.class);
@@ -126,7 +137,8 @@ public class LoginController extends BasicController{
 			if(list.size()>0){
 				TbSysManagerPO po=list.get(0);
 				session.setAttribute("user",po);
-				return successMsg("登录成功").add("user",po.getName());
+				session.setAttribute("identity",SYS_MANAGER);
+				return successMsg("登录成功").add("user",po.getName()).add("identity",SYS_MANAGER);
 			}
 		}else if(type.equals(NORMAL)){
 			example=new BasicExample(TbBaseUserPO.class);
@@ -134,7 +146,9 @@ public class LoginController extends BasicController{
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw);
 			TbBaseUserPO po= (TbBaseUserPO) basicService.selectOneByExample(example);
 			if(po!=null){
-				return successMsg("登录成功").add("user",po.getName());
+				session.setAttribute("user",po);
+				session.setAttribute("identity",NORMAL);
+				return successMsg("登录成功").add("user",po.getName()).add("identity",NORMAL);
 			}
 		}
 		return failMsg("登录失败");
@@ -238,6 +252,7 @@ public class LoginController extends BasicController{
 	@RequestMapping("exit")//1是邮箱认证，2是待审批，3是审批通过，4是不通过
 	public Object exit() throws Exception {
 		session.removeAttribute(SysUtil.USER);
+		session.removeAttribute("identity");
 		return "login";
 	}
 
@@ -281,4 +296,21 @@ public class LoginController extends BasicController{
 		List<TbMedicalOrgPO> list=basicService.selectByPrimaryKey(TbMedicalOrgPO.class,orgId);
 		return Msg.success().add("list",list);
 	}
+
+	/**
+	 * 获取最近入住的机构
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("login/orgList")
+	public Msg getOrg() throws Exception {
+		BasicExample example = new BasicExample(TbMedicalOrgPO.class);
+		example.setOrderByClause("create_time");
+		Page page=PageHelper.startPage(1,10);
+		List<TbMedicalOrgPO> list=basicService.selectByExample(example);
+		PageInfo result= new PageInfo(page.getResult());
+		return Msg.success().add("data",result);
+	}
+
 }

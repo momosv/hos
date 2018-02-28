@@ -57,6 +57,15 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
     private String image;
     private String licenceImage;
     private Integer actCode;
+    private String descr;
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
 
     public Integer getActCode() {
         return actCode;

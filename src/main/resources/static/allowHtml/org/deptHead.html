@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/org.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/org/dept.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/main.js"></script>
+    <style type="text/css" >
+    </style>
+</head>
+
+<body>
+<div id="sys_content">
+    <div id="org_left" style="float: left;height: 800px;width: 200px;padding-top: 10px;z-index: 1">
+        <ul id="deptUl" class="org_dept_ul"  style="max-height: 700px;overflow-y: auto">
+
+        </ul>
+        <div style="width: 200px;text-align: center">
+        <input type="button" value="添加部门/科室" class="btn" id="btn_addDept" onclick="addDpetDiv()">
+        </div>
+        <div id="addDeptDiv">
+            <div style="width: 30px;float: right;text-align: right;padding: 5px 10px 5px 20px;font-size: 24px;cursor: pointer" onclick="myClose(addDeptDiv)" id="closeAddDeptDiv">X</div>
+            <table id="addDeptT">
+                <tr>
+                    <td>部门(科室)名称:</td>
+                    <td ><input type="text" id="deptNameInput"></td>
+                </tr>
+                <tr>
+                    <td>简介:</td>
+                    <td><textarea id="deptDescrInput"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" class="btn" value="保存" onclick="addDept()"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="org_right" style="z-index: 1;float: left;min-height: 800px;width: 850px">
+        <div class="org_table" id='right_top' style="float: left;position: absolute">
+            <span id="deptName">科室1</span>
+            <input class="btn" value="添加人员" type="button" onclick="addDoc()">
+        </div>
+        <div class="org_table" id="org_search">
+            <input type="button" value="搜索" id="doctor_search_btn" onclick="doc_search_key()">
+            <input type="text" value="" placeholder="请输入名称" id="doctor_search_key" onchange="doc_search_key()">
+        </div>
+        <div class="org_table" id="org_table">
+            <table id="org_table_data">
+                <tr>
+                    <th>姓名</th>
+                    <th>职位</th>
+                    <th>入职时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </table>
+            <table id="org_table_model" style="display: none">
+                <tr style="cursor: pointer" doctorId="{id}" onclick="getDoctorDetail(this)">
+                    <td>{name}</td>
+                    <td>{position}</td>
+                    <td>{entryTime}</td>
+                    <td>{isLeave}</td>
+                    <td>编辑|删除</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="org_table" id="org_page">
+            <ul id="ul_page">
+            </ul>
+
+            <div style="float: left;margin: 0 10px 0 10px">
+                跳到第<input type="number"  value="" id="page_num" onchange="getOrderUserList(this)"
+                          style="width: 40px;font-size: 13px;margin: 0 3px ;
+                                 "
+            >页
+            </div>
+            <span id="total_num">共1页 </span>
+            <span id="pre_num">第1页 </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

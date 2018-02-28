@@ -21,10 +21,11 @@
     <result column="image" property="image" jdbcType="VARCHAR" />
     <result column="licence_image" property="licenceImage" jdbcType="VARCHAR" />
     <result column="act_code" property="actCode" jdbcType="INTEGER" />
+    <result column="descr" property="descr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, address, province, city, county, telephone, type, create_time, update_time, 
-    code,principal,linkman,eamil,licence,legal,image,licence_image,act_code
+    code,principal,linkman,eamil,licence,legal,image,licence_image,act_code,descr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

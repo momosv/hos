@@ -16,4 +16,6 @@ public interface UserService {
     List<TbOrgPatientPO> getPatientListByTreatCode(String code, String orgId) throws Exception;
 
     List<TbOrgPatientPO> getPatientListByIdCard(String idCard, String orgId) throws Exception;
+
+    List<String> getPatientIdListByIdCard(String idCard) throws Exception;
 }

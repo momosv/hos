@@ -1,5 +1,6 @@
 package cn.momosv.hos.service.impl;
 
+import cn.momosv.hos.dao.TbBaseUserPOMapper;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbOrgPatientPO;
 import cn.momosv.hos.model.base.BasicExample;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BasicService basicService;
+
+    @Autowired
+    private TbBaseUserPOMapper userPOMapper;
 
     @Override
     public TbBaseUserPO getUserByIdCard(String idCard) throws Exception {
@@ -57,5 +61,10 @@ public class UserServiceImpl implements UserService {
                 .andVarLike("user_id","%"+idCard+"%")
                 .andVarEqualTo("org_id",orgId);
         return   basicService.selectByExample(userExample);
+    }
+
+    @Override
+    public List<String> getPatientIdListByIdCard(String idCard) throws Exception {
+        return userPOMapper.getPatientIdListByIdCard(idCard);
     }
 }

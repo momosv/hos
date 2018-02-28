@@ -1,3 +1,47 @@
+
+//org 管理员
+function org_dept_manager(){
+    hide_head();
+    $("#org_page").show();
+    $("#org_iframe").attr("src",'/allowHtml/org/deptHead.html');
+}
+function org_approve_manager(){
+    hide_head();
+    $("#org_page").show();
+    $("#org_iframe").attr("src",'/allowHtml/org/approveHead.html');
+}
+//sys 管理员
+function sys_org_manager(){
+    hide_head();
+    $("#sys_page").show();
+    $("#sys_iframe").attr("src",'/allowHtml/sys/sysHead.html');
+}
+function user_org_manager(){
+    hide_head();
+    $("#sys_page").show();
+    $("#sys_iframe").attr("src",'/allowHtml/sys/userHead.html');
+}
+
+function hide_head() {
+    $("#body").hide();
+    $("#foot").hide();
+}
+function show_head() {
+    $("#body").show();
+    $("#foot").show();
+    $("#sys_page").hide();
+    $("#org_page").hide();
+    $("#doc_page").hide();
+    $("#user_page").hide();
+}
+
+function  hiddenLoginForm() {
+    $("#loginDiv").hide();
+}
+function login_form(t){
+    $("#loginDiv").show();
+}
+
 function login() {
         //var formData = new FormData(document.getElementById('loginForm'));
         $.ajax({
@@ -5,10 +49,40 @@ function login() {
             type: 'POST',
             data: $('#loginForm').serialize(),
             success: function(re) {
+                var extend=re.extend;
                 if (re.code != 200) {
-                    alert(re.msg)
+                    if(extend.identity=='sys'){
+                        $('.a_sys').show();
+                    }else if(extend.identity=='org'){
+                        $('.a_org').show();
+                    }else if(extend.identity=='doctor'){
+                        $('.a_doc').show();
+                    }else if(extend.identity=='normal'){
+                        $('.a_user').show();
+                    }
+                    $('.exit').show();
+                    $("#login_button").hide();
+                    $("#loginDiv").hide();
                 } else {
                     alert(re.msg);
+                }
+            },
+            error: function(rs) {
+                alert(rs.extend.msg);
+            }
+        });
+}
+
+function exit() {
+        //var formData = new FormData(document.getElementById('loginForm'));
+        $.ajax({
+            url: "/hos/exit",
+            type: 'POST',
+            success: function(re) {
+                if (re.code != 200) {
+                   $(".a_head_child").hide();
+                    $("#login_button").show();
+
                 }
             },
             error: function(rs) {
@@ -59,5 +133,24 @@ $(
     function(){
     $("#orgSelect").hide();
     $("#orgSelect").empty();
+    if($("#identity").val()=='sys'){
+        $(".a_sys").show();
+        $(".exit").show();
+        $("#login_button").hide();
+    }else if($("#identity").val()=='org'){
+        $(".a_org").show();
+        $(".exit").show();
+        $("#login_button").hide();
+
+    }else if($("#identity").val()=='doc'){
+        $(".a_doc").show();
+        $(".exit").show();
+        $("#login_button").hide();
+
+    }else if($("#identity").val()=='user'){
+        $(".a_user").show();
+        $(".exit").show();
+        $("#login_button").hide();
+    }
     }
 );

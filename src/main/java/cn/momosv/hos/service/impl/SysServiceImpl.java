@@ -105,9 +105,8 @@ public class SysServiceImpl implements SysService {
 		BasicExample example=new BasicExample(TbBaseUserPO.class);
 		example.createCriteria().andVarIn("id",id);
 		List<TbBaseUserPO> mList=basicService.selectByExample(example);
-		TbMedicalOrgPO po=new TbMedicalOrgPO();
+		TbBaseUserPO po=new TbBaseUserPO();
 		po.setActCode(act);
-		po.setUpdateTime(new Date());
 		basicService.updateByExample(po,example,true);
 		if(act.equals(Constants.USER_PASSED)) {//3是认证通过
 			List<TbOrgManagerPO> orgManagerPOS = new ArrayList<>();

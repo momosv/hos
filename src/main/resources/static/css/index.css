@@ -1,4 +1,89 @@
 @charset "UTF-8";
+*{
+	color: #66ccff;
+}
+ul li{
+	list-style: none;
+}
 #hello{
-	color: 66CCFddF;
+	color: 66CCFF;
+}
+#body{
+	background-color: #66ccff;
+	background-image: url(/images/momo1.jpg);
+}
+#login_button{
+	background-color: white;
+	border: none;
+	outline: none;
+	width: 120px;
+	height: 45px;
+	color: #66ccff;
+	margin-top: 250px;
+	margin-left: 510px;
+	border-radius: 5px;
+	font-size: 28px;
+}
+#head_welcome{
+	position: absolute;
+	text-align: center;
+	height: 50px;
+	width: 1100px;
+	color:black;
+/*	margin: auto 0;*/
+	margin-top: 150px;
+	border-radius: 5px;
+	font-size: 55px;
+	color: #ffffff;
+}
+#loginDiv{
+	background-color: white;
+	text-align: center;
+	position: relative;
+	margin: 0 auto ;
+	top:-200px;
+	width: 450px;
+	height: 350px;
+	border: lightblue solid 1px;
+}
+.login_input{
+	width: 280px;
+	height: 40px;
+	color: #818181;
+	font-size: 18px;
+	padding-left: 10px;
+	top:-10px;
+	margin-top: 15px;
+	border-radius: 10px;
+	outline: none;
+}
+.goin{
+	background-color: #66ccff;
+	color: white;
+	font-size: 22px;
+	border: none;
+}
+.goin:hover{
+	background-color: lightblue;
+	color: white;
+	font-size: 22px;
+	border: none;
+}
+.head_org_list{
+	float: left;
+	width: 320px;
+	margin-left: 35px;
+	height: 600px;
+	border: solid 1px yellow;
+}
+.head_org_list img{
+	width: 318px;
+	height: 250px;
+	border: none;
+}
+
+#sys_page,#org_page,#doc_page,#user_page{
+	width: 1100px;
+	min-height: 900px;
+	display: none;
 }

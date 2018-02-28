@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.momosv.hos.model.TbSurgeryPO" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="second_id" property="secondId" jdbcType="VARCHAR" />
     <result column="start" property="start" jdbcType="VARCHAR" />
     <result column="finding" property="finding" jdbcType="VARCHAR" />
     <result column="treat" property="treat" jdbcType="VARCHAR" />
@@ -15,7 +16,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, start, finding, treat, end, after_treat, diagnosis, attention, surgeon, 
+    id, case_id, second_id,start, finding, treat, end, after_treat, diagnosis, attention, surgeon,
     create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

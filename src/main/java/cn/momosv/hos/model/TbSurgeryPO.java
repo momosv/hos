@@ -32,6 +32,8 @@ public class TbSurgeryPO   extends IBaseDBPO {
 
     private String caseId;
 
+    private String secondId;//住院，手术
+
     private String start;
 
     private String finding;
@@ -49,6 +51,14 @@ public class TbSurgeryPO   extends IBaseDBPO {
     private String surgeon;
 
     private Date createTime;
+
+    public String getSecondId() {
+        return secondId;
+    }
+
+    public void setSecondId(String secondId) {
+        this.secondId = secondId;
+    }
 
     public String getId() {
         return id;

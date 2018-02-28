@@ -15,4 +15,6 @@ public interface DoctorService {
     Msg getCaseList(String idCard, String treatCode, TbDoctorVO tbDoctorVO) throws Exception;
 
     Object selectCaseList(BasicExample caseExample);
+
+    void deleteCase(String[] ids) throws InstantiationException, IllegalAccessException;
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -128,7 +129,6 @@ public class DatasourceConfig {
         filterRegistrationBean.addInitParameter("principalCookieName", "USER_COOKIE");  
         filterRegistrationBean.addInitParameter("principalSessionName", "USER_SESSION");  
         return filterRegistrationBean;  
-    }  
-     
+    }
 }  
 

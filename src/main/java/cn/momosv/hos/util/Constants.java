@@ -2,10 +2,7 @@ package cn.momosv.hos.util;
 
 
 public class Constants {
-   int MAX_FILE_UPLOAD_SIZE = 5242880;  
-   String MOBILE_NUMBER_SESSION_KEY = "sessionMobileNumber";  
-   String USER_CODE_SESSION_KEY = "userCode";  
-   String SESSION_KEY = "sessionId";
+   int MAX_FILE_UPLOAD_SIZE = 5242880;
    //全部-1,0未审批，1通过，2不通过，3已经审批
    public final static Integer USER_ALL_TYPE=-1;
    //0邮箱未验证,1是邮箱认证，2是待审批，3是审批通过，4是不通过

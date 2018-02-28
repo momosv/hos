@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/css/sys.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/sys.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<div id="sys_content">
+    <div id="sys_left" style="float: left;min-height: 800px;width: 200px;padding-top: 80px">
+        <ul class="ul" >
+            <li onclick="getOrgList(3);">全部机构</li>
+            <li onclick="getOrgList(1)">已经审批</li>
+            <li onclick="getOrgList(0)">等待审批</li>
+        </ul>
+    </div>
+    <div id="sys_right" style="float: left;min-height: 800px;width: 850px">
+        <div class="org_table" id="org_search">
+            <input type="button" value="搜索" id="org_search_btn" onclick="org_search_key()">
+            <input type="text" value="" placeholder="请输入机构名称" id="org_search_key" onchange="org_search_key()">
+        </div>
+        <div class="org_table" id="org_table">
+            <table id="org_table_data">
+                <tr>
+                    <th>机构名称</th>
+                    <th>入驻时间</th>
+                    <th>联系人</th>
+                    <th>联系方式</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                </tr>
+            </table>
+            <table id="org_table_model" style="display: none">
+                <tr style="cursor: pointer" orgId="{id}" onclick="getOrgDetail(this)">
+                    <td>{name}</td>
+                    <td>{time}</td>
+                    <td>{linkman}</td>
+                    <td>{phone}</td>
+                    <td>{email}</td>
+                    <td>{act}</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="org_table" id="org_page">
+            <ul id="ul_page">
+            </ul>
+
+            <div style="float: left;margin: 0 10px 0 10px">
+                跳到第<input type="number"  value="" id="page_num" onchange="getOrderOrgList(this)"
+                          style="width: 40px;font-size: 13px;margin: 0 3px ;
+                                 "
+            >页
+            </div>
+            <span id="total_num">共1页 </span>
+            <span id="pre_num">第1页 </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

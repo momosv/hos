@@ -4,13 +4,13 @@ import cn.momosv.hos.dao.TbOrgManagerPOMapper;
 import cn.momosv.hos.email.MailService;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbDoctorPO;
-import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.OrgService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbOrgManagerVO;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -79,9 +80,10 @@ public class OrgServiceImpl implements OrgService {
             user.setActCode(1);//默认邮箱认证通过
             basicService.insertOne(user);
             map.put("new", "1");
+            doctor.setUserId(user.getId());
 
         }
-        doctor.setUserId(oldUser.getId());
+        doctor.setId(UUID.randomUUID().toString());
         doctor.setAccount(user.getEmail());
         doctor.setCreateTime(new Date());
         doctor.setIsLeave(0);
@@ -100,5 +102,26 @@ public class OrgServiceImpl implements OrgService {
         String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
         mailService.sendHtmlMail(doctor.getAccount(), map.get("orgName")+"人员添加通知", htmlText);
 
+    }
+
+    @Override
+    public void updateDoctor(TbDoctorPO doctorPO, TbBaseUserPO userPO, TbOrgManagerVO org, String deptName) throws IOException, TemplateException {
+        basicService.updateOne(doctorPO,true);
+        basicService.updateOne(userPO,true);
+        //下发邮件
+        Map<String, String> map = new HashedMap();
+        map.put("email", doctorPO.getAccount());
+        map.put("passwd", doctorPO.getPasswd());
+        map.put("orgName", ((TbOrgManagerVO)session.getAttribute("user")).getOrgName());
+        map.put("deptName", deptName);
+        map.put("position", doctorPO.getPosition());
+        map.put("name", doctorPO.getName());
+        map.put("isLeave", doctorPO.getIsLeave().equals(0)?"在职":"离职");
+        map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+        // 通过指定模板名获取FreeMarker模板实例
+        Template template = freeMarkerConfig.getConfiguration().getTemplate("org/updateDoctorEmail.html");
+        // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+        String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+        mailService.sendHtmlMail(doctorPO.getAccount(), map.get("orgName")+"人员修改通知", htmlText);
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,22 +30,24 @@ public class SysController extends BasicController{
     private SysService sysService;
 
     @RequestMapping("getOrgList")
-    public Object getOrgList(@RequestParam(name="type",defaultValue = "2") Integer type,
+    public Object getOrgList(@RequestParam(name="type",defaultValue = "3") Integer type,
                              @RequestParam(name="key",defaultValue = "") String key,
                              @RequestParam(name="pageNum",defaultValue = "1") Integer pageNum,
                              @RequestParam(name="pageSize",defaultValue = "10")Integer pageSize) throws Exception {
         TbSysManagerPO sys=validSysManager();
         BasicExample example=new BasicExample(TbMedicalOrgPO.class);
-        if(type.equals(0)){
-            example.createCriteria().andVarEqualTo("act_code","0");
+        BasicExample.Criteria criteria=example.createCriteria();
+        if(type.equals(0)){//待审批
+            criteria.andVarEqualTo("act_code","0");
         }
-        if(type.equals(1)){
-            example.createCriteria().andVarEqualTo("act_code","1");
+        if(type.equals(1)){//已经审批
+            criteria.andVarBetween("act_code","1","2");
         }
+
         if(!StringUtils.isEmpty(key)){
-            example.createCriteria().andVarLike("name",key);
+            criteria.andVarLike("name","%"+key+"%");
         }
-       Page page= PageHelper.startPage(pageNum, pageSize);
+        Page page= PageHelper.startPage(pageNum, pageSize);
         basicService.selectByExample(TbMedicalOrgPO.class,example);
         return Msg.success().add("page",new PageInfo(page.getResult()));
     }
@@ -71,16 +74,21 @@ public class SysController extends BasicController{
                              @RequestParam(name="pageSize",defaultValue = "10")Integer pageSize) throws Exception {
         TbSysManagerPO sys=validSysManager();
         BasicExample example=new BasicExample(TbBaseUserPO.class);
+        BasicExample.Criteria criteria=example.createCriteria();
+
         if(type.equals(Constants.USER_ALL_TYPE)){//提交认证的全部
-            example.createCriteria().andVarNotBetween("act_code",Constants.USER_EMAIL_UN_IDENTIFY.toString(),Constants.USER_EMAIL_IDENTIFY.toString());
+            criteria.andVarNotBetween("act_code",Constants.USER_EMAIL_UN_IDENTIFY.toString(),Constants.USER_EMAIL_IDENTIFY.toString());
         }else if(type.equals(Constants.USER_PASSED)){//通过
-            example.createCriteria().andVarNotEqualTo("act_code",Constants.USER_PASSED.toString());
+            criteria.andVarEqualTo("act_code",Constants.USER_PASSED.toString());
         }else if(type.equals(Constants.USER_UN_PASSED)){//不通过
-            example.createCriteria().andVarNotEqualTo("act_code",Constants.USER_UN_PASSED.toString());
+            criteria.andVarEqualTo("act_code",Constants.USER_UN_PASSED.toString());
         }else if(type.equals(Constants.USER_UN_APPROVED)){//未审批
-            example.createCriteria().andVarEqualTo("act_code",Constants.USER_UN_APPROVED.toString());
+            criteria.andVarEqualTo("act_code",Constants.USER_UN_APPROVED.toString());
         }else{//审批
-            example.createCriteria().andVarBetween("act_code",Constants.USER_PASSED.toString(),Constants.USER_UN_PASSED.toString());
+            criteria.andVarBetween("act_code",Constants.USER_PASSED.toString(),Constants.USER_UN_PASSED.toString());
+        }
+        if(!StringUtils.isEmpty(key)){
+            criteria.andVarLike("name","%"+key+"%");
         }
         Page page = PageHelper.startPage(pageNum, pageSize);
         basicService.selectByExample(example);

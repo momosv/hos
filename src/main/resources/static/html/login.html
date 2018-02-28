@@ -4,36 +4,123 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+<link rel="stylesheet" href="/css/index.css">
 <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
 <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
 <script src="/js/main.js"></script>
 
 </head>
-<body>
-<form id="loginForm" action="" method="post" style="">
-	<input type="text" id="loginAccount" name="account" value="" onchange="login_type_select('#typeSelect')"/>
-	<br/>
-	<input type="password" name="psw" value="" />
-	<br/>
-	<select id="typeSelect" name="type" onchange="login_type_select(this)">
-		<option value="normal">普通用户</option>
-		<option value ="doctor" >医疗人员</option>
-		<option value ="org">机构管理员</option>
-		<option value="sys">系统管理员</option>
-	</select>
-	<br/>
-	<select id="orgSelect" name="orgId" onchange="login_orgId_select(this)">
+<body style="width: 1100px;margin:0 auto;border: #66ccff 1px dashed">
+<div id="head" style="height: 120px">
+	<div >
+		<img src="/images/momo.jpg" style="height: 80px;width: 160px;position:absolute;">
+	</div>
+	<div id="head_menu" style="float: right;margin-right: 50px;margin-top: 20px;font-size: 18px">
+		<a id="a_head" href="/hos/login">首页</a>
+		<a class="a_sys a_head_child" id="a_sys_org" onclick="sys_org_manager()" style="display: none">机构管理</a>
+		<a class="a_sys a_head_child" id="a_sys_user" onclick="user_org_manager()" style="display: none">用户管理</a>
+		<a class="a_sys a_head_child" id="a_sys_owner" href="/hos/login" style="display: none">个人中心</a>
 
-	</select>
-	<br/>
-	<input type="button" value="goin" onclick="login()"/>
-</form>
+		<a class="a_org a_head_child" id="a_org_dept" onclick="org_dept_manager()" style="display: none">部门人员</a>
+		<a class="a_org a_head_child" id="a_org_perm" onclick="org_approve_manager" style="display: none">授权审批</a>
+		<a class="a_org a_head_child" id="a_org_owner" onclick="" style="display: none">个人中心</a>
 
+		<a class="a_doc a_head_child" id="a_doc_case" href="/hos/login" style="display: none">病历管理</a>
+		<a class="a_doc a_head_child" id="a_doc_owner" href="/hos/login" style="display: none">个人中心</a>
+
+		<a class="a_user a_head_child" id="a_user_case" href="/hos/login" style="display: none">病历记录</a>
+		<a class="a_user a_head_child" id="a_user_perm" href="/hos/login" style="display: none">授权管理</a>
+		<a class="a_user a_head_child" id="a_user_owner" href="/hos/login" style="display: none">个人中心</a>
+
+		<a id="a_relative" href="#">联系我们</a>
+		<a class="exit a_head_child" id="a_exit"  onclick="exit()" style="display: none">退出</a>
+		<input type="hidden" id="identity" value="${identity}">
+		<input type="hidden" id="userName" value="${user.name}">
+	</div>
+</div>
+<div id="body" style="width: 1100px;height: 600px">
+	<div id="head_welcome" >欢迎使用病人跟踪管理信息管理系统</div>
+	<br>
+	<input id="login_button" type="button" value="登录" onclick="login_form(this)" >
+
+	<div id="loginDiv" style="display: none">
+		<div style="text-align: right;font-size: 26px;color: #818181;width: 430px;height: 30px;position: relative;margin-bottom: 10px">
+			<span style="cursor: pointer;" onclick="hiddenLoginForm()">X</span>
+		</div>
+		<form id="loginForm" action="" method="post" style="top: -10px" >
+			<input type="text" class="login_input" id="loginAccount" name="account" placeholder="账号/邮箱" value="" onchange="login_type_select('#typeSelect')"/>
+			<br/>
+			<input type="password" class="login_input" placeholder="密码" name="psw" value="" />
+			<br/>
+			<select class="login_input" id="typeSelect" name="type" onchange="login_type_select(this)">
+				<option value="normal">普通用户</option>
+				<option value ="doctor" >医疗人员</option>
+				<option value ="org">机构管理员</option>
+				<option value="sys">系统管理员</option>
+			</select>
+			<br/>
+			<select class="login_input" id="orgSelect" name="orgId" onchange="login_orgId_select(this)">
+
+			</select>
+			<br/>
+			<input class="login_input goin"  type="button" value="登录" onclick="login()"/>
+		</form>
+		<div>
+			<a href="/allowHtml/findPasswd.html" target="_blank">忘记密码</a>|
+			<a href="/allowHtml/register.html" target="_blank">注册账号</a>
+		</div>
+	</div>
+
+
+</div>
+<div id="foot" style="height: 600px;width: 1100px;">
+	<div id="foot_title" style="position: inherit;height: 60px">
+		<div style="position:relative;width: 1100px;height:60px;font-size: 36px;color: #66ccff;margin:0 auto ;text-align: center">最新入驻机构</div>
+		<div style="font-size:18px;position: absolute;margin-top:-30px;margin-left: 1000px"><a href="/allowHtml/registerOrg.html" target="_blank">申请入驻>></a></div>
+	</div>
+	<div id="head_org_list_model" style="display: none">
+		<div class="head_org_list"  >
+			<img  src="">
+			<div class="content">
+				<h3>{name}</h3>
+				<textarea>
+					{desc}
+				</textarea>
+			</div>
+
+		</div>
+	</div>
+	<div id="head_org_list">
+		<#list orgList as ol>
+			<div class="head_org_list"  >
+				<img  src="${ol.image}">
+				<div class="content">
+					<h3 style="padding: 10px 10px">${ol.name}</h3>
+					<span style="padding: 0px 10px">地址：</span><span style="padding: 10px 10px">${ol.address}</span>
+					<textarea readonly="readonly" style="outline: none;resize: none;border: none;
+					position: inherit;padding: 10px 10px 10px 10px;height: 250px;width: 300px;overflow-y: hidden"
+					>${ol.desc}
+					</textarea>
+				</div>
+
+			</div>
+		</#list>
+	</div>
+</div>
+<div id="sys_page" >
+	<iframe src="" id="sys_iframe" scrolling=no style="border: none;overflow-y: hidden;overflow-y:hidden;width: 1100px;min-height: 900px"></iframe>
+</div>
+<div id="org_page">
+	<iframe src="" id="org_iframe" scrolling=no style="border: none;overflow-y: hidden;overflow-y:hidden;width: 1100px;min-height: 900px"></iframe>
+</div>
+<div id="doc_page">
+
+</div>
+<div id="user_page">
+
+</div>
+<div style="height: 250px;width: 1100px;"></div>
 </br>  
-<a class="btn btn-default" href="#" role="button">Link</a>
-<button class="btn btn-default" type="submit">Button</button>
-<input class="btn btn-default" type="button" value="Input">
-<input class="btn btn-default" type="submit" value="Submit">
-<br/>
+
 </body>
 </html>

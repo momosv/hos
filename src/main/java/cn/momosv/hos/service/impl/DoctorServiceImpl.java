@@ -2,9 +2,7 @@ package cn.momosv.hos.service.impl;
 
 import cn.momosv.hos.dao.TbCasePOMapper;
 import cn.momosv.hos.dao.TbDoctorPOMapper;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbCasePO;
-import cn.momosv.hos.model.TbOrgPatientPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
@@ -126,6 +124,35 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Object selectCaseList(BasicExample caseExample) {
         return caseMapper.selectCaseList(caseExample);
+    }
+
+    @Override
+    public void deleteCase(String[] ids) throws InstantiationException, IllegalAccessException {
+        BasicExample example=new BasicExample();
+        example.createCriteria().andVarIn("case_id",Arrays.asList(ids));
+        //住院
+        example.setClazz(TbHospitalizedPO.class);
+        basicService.deleteByExample(example);
+        //复诊、查房、术后小计
+        example.setClazz(TbReturnVisitPO.class);
+        basicService.deleteByExample(example);
+        //分析计划
+        example.setClazz(TbAnalyzePlanPO.class);
+        basicService.deleteByExample(example);
+        //出院
+        example.setClazz(TbLeaveHospitalPO.class);
+        basicService.deleteByExample(example);
+        //会诊
+        example.setClazz(TbConsultationPO.class);
+        basicService.deleteByExample(example);
+        //手术
+        example.setClazz(TbSurgeryPO.class);
+        basicService.deleteByExample(example);
+        //转院
+        example.setClazz(TbTransferPO.class);
+        basicService.deleteByExample(example);
+        //case
+        basicService.deleteByPrimaryKey(TbCasePO.class,ids);
     }
 
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {
