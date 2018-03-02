@@ -1,4 +1,10 @@
 
+function doc_case_manager(){
+    hide_head();
+    $("#doc_page").show();
+    $("#doc_iframe").attr("src",'/allowHtml/doc/caseHead.html');
+}
+
 //org 管理员
 function org_dept_manager(){
     hide_head();
@@ -89,6 +95,7 @@ function exit() {
                 alert(rs.extend.msg);
             }
         });
+        show_head();
 }
 function login_type_select(t) {
     if($(t).val()=="doctor"||$(t).val()=="org"){
@@ -142,7 +149,7 @@ $(
         $(".exit").show();
         $("#login_button").hide();
 
-    }else if($("#identity").val()=='doc'){
+    }else if($("#identity").val()=='doctor'){
         $(".a_doc").show();
         $(".exit").show();
         $("#login_button").hide();

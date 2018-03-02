@@ -40,11 +40,39 @@ public class TbHospitalizedPO  extends IBaseDBPO {
 
     private String medicalRecord;
 
+    private String diagnosis;//诊断
+    private String internal;//内科
+    private String external;//外科
+
     private String remark;
 
     private Date createTime;
 
     private Date updateTime;
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getInternal() {
+        return internal;
+    }
+
+    public void setInternal(String internal) {
+        this.internal = internal;
+    }
+
+    public String getExternal() {
+        return external;
+    }
+
+    public void setExternal(String external) {
+        this.external = external;
+    }
 
     public String getId() {
         return id;

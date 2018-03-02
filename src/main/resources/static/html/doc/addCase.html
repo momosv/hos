@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增病历</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/doc/case.js"></script>
+    <style type="text/css">
+        #head,#user,#case,#save_btn{
+            width: 1100px;
+            margin: 0 auto;
+            border: 1px orchid solid;
+        }
+    </style>
+    <script language="JavaScript">
+        $(function () {
+            var today=new Date();
+            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
+            $("#caseDate").val(submitTime);
+        });
+
+    </script>
+</head>
+<body>
+<div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
+    新增病历
+    <input type="hidden" id="patientId" >
+</div>
+<div id="user" style="">
+    <table style="height: 200px">
+        <tr>
+            <td>医疗机构：<input type="text" id="orgName" value="${orgName}"></td>
+            <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
+            <td>初诊时间：<input id="caseDate" type="datetime-local"  format="yyyy-MM-ddTHH:mm" value=""></td>
+            <td>门诊卡号：<input id="treatCode" type="text" value=""><input type="button" value="自动补全" onclick="getPatient()"></td>
+
+        </tr>
+        <tr>
+            <td>姓名：<input id="name" type="text" value=""></td>
+            <td>性别：<select id="sex"><option id="sex0"  value="0">女</option><option id="sex1" value="1">男</option></select></td>
+            <td>出生日期：<input id="birthday" type="date" format="yyyy-MM-dd" value="" onchange="setAge(this.value)"></td>
+            <td>年龄：<input id="age" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td>联系电话：<input id="telephone" type="text" value=""></td>
+            <td>邮箱：<input id="email" type="text" value=""></td>
+            <td>婚姻：<select id="maritalStatus"><option value="0">未婚</option><option value="1">已婚</option></select></td>
+            <td>身份证：<input id="idCard" type="text" value=""><input type="button" value="自动补全" onclick="getPatient()"></td>
+        </tr>
+        <tr>
+            <td>血型：<input id="bloodType" type="text" value=""></td>
+            <td>体重：<input id="weight" type="text" value="">kg</td>
+            <td colspan="2">过敏史：<input id="allergicHistory" type="text"></td>
+        </tr>
+        <tr>
+            <td>地址：<input id="address" type="text"></td>
+            <td>权限代理：<select id="isAgent"><option selected value="0">否</option><option value="1">是</option></select></td>
+            <td>床位号：<input id="bedNum" type="text"></td>
+        </tr>
+    </table>
+    <span>提示：如果该病人有任何看诊记录，输入门诊卡号或者身份证号可以自动补全信息</span>
+</div>
+<div id="case" style="height: 800px">
+    <table>
+        <tr>
+            <td>主诉</td>
+            <td><input id="complaint" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td>现病史</td>
+            <td><textarea id="preHistory"></textarea></td>
+        </tr>
+        <tr>
+            <td>既往史</td>
+            <td><textarea id="pastHistory"></textarea></td>
+        </tr>
+        <tr>
+            <td>手术史</td>
+            <td><textarea id="surgicalHistory"></textarea></td>
+        </tr>
+        <tr>
+            <td>家族史</td>
+            <td><textarea id="familyHistory"></textarea></td>
+        </tr>
+        <tr>
+            <td>体格检查</td>
+            <td><textarea id="phyExam"></textarea></td>
+        </tr>
+        <tr>
+            <td>医技报告</td>
+            <td><textarea id="medicalRecord"></textarea></td>
+        </tr>
+        <tr>
+            <td>诊断</td>
+            <td><textarea id="diagnosis"></textarea></td>
+        </tr>
+        <tr>
+            <td>处理</td>
+            <td><textarea id="treat"></textarea></td>
+        </tr>
+        <tr>
+            <td>备注</td>
+            <td><textarea id="remark"></textarea></td>
+        </tr>
+
+    </table>
+
+</div>
+<div id="save_btn" style="height: 100px;text-align: center">
+    <input type="button" class="btn" value="保存" onclick="saveCase()">
+</div>
+</body>
+</html>

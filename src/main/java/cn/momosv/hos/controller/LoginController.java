@@ -109,6 +109,11 @@ public class LoginController extends BasicController{
 					return failMsg("登录失败,该用户所属部门/科室不存在");
 				}
 				vo.setDeptCode(deptPO.getCode());
+				vo.setDeptName(deptPO.getName());
+				TbMedicalOrgPO orgPO= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,vo.getOrgId());
+				vo.setOrgName(orgPO.getName());
+				session.setAttribute("deptName",deptPO.getName());
+				session.setAttribute("orgName",orgPO.getName());
 				session.setAttribute("user",vo);
 				session.setAttribute("identity",DOCTOR);
 				return successMsg("登录成功").add("user",vo.getName()).add("identity",DOCTOR);

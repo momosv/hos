@@ -9,6 +9,7 @@ import cn.momosv.hos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("UserService")
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BasicService basicService;
 
+    /**
+     *
+     */
     @Autowired
     private TbBaseUserPOMapper userPOMapper;
 
@@ -60,6 +64,36 @@ public class UserServiceImpl implements UserService {
         userExample.createCriteria()
                 .andVarLike("user_id","%"+idCard+"%")
                 .andVarEqualTo("org_id",orgId);
+        return   basicService.selectByExample(userExample);
+    }
+
+    @Override
+    public List<TbOrgPatientPO> getPatientListByIdCardList(List<String> idCards, String orgId) throws Exception {
+        BasicExample userExample=new BasicExample(TbOrgPatientPO.class);
+        userExample.createCriteria()
+                .andVarIn("user_id",idCards)
+                .andVarEqualTo("org_id",orgId);
+        return   basicService.selectByExample(userExample);
+    }
+
+    @Override
+    public List<TbOrgPatientPO> getPatientListByName(String userName, String orgId) throws Exception {
+        List<TbBaseUserPO> u= getUserListByName(userName);
+        if(!u.isEmpty()){
+            List<String> list=new ArrayList<>(u.size());
+            for (TbBaseUserPO userPO : u) {
+                list.add(userPO.getIdCard());
+            }
+            return getPatientListByIdCardList(list,orgId);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<TbBaseUserPO> getUserListByName(String userName) throws Exception {
+        BasicExample userExample=new BasicExample(TbBaseUserPO.class);
+        userExample.createCriteria()
+                .andVarLike("name",userName);
         return   basicService.selectByExample(userExample);
     }
 

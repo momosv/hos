@@ -56,6 +56,24 @@ public class TbDoctorVO extends IBaseDBPO {
 
 
     private String deptCode;//部门编码
+    private String deptName;//部门编码
+    private String orgName;//部门编码
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
 
     public String getDeptCode() {
         return deptCode;

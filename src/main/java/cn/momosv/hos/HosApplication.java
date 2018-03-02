@@ -47,8 +47,12 @@ public class HosApplication extends SpringBootServletInitializer implements Embe
 				SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				if(source.matches(DatePattern.DATE_ONLY.getRegex())){
 					sdf =new SimpleDateFormat(DatePattern.DATE_ONLY.getPattern());
+				}else if(source.matches(DatePattern.DATE_ONLY2.getRegex())){
+					sdf =new SimpleDateFormat(DatePattern.DATE_ONLY2.getPattern());
 				}else if(source.matches(DatePattern.YEAR_MONTH.getRegex())){
 					sdf =new SimpleDateFormat(DatePattern.DATE_ONLY.getPattern());
+				}else if(source.matches(DatePattern.ISO_MINUTE.getRegex())){
+					sdf =new SimpleDateFormat(DatePattern.ISO_MINUTE.getPattern());
 				}
 
 				Date date = null;
@@ -61,4 +65,14 @@ public class HosApplication extends SpringBootServletInitializer implements Embe
 			}
 		};
 	}
+
+/*	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer(){
+		return new EmbeddedServletContainerCustomizer() {
+			@Override
+			public void customize(ConfigurableEmbeddedServletContainer container) {
+				container.setSessionTimeout(1);//单位为S
+			}
+		};
+	}*/
 }

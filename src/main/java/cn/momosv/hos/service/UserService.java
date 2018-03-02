@@ -17,5 +17,11 @@ public interface UserService {
 
     List<TbOrgPatientPO> getPatientListByIdCard(String idCard, String orgId) throws Exception;
 
+ List<TbOrgPatientPO> getPatientListByIdCardList(List<String> idCards, String orgId) throws Exception;
+
+    List<TbOrgPatientPO> getPatientListByName(String userName, String orgId) throws Exception;
+
+    List<TbBaseUserPO> getUserListByName(String userName) throws Exception;
+
     List<String> getPatientIdListByIdCard(String idCard) throws Exception;
 }

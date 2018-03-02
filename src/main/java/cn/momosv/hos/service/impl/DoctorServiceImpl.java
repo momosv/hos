@@ -10,9 +10,13 @@ import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.XDateUtils;
 import cn.momosv.hos.vo.TbDoctorVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -39,28 +43,13 @@ public class DoctorServiceImpl implements DoctorService {
         //查询是否有treat_code
         TbOrgPatientPO  patientPO =   userService.getPatientByIdCard(user.getIdCard(),tbDoctorVO.getOrgId());
         if(patientPO == null){//新增机构患者
-            patientPO.setId(UUID.randomUUID().toString());
-            patientPO.setCreateTime(new Date());
-            patientPO.setOrgId(tbDoctorVO.getOrgId());
-            patientPO.setUserId(user.getIdCard());
-            patientPO.setIsAgent(isAgent);
-            patientPO.setTreatCode(XDateUtils.dateToString(new Date(),"yyyymmddhhMMssSSS"));
-            boolean isExsit=true;
-            while(isExsit){
-                TbOrgPatientPO  oldPatientPO = userService.getPatientByTreatCode(patientPO.getTreatCode(),tbDoctorVO.getOrgId());
-                if(null==oldPatientPO){
-                    isExsit=false;
-                }else {
-                    patientPO.setTreatCode(XDateUtils.dateToString(new Date(),"yyyymmddhhMMssSSS"));
-                }
-            }
-            basicService.insertOne(patientPO);
+            patientPO= newPatient(user.getIdCard(), isAgent, tbDoctorVO);
         }
         //获取baseUser
         TbBaseUserPO oldUser= userService.getUserByIdCard(user.getIdCard());
-        Map<String, String> map = new HashedMap();
         if(null != oldUser){
-            map.put("new", "0");
+            user.setId(oldUser.getId());
+            basicService.updateOne(user,true);
         }else {
             user.setId(UUID.randomUUID().toString());
             user.setAccount(user.getEmail());
@@ -68,13 +57,40 @@ public class DoctorServiceImpl implements DoctorService {
             user.setCreateTime(new Date());
             user.setActCode(1);//默认邮箱认证通过
             basicService.insertOne(user);
-            map.put("new", "1");
+
         }
+        casePO.setId(UUID.randomUUID().toString());
         casePO.setPatientId(patientPO.getId());
         casePO.setDeptId(tbDoctorVO.getDeptId());
         casePO.setCreateTime(new Date());
         casePO.setIsArchived(0);//归档false
         basicService.insertOne(casePO);
+    }
+
+    @Override
+    public TbOrgPatientPO newPatient(String idCard, Integer isAgent, TbDoctorVO tbDoctorVO) throws Exception {
+        TbOrgPatientPO patientPO=new TbOrgPatientPO();
+        patientPO.setId(UUID.randomUUID().toString());
+        patientPO.setCreateTime(new Date());
+        patientPO.setOrgId(tbDoctorVO.getOrgId());
+        patientPO.setUserId(idCard);
+        patientPO.setIsAgent(isAgent);
+        String tc=XDateUtils.dateToString(new Date(),"yyyyMMddHHmmssSSS");
+        tc=tc.substring(3);
+        patientPO.setTreatCode(tc);
+        boolean isExsit=true;
+        while(isExsit){
+            TbOrgPatientPO  oldPatientPO = userService.getPatientByTreatCode(patientPO.getTreatCode(),tbDoctorVO.getOrgId());
+            if(null==oldPatientPO){
+                isExsit=false;
+            }else {
+                tc=XDateUtils.dateToString(new Date(),"yyyyMMddHHmmssSSS");
+                tc=tc.substring(3);
+                patientPO.setTreatCode(tc);
+            }
+        }
+        basicService.insertOne(patientPO);
+        return patientPO;
     }
 
     @Override
@@ -94,18 +110,16 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Msg getCaseList(String idCard, String treatCode, TbDoctorVO tbDoctorVO) throws Exception {
+    public Msg getCaseList(String key, String keyType, TbDoctorVO tbDoctorVO, int pageNum, int pageSize) throws Exception {
         //获取baseUser
         List<TbOrgPatientPO> patients=new ArrayList<>();
-        if(idCard!=null) {
-            patients = userService.getPatientListByIdCard(idCard,tbDoctorVO.getOrgId());
-            if(patients.size()<=0){
-                return Msg.success().add("list",null);
-            }
-        }else if(treatCode!=null){
-            patients = userService.getPatientListByTreatCode(treatCode,tbDoctorVO.getOrgId());
-            if(patients.size()<=0){
-                return Msg.success().add("list",null);
+        if(!StringUtils.isEmpty(key)) {
+            if(keyType.equals("name")){
+                patients =  userService.getPatientListByName(key,tbDoctorVO.getOrgId());
+            }else if(keyType.equals("idCard")){
+                patients = userService.getPatientListByIdCard(key,tbDoctorVO.getOrgId());
+            }else{
+                patients = userService.getPatientListByTreatCode(key,tbDoctorVO.getOrgId());
             }
         }
         List<String> patientIds=new ArrayList<>();
@@ -117,8 +131,13 @@ public class DoctorServiceImpl implements DoctorService {
         criteria.andVarEqualTo("doctor_id",tbDoctorVO.getId());
         if(patientIds.size()>0){
             criteria.andVarIn("patient_id",patientIds);
+        }else if(!StringUtils.isEmpty(key)){
+            criteria.andVarEqualTo("patient_id","-1");
         }
-        return Msg.success().add("list",doctorService.selectCaseList(caseExample));
+        caseExample.setOrderByClause("create_time desc");
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        doctorService.selectCaseList(caseExample);
+        return Msg.success().add("page",new PageInfo<>(page.getResult()));
     }
 
     @Override

@@ -46,6 +46,7 @@ public class TbCasePO extends IBaseDBPO{
     private String familyHistory;
 
     private String surgicalHistory;
+    private String allergicHistory;
 
     private String phyExam;
 
@@ -67,7 +68,7 @@ public class TbCasePO extends IBaseDBPO{
 
     private String toDeptName;
 
-    private String fromOrg;
+    private String fromOrgName;
 
     private String toOrg;
 
@@ -80,6 +81,14 @@ public class TbCasePO extends IBaseDBPO{
     private String archiveRemark;
 
     private String title;
+
+    public String getAllergicHistory() {
+        return allergicHistory;
+    }
+
+    public void setAllergicHistory(String allergicHistory) {
+        this.allergicHistory = allergicHistory;
+    }
 
     public String getTitle() {
         return title;
@@ -249,12 +258,12 @@ public class TbCasePO extends IBaseDBPO{
         this.toDeptName = toDeptName == null ? null : toDeptName.trim();
     }
 
-    public String getFromOrg() {
-        return fromOrg;
+    public String getFromOrgName() {
+        return fromOrgName;
     }
 
-    public void setFromOrg(String fromOrg) {
-        this.fromOrg = fromOrg == null ? null : fromOrg.trim();
+    public void setFromOrgName(String fromOrgName) {
+        this.fromOrgName = fromOrgName == null ? null : fromOrgName.trim();
     }
 
     public String getToOrg() {

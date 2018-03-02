@@ -5,6 +5,9 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="case_id" property="caseId" jdbcType="VARCHAR" />
     <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="diagnosis" property="diagnosis" jdbcType="VARCHAR" />
+    <result column="internal" property="internal" jdbcType="VARCHAR" />
+    <result column="external" property="external" jdbcType="VARCHAR" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
     <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
@@ -13,7 +16,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, cause, summary, phy_exam, medical_record, remark, create_time, update_time
+    id, case_id, cause,diagnosis,internal ,external,summary, phy_exam, medical_record, remark, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

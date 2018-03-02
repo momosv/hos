@@ -1,23 +1,19 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
-import cn.momosv.hos.dao.TbConsultationPOMapper;
 import cn.momosv.hos.model.*;
+import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.List;
 
@@ -27,20 +23,51 @@ public class DoctorController extends BasicController {
 
     @Autowired
     DoctorService doctorService;
+    @Autowired
+    UserService userService;
 
     /**
      * 初诊
      * @param user
      * @param casePO
      * @param isAgent
-     * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping("addCase")
-    public Object addCase(TbBaseUserPO user, TbCasePO casePO,Integer isAgent/*是否代理*/,String id) throws Exception {
-        doctorService.addCase(user,casePO,isAgent,validDoctor(),id);
+    public Object addCase(TbBaseUserPO user, TbCasePO casePO,Date caseDate,Integer isAgent/*是否代理*/,String patientId) throws Exception {
+        TbDoctorVO doc = validDoctor();
+        casePO.setDoctorId(doc.getId());
+        casePO.setOrgId(doc.getOrgId());
+        casePO.setFromDeptName(doc.getDeptName());
+        casePO.setFromOrgName(doc.getDeptName());
+        doctorService.addCase(user,casePO,isAgent,validDoctor(),patientId);
         return successMsg("保存成功");
+    }
+
+    @RequestMapping("getCasePatient")
+    public Object casePatient(String idCard,String treatCode) throws Exception {
+        if(StringUtils.isEmpty(treatCode)&&StringUtils.isEmpty(idCard)){
+            return failMsg("门诊卡号或者身份证号不能为空");
+        }
+        TbDoctorVO doc = validDoctor();
+        BasicExample example = new BasicExample(TbOrgPatientPO.class);
+        BasicExample.Criteria criteria=example.createCriteria();
+        criteria.andVarEqualTo("org_id",doc.getOrgId());
+        if(!StringUtils.isEmpty(idCard)){
+            criteria.andVarEqualTo("user_id",idCard);
+        }else if(!StringUtils.isEmpty(treatCode)){
+            criteria.andVarEqualTo("treat_code",treatCode);
+        }
+        TbOrgPatientPO patientPO = (TbOrgPatientPO) basicService.selectOneByExample(example);
+        if(patientPO == null&&!StringUtils.isEmpty(idCard)){//新增机构患者
+            patientPO= doctorService.newPatient(idCard, 1, doc);
+        }
+        TbBaseUserPO userPO = null;
+        if(null!=patientPO){
+            userPO = userService.getUserByIdCard(patientPO.getUserId());
+        }
+        return successMsg("保存成功").add("patient",patientPO).add("user",userPO);
     }
     /**
      * 详情
@@ -50,7 +77,14 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("getCase")
     public Object getCase(String id) throws Exception {
-        return successMsg("获取成功").add("detail",basicService.selectByPrimaryKey(TbCasePO.class,id));
+       TbCasePO casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,id);
+        Msg msg=new Msg();
+       if(null!=casePO){
+            TbOrgPatientPO patientPO= (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,casePO.getPatientId());
+            msg= (Msg) casePatient(patientPO.getUserId(),null);
+       }
+       msg.setMsg("获取成功").add("case",casePO);
+        return msg;
     }
 
 
@@ -81,7 +115,7 @@ public class DoctorController extends BasicController {
      * @throws Exception
      */
     @RequestMapping("deleteCase")
-    public Object deleteCase(String[] ids) throws Exception {
+    public Object deleteCase(String ids[]) throws Exception {
         TbDoctorVO doctorVO=validDoctor();
         List<TbCasePO> olds=basicService.selectByPrimaryKey(TbCasePO.class,ids);
         if(0 == olds.size()){
@@ -103,12 +137,15 @@ public class DoctorController extends BasicController {
      * @throws Exception
      */
     @RequestMapping("addHospitalized")
-    public Object addHospitalized(TbHospitalizedPO hospitalized) throws Exception {
-        validCase(hospitalized.getCaseId());
+    public Object addHospitalized(TbHospitalizedPO hospitalized,String bedNum) throws Exception {
         validCase(hospitalized.getCaseId());
         hospitalized.setId(UUID36());
         hospitalized.setCreateTime(new Date());
         basicService.insertOne(hospitalized);
+        TbCasePO casePO=new TbCasePO();
+        casePO.setId(hospitalized.getCaseId());
+        casePO.setBedNum(bedNum);
+        basicService.updateOne(casePO,true);
         return successMsg("保存成功");
     }
 
@@ -521,12 +558,10 @@ public class DoctorController extends BasicController {
      * @throws Exception
      */
     @RequestMapping("getCaseList")
-    public Object getCaseList(String idCard, String treatCode,
+    public Object getCaseList(String key, String keyType,
                               @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
                               @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
-        Page page = PageHelper.startPage(pageNum, pageSize);
-        doctorService.getCaseList(idCard,treatCode,validDoctor());
-        return Msg.success().add("page",new PageInfo(page.getResult()));
+        return  doctorService.getCaseList(key,keyType,validDoctor(),pageNum, pageSize);
     }
 
     @RequestMapping("getPatient")

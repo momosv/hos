@@ -7,6 +7,7 @@ public enum DatePattern{
     DATE_TIME("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"),
     DATE_TIME_FULL("yyyy-MM-dd HH:mm:ss,SSS", "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{3}$"),
     DATE_ONLY("yyyy-MM-dd", "^\\d{4}-\\d{2}-\\d{2}$"),
+    DATE_ONLY2("yyyy/MM/dd", "^\\d{4}/\\d{2}/\\d{2}$"),
     YEAR_MONTH("yyyy-MM", "^\\d{4}-\\d{2}$"),
     DATE_TIME_FULL_NUM("yyyyMMddHHmmssSSS", "^\\d{17}$"),;
 
