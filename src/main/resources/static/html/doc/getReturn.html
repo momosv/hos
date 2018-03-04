@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加</title>
+    <title>复诊详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/js/common.js"></script>
@@ -16,18 +16,16 @@
     </style>
     <script language="JavaScript">
         $(function () {
-            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
-            getCaseDetail();
+            getCaseSecondDetail(1);
+            getReturn();
         });
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">复诊</span>
-    <input type="hidden" id="patientId" >
+    <span id="title0">复诊详情</span>
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -93,7 +91,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveReturn(1)">
+    <input type="button" class="btn" value="保存" onclick="updateReturn(1)">
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@ $(function () {
 
 });
 
-function getCaseSecondDetail(){
+function getCaseSecondDetail(isTreat){
     $.ajax({
         url: "/doc/getCase",
         type: 'POST',
@@ -37,6 +37,7 @@ function getCaseSecondDetail(){
                 if(caseo!=null){
                     $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-ddThh:mm"));
                     $("#bedNum").val(caseo.bedNum);
+                    $("#complaint").val(caseo.complaint);
                 }
             }else {
                 jQuery.alertWindow(re.msg);
@@ -333,6 +334,63 @@ function saveReturn(type) {
                 jQuery.alertWindow("登录已经失效，请重新登录！",10000);
             }else  if (re.code != 200) {
                 jQuery.alertWindow("保存成功");
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+
+
+function getReturn() {
+    $.ajax({
+        url: "/doc/getReturnVisit",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }else  if (re.code != 200) {
+                var detail =re.extend.detail;
+                $("#returnDate").val(new Date(detail.createTime).Format("yyyy-MM-ddThh:mm"));
+                   $("#summary").val(detail.summary);
+                    $("#phyExam").val(detail.phyExam);
+                     $("#medicalRecord").val(detail.medicalRecord);
+                     $("#diagnosis").val(detail.diagnosis);
+                     $("#treat").val(detail.treat);
+                    $("#remark").val(detail.remark);
+            }else{
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+
+function updateReturn() {
+    $.ajax({
+        url: "/doc/updateReturnVisit",
+        type: 'POST',
+        data: {
+            Id: $("#secondId").val(),
+            summary: $("#summary").val(),
+            phyExam: $("#phyExam").val(),
+            medicalRecord: $("#medicalRecord").val(),
+            diagnosis: $("#diagnosis").val(),
+            treat: $("#treat").val(),
+            remark: $("#remark").val(),
+            createTime: $("#returnDate").val(),
+            type: type,
+        },
+        success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }else  if (re.code != 200) {
+                jQuery.alertWindow("保存成功");
+                getReturn(1);
             }else {
                 jQuery.alertWindow(re.msg);
             }
