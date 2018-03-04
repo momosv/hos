@@ -9,14 +9,14 @@
     <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
     <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
     <result column="opinion" property="opinion" jdbcType="VARCHAR" />
-    <result column="impression" property="impression" jdbcType="VARCHAR" />
+    <result column="hos_and_dept" property="hosAndDept" jdbcType="VARCHAR" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="doctors" property="doctors" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, aim, summary, phy_exam, medical_record, opinion, impression, suggestion, 
+    id, case_id, aim, summary, phy_exam, medical_record, opinion, hos_and_dept, suggestion,
     create_time, doctors, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

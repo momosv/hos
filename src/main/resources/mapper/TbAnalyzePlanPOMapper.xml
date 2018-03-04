@@ -9,13 +9,13 @@
     <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
     <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
     <result column="treat" property="treat" jdbcType="VARCHAR" />
-    <result column="analyze" property="analyze" jdbcType="VARCHAR" />
+    <result column="analyzes" property="analyzes" jdbcType="VARCHAR" />
     <result column="plan" property="plan" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, summary, pre_state, phy_exam, medical_record, treat, analyze, plan, 
+    id, case_id, summary, pre_state, phy_exam, medical_record, treat, analyzes, plan,
     remark, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

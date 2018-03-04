@@ -17,6 +17,7 @@
     <script language="JavaScript">
         $(function () {
             getCaseDetail();
+            getCaseSecondList();
         });
 
     </script>
@@ -107,36 +108,63 @@
         </tr>
 
     </table>
-    <div id="case_right" style="height: 800px;width: 300px;float: right;border: pink 1px solid">
+    <div id="case_right" style="overflow-y: auto;height: 800px;width: 300px;float: right;border: pink 1px solid">
         <ul>
             <li>复诊<input type="button" value="+" class="btn" onclick="addSecond(1)">
-                <ul>
-                    <li>1</li>
-                    <li>2</li>
+                <ul id="returnL">
+                    <li  ><span id="" onclick="getSecond(1,this)"></span></li>
                 </ul>
             </li>
             <li>住院<input type="button" value="+" class="btn" onclick="addSecond(2)">
-                <ul>
-                    <li>1</li>
-                    <li>2</li>
-                </ul></li>
+                <ul  id="hosL">
+                    <li>1<input type="button" value="+" class="btn" onclick="addSecondReturn(2)">
+                        <ul>
+                            <li>1<input id type="button" value="+" class="btn" onclick="getSecondReturn(2)"></li>
+                            <li>2</li>
+                        </ul>
+                    </li>
+                    <li>2<input type="button" value="+" class="btn" onclick="addSecondReturn(2)">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <li>手术<input type="button" value="+" class="btn" onclick="addSecond(3)">
-                <ul>
-                    <li>1</li>
-                    <li>2</li>
-                </ul></li>
+                <ul id="surL">
+                    <li>1<input type="button" value="+" class="btn" onclick="addSecondReturn(3)">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                        </ul>
+                    </li>
+                    <li>2<input type="button" value="+" class="btn" onclick="addSecondReturn(3)">
+                        <ul>
+                            <li>1</li>
+                            <li>2</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <li>分析<input type="button" value="+" class="btn" onclick="addSecond(4)">
-                <ul>
+                <ul  id="anaL">
                     <li>1</li>
                     <li>2</li>
                 </ul></li>
             <li>会诊<input type="button" value="+" class="btn" onclick="addSecond(5)">
-                <ul>
+                <ul  id="conL">
                     <li>1</li>
                     <li>2</li>
                 </ul></li>
             <li>转院<input type="button" value="+" class="btn" onclick="addSecond(6)">
-                <ul>
+                <ul  id="traL">
+                    <li>1</li>
+                    <li>2</li>
+                </ul>
+            </li>
+            <li>出院<input type="button" value="+" class="btn" onclick="addSecond(7)">
+                <ul  id="leaL">
                     <li>1</li>
                     <li>2</li>
                 </ul>

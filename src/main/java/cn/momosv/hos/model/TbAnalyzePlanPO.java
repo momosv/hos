@@ -20,7 +20,7 @@ public class TbAnalyzePlanPO extends IBaseDBPO{
 
     private String treat;
 
-    private String analyze;
+    private String analyzes;
 
     private String plan;
 
@@ -84,12 +84,12 @@ public class TbAnalyzePlanPO extends IBaseDBPO{
         this.treat = treat == null ? null : treat.trim();
     }
 
-    public String getAnalyze() {
-        return analyze;
+    public String getAnalyzes() {
+        return analyzes;
     }
 
-    public void setAnalyze(String analyze) {
-        this.analyze = analyze == null ? null : analyze.trim();
+    public void setAnalyzes(String analyzes) {
+        this.analyzes = analyzes == null ? null : analyzes.trim();
     }
 
     public String getPlan() {

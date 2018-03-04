@@ -1,11 +1,13 @@
-package cn.momosv.hos.model;
+package cn.momosv.hos.vo;
 
+import cn.momosv.hos.model.TbReturnVisitPO;
 import cn.momosv.hos.model.base.IBaseDBPO;
 import cn.momosv.hos.util.RegexUtils;
 
 import java.util.Date;
+import java.util.List;
 
-public class TbSurgeryPO   extends IBaseDBPO {
+public class TbSurgeryVO extends IBaseDBPO {
     @Override
     public String _getTableName() {
         String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
@@ -53,6 +55,16 @@ public class TbSurgeryPO   extends IBaseDBPO {
     private String surgeon;
 
     private Date createTime;
+
+    private List<TbReturnVisitPO> returnList;
+
+    public List<TbReturnVisitPO> getReturnList() {
+        return returnList;
+    }
+
+    public void setReturnList(List<TbReturnVisitPO> returnList) {
+        this.returnList = returnList;
+    }
 
     public String getProcess() {
         return process;

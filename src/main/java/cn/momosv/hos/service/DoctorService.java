@@ -20,4 +20,8 @@ public interface DoctorService {
     Object selectCaseList(BasicExample caseExample);
 
     void deleteCase(String[] ids) throws InstantiationException, IllegalAccessException;
+
+    void getHosList(String caseId);
+
+    Object getSecondList(String caseId);
 }

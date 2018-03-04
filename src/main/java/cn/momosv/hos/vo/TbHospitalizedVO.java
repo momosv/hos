@@ -1,11 +1,13 @@
-package cn.momosv.hos.model;
+package cn.momosv.hos.vo;
 
+import cn.momosv.hos.model.TbReturnVisitPO;
 import cn.momosv.hos.model.base.IBaseDBPO;
 import cn.momosv.hos.util.RegexUtils;
 
 import java.util.Date;
+import java.util.List;
 
-public class TbConsultationPO extends IBaseDBPO {
+public class TbHospitalizedVO extends IBaseDBPO {
     @Override
     public String _getTableName() {
         String name= RegexUtils.humpToLine2(this.getClass().getSimpleName());
@@ -27,11 +29,12 @@ public class TbConsultationPO extends IBaseDBPO {
     public void _setPKValue(Object var1) {
         this.id= (String) var1;
     }
+
     private String id;
 
     private String caseId;
 
-    private String aim;
+    private String cause;
 
     private String summary;
 
@@ -39,17 +42,48 @@ public class TbConsultationPO extends IBaseDBPO {
 
     private String medicalRecord;
 
-    private String opinion;
+    private String diagnosis;//诊断
+    private String internal;//内科
+    private String external;//外科
 
-    private String hosAndDept;
-
-    private String suggestion;
+    private String remark;
 
     private Date createTime;
 
-    private String doctors;
+    private Date updateTime;
 
-    private String remark;
+    private List<TbReturnVisitPO> returnList;
+
+    public List<TbReturnVisitPO> getReturnList() {
+        return returnList;
+    }
+
+    public void setReturnList(List<TbReturnVisitPO> returnList) {
+        this.returnList = returnList;
+    }
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getInternal() {
+        return internal;
+    }
+
+    public void setInternal(String internal) {
+        this.internal = internal;
+    }
+
+    public String getExternal() {
+        return external;
+    }
+
+    public void setExternal(String external) {
+        this.external = external;
+    }
 
     public String getId() {
         return id;
@@ -67,12 +101,12 @@ public class TbConsultationPO extends IBaseDBPO {
         this.caseId = caseId == null ? null : caseId.trim();
     }
 
-    public String getAim() {
-        return aim;
+    public String getCause() {
+        return cause;
     }
 
-    public void setAim(String aim) {
-        this.aim = aim == null ? null : aim.trim();
+    public void setCause(String cause) {
+        this.cause = cause == null ? null : cause.trim();
     }
 
     public String getSummary() {
@@ -99,28 +133,12 @@ public class TbConsultationPO extends IBaseDBPO {
         this.medicalRecord = medicalRecord == null ? null : medicalRecord.trim();
     }
 
-    public String getOpinion() {
-        return opinion;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setOpinion(String opinion) {
-        this.opinion = opinion == null ? null : opinion.trim();
-    }
-
-    public String getHosAndDept() {
-        return hosAndDept;
-    }
-
-    public void setHosAndDept(String hosAndDept) {
-        this.hosAndDept = hosAndDept == null ? null : hosAndDept.trim();
-    }
-
-    public String getSuggestion() {
-        return suggestion;
-    }
-
-    public void setSuggestion(String suggestion) {
-        this.suggestion = suggestion == null ? null : suggestion.trim();
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreateTime() {
@@ -131,19 +149,11 @@ public class TbConsultationPO extends IBaseDBPO {
         this.createTime = createTime;
     }
 
-    public String getDoctors() {
-        return doctors;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setDoctors(String doctors) {
-        this.doctors = doctors == null ? null : doctors.trim();
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

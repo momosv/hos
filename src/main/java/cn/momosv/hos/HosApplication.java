@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +45,9 @@ public class HosApplication extends SpringBootServletInitializer implements Embe
 		return new Converter<String, Date>() {
 			@Override
 			public Date convert(String source) {
+				if(StringUtils.isEmpty(source)){
+					return null;
+				}
 				SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				if(source.matches(DatePattern.DATE_ONLY.getRegex())){
 					sdf =new SimpleDateFormat(DatePattern.DATE_ONLY.getPattern());

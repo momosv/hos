@@ -10,6 +10,8 @@ import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.XDateUtils;
 import cn.momosv.hos.vo.TbDoctorVO;
+import cn.momosv.hos.vo.TbHospitalizedVO;
+import cn.momosv.hos.vo.TbSurgeryVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -172,6 +174,46 @@ public class DoctorServiceImpl implements DoctorService {
         basicService.deleteByExample(example);
         //case
         basicService.deleteByPrimaryKey(TbCasePO.class,ids);
+    }
+
+    @Override
+    public void getHosList(String caseId) {
+
+        doctorMapper.getHosList(caseId);
+    }
+
+    @Override
+    public Object getSecondList(String caseId) {
+        //住院
+        //复诊、查房、术后小计
+        //分析计划
+        //出院
+        //会诊
+        //手术
+        //转院
+        List<TbHospitalizedVO> hosList= doctorMapper.getHosList(caseId);
+        List<TbAnalyzePlanPO> anaList=   doctorMapper.getAnalyzeList(caseId);
+        List<TbLeaveHospitalPO> leaList=   doctorMapper.getLeaveHosList(caseId);
+        List<TbReturnVisitPO> returnList=  doctorMapper.getReturnList(caseId);
+        List<TbSurgeryVO> surList=  doctorMapper.getSurgeryList(caseId);
+        List<TbTransferPO> traList=  doctorMapper.getTransferList(caseId);
+        List<TbConsultationPO> conList=  doctorMapper.getConsultationList(caseId);
+        for (TbHospitalizedVO vo : hosList) {
+            List list=doctorMapper.getReturnSecondList(caseId,vo.getId(),2);
+            vo.setReturnList(list);
+        }
+        for (TbSurgeryVO vo : surList) {
+            List list=doctorMapper.getReturnSecondList(caseId,vo.getId(),3);
+            vo.setReturnList(list);
+        }
+        return Msg.success("success")
+                .add("hosList",hosList)
+                .add("anaList",anaList)
+                .add("leaList",leaList)
+                .add("returnList",returnList)
+                .add("surList",surList)
+                .add("traList",traList)
+                .add("conList",conList);
     }
 
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {

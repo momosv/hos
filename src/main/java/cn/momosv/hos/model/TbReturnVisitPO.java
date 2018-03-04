@@ -32,6 +32,8 @@ public class TbReturnVisitPO  extends IBaseDBPO {
 
     private String caseId;
 
+    private String secondId;//住院，手术
+
     private String summary;
 
     private String phyExam;
@@ -42,11 +44,19 @@ public class TbReturnVisitPO  extends IBaseDBPO {
 
     private String remark;
 
-    private Byte type;
+    private Integer type;
 
     private Date createTime;
 
     private Date updateTime;
+
+    public String getSecondId() {
+        return secondId;
+    }
+
+    public void setSecondId(String secondId) {
+        this.secondId = secondId;
+    }
 
     public String getId() {
         return id;
@@ -104,11 +114,11 @@ public class TbReturnVisitPO  extends IBaseDBPO {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

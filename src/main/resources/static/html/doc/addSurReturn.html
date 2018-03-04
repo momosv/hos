@@ -25,16 +25,17 @@
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">新增住院</span>
+    <span id="title0">术后小计</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
         <tr>
             <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
             <td>初诊时间：<input id="caseDate1" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>入院时间：<input id="hosDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
+            <td>记录时间：<input id="returnDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
             <td>门诊卡号：<input id="treatCode" type="text" value=""></td>
 
         </tr>
@@ -58,28 +59,20 @@
         <tr>
             <td>地址：<input id="address" type="text"></td>
             <td>权限代理：<select id="isAgent"><option selected value="0">否</option><option value="1">是</option></select></td>
-            <td>床位号：<input id="bedNum" type="text"></td>
         </tr>
     </table>
 </div>
 <div id="case" style="height: 800px">
     <table>
         <tr>
-            <td>入院原因：</td>
-            <td><input id="cause" type="text" value=""></td>
+            <td>初诊主诉</td>
+            <td><input id="complaint" type="text" value=""></td>
         </tr>
         <tr>
             <td>病情摘要</td>
             <td><input id="summary" type="text" value=""></td>
         </tr>
-        <tr>
-            <td>内科情况</td>
-            <td><textarea id="internal"></textarea></td>
-        </tr>
-        <tr>
-            <td>外科情况</td>
-            <td><textarea id="external"></textarea></td>
-        </tr>
+
         <tr>
             <td>体格检查</td>
             <td><textarea id="phyExam"></textarea></td>
@@ -89,9 +82,10 @@
             <td><textarea id="medicalRecord"></textarea></td>
         </tr>
         <tr>
-            <td>入院诊断</td>
-            <td><input id="diagnosis"></input></td>
-        </tr>   <tr>
+            <td>处理</td>
+            <td><textarea id="treat"></textarea></td>
+        </tr>
+        <tr>
             <td>备注</td>
             <td><textarea id="remark"></textarea></td>
         </tr>
@@ -100,7 +94,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveHospitalized()">
+    <input type="button" class="btn" value="保存" onclick="saveReturn(3)">
 </div>
 </body>
 </html>

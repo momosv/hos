@@ -140,7 +140,7 @@ public class DoctorController extends BasicController {
     public Object addHospitalized(TbHospitalizedPO hospitalized,String bedNum) throws Exception {
         validCase(hospitalized.getCaseId());
         hospitalized.setId(UUID36());
-        hospitalized.setCreateTime(new Date());
+        if(hospitalized.getCreateTime()==null)hospitalized.setCreateTime(new Date());
         basicService.insertOne(hospitalized);
         TbCasePO casePO=new TbCasePO();
         casePO.setId(hospitalized.getCaseId());
@@ -265,11 +265,11 @@ public class DoctorController extends BasicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("addAnalyzePlan")
+    @RequestMapping("addAnalyze")
     public Object addAnalyzePlan(TbAnalyzePlanPO planPO) throws Exception {
         validCase(planPO.getCaseId());
         planPO.setId(UUID36());
-        planPO.setCreateTime(new Date());
+       if(planPO.getCreateTime()==null)planPO.setCreateTime(new Date());
         basicService.insertOne(planPO);
         return successMsg("保存成功");
     }
@@ -280,7 +280,7 @@ public class DoctorController extends BasicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("getAnalyzePlan")
+    @RequestMapping("getAnalyze")
     public Object getAnalyzePlan(String id) throws Exception {
         return successMsg("获取成功").add("detail",basicService.selectByPrimaryKey(TbAnalyzePlanPO.class,id));
     }
@@ -290,10 +290,10 @@ public class DoctorController extends BasicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("updateAnalyzePlan")
+    @RequestMapping("updateAnalyze")
     public Object updateAnalyzePlan(TbAnalyzePlanPO planPO) throws Exception {
         TbDoctorVO doctorVO=validDoctor();
-        TbReturnVisitPO old= (TbReturnVisitPO) basicService.selectByPrimaryKey(TbAnalyzePlanPO.class,planPO.getId());
+        TbAnalyzePlanPO old= (TbAnalyzePlanPO) basicService.selectByPrimaryKey(TbAnalyzePlanPO.class,planPO.getId());
         if(null== old){
             return failMsg("分析&诊疗计划不存在或者已经被删除");
         }
@@ -307,10 +307,10 @@ public class DoctorController extends BasicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("deleteAnalyzePlan")
+    @RequestMapping("deleteAnalyze")
     public Object deleteAnalyzePlan(String id) throws Exception {
         TbDoctorVO doctorVO=validDoctor();
-        TbReturnVisitPO old= (TbReturnVisitPO) basicService.selectByPrimaryKey(TbReturnVisitPO.class,id);
+        TbAnalyzePlanPO old= (TbAnalyzePlanPO) basicService.selectByPrimaryKey(TbReturnVisitPO.class,id);
         if(null== old){
             return failMsg("复分析&诊疗计划不存在或者已经被删除");
         }
@@ -329,6 +329,7 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("addLeaveHospital")
     public Object addLeaveHospital(TbLeaveHospitalPO leaveHospital) throws Exception {
+        TbDoctorVO doctorVO=validDoctor();
         validCase(leaveHospital.getCaseId());
         leaveHospital.setId(UUID36());
         leaveHospital.setCreateTime(new Date());
@@ -391,9 +392,10 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("addConsultation")
     public Object addConsultation(TbConsultationPO consultation) throws Exception {
+        TbDoctorVO doctorVO=validDoctor();
         validCase(consultation.getCaseId());
         consultation.setId(UUID36());
-        consultation.setCreateTime(new Date());
+        if(consultation.getCreateTime()==null)consultation.setCreateTime(new Date());
         basicService.insertOne(consultation);
         return successMsg("保存成功");
     }
@@ -455,10 +457,11 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("addSurgery")
     public Object addSurgery(TbSurgeryPO surgery) throws Exception {
-        Object x = validCase(surgery.getCaseId());
-        if (x != null) return x;
+        validCase(surgery.getCaseId());
         surgery.setId(UUID36());
-        surgery.setCreateTime(new Date());
+        if(surgery.getCreateTime()==null) {
+            surgery.setCreateTime(new Date());
+        }
         basicService.insertOne(surgery);
         return successMsg("保存成功");
     }
@@ -497,10 +500,10 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("addTransfer")
     public Object addTransfer(TbTransferPO transfer) throws Exception {
-        Object x = validCase(transfer.getCaseId());
-        if (x != null) return x;
+        TbDoctorVO doctorVO=validDoctor();
+        validCase(transfer.getCaseId());
         transfer.setId(UUID36());
-        transfer.setCreateTime(new Date());
+        if(transfer.getCreateTime() == null) transfer.setCreateTime(new Date());
         basicService.insertOne(transfer);
         return successMsg("保存成功");
     }
@@ -570,6 +573,15 @@ public class DoctorController extends BasicController {
             return failMsg("身份证或者机构治疗编码不能为空");
         }
         return  doctorService.getPatient(idCard,treatCode, validDoctor());
+    }
+
+    @RequestMapping("getCaseSecondList")
+    public Object getCaseSecondList(String caseId) throws Exception {
+        validDoctor();
+        validCase(caseId);
+        //住院
+        return doctorService.getSecondList(caseId);
+
     }
 
 

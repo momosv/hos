@@ -4,17 +4,18 @@
   <resultMap id="BaseResultMap" type="cn.momosv.hos.model.TbReturnVisitPO" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="second_id" property="secondId" jdbcType="VARCHAR" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="phy_exam" property="phyExam" jdbcType="VARCHAR" />
     <result column="medical_record" property="medicalRecord" jdbcType="VARCHAR" />
     <result column="treat" property="treat" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, summary, phy_exam, medical_record, treat, remark, type, create_time, 
+    id, case_id, second_id, summary, phy_exam, medical_record, treat, remark, type, create_time,
     update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

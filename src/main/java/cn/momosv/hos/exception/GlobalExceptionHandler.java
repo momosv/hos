@@ -20,6 +20,9 @@ public class GlobalExceptionHandler{
     @ExceptionHandler
     private Msg exceptionHandle(Exception e) {
         e.printStackTrace();
+        if(e.getMessage().equals("nullUser")){
+            return Msg.fail().setCode(-1).add("msg", e.getMessage());
+        }
         if (e instanceof LoginException) {
             return Msg.fail().add("msg", e.getMessage());
         }

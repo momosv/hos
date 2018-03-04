@@ -18,14 +18,14 @@
         $(function () {
             var today=new Date();
             var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
+            $("#transferDate").val(submitTime);
             getCaseDetail();
         });
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">新增住院</span>
+    <span id="title0">转院记录</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
 </div>
@@ -34,7 +34,7 @@
         <tr>
             <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
             <td>初诊时间：<input id="caseDate1" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>入院时间：<input id="hosDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
+            <td>转院时间：<input id="transferDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
             <td>门诊卡号：<input id="treatCode" type="text" value=""></td>
 
         </tr>
@@ -65,33 +65,38 @@
 <div id="case" style="height: 800px">
     <table>
         <tr>
-            <td>入院原因：</td>
-            <td><input id="cause" type="text" value=""></td>
-        </tr>
-        <tr>
             <td>病情摘要</td>
             <td><input id="summary" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td>内科情况</td>
-            <td><textarea id="internal"></textarea></td>
-        </tr>
-        <tr>
-            <td>外科情况</td>
-            <td><textarea id="external"></textarea></td>
         </tr>
         <tr>
             <td>体格检查</td>
             <td><textarea id="phyExam"></textarea></td>
         </tr>
         <tr>
-            <td>医技报告</td>
-            <td><textarea id="medicalRecord"></textarea></td>
+            <td>病理报告</td>
+            <td><textarea id="pathologyReport"></textarea></td>
         </tr>
         <tr>
             <td>入院诊断</td>
             <td><input id="diagnosis"></input></td>
-        </tr>   <tr>
+        </tr>
+        <tr>
+            <td>入院经过</td>
+            <td><input id="inProcess"></input></td>
+        </tr>
+        <tr>
+            <td>最终诊断</td>
+            <td><input id="finalDiagnosis"></input></td>
+        </tr>
+        <tr>
+            <td>转院原因</td>
+            <td><input id="transferReason"></input></td>
+        </tr>
+        <tr>
+            <td>转院机构</td>
+            <td><input id="transferOrg"></input></td>
+        </tr>
+        <tr>
             <td>备注</td>
             <td><textarea id="remark"></textarea></td>
         </tr>
@@ -100,7 +105,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveHospitalized()">
+    <input type="button" class="btn" value="保存" onclick="saveTransfer()">
 </div>
 </body>
 </html>

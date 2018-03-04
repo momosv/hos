@@ -53,13 +53,67 @@ public class PageController extends BasicController {
         }else if(num.equals("2")){
             return "doc/addHospitalized";
         }else if(num.equals("3")){
-
+            return "doc/addSurgery";
         }else if(num.equals("4")){
-
+            return "doc/addAnalyze";
         }else if(num.equals("5")){
-
+            return "doc/addConsultation";
         }else if(num.equals("6")){
+            return "doc/addTransfer";
+        }else if(num.equals("7")){
+            return "doc/addLeaveHos";
+        }
+        return "login";
+    }
 
+    @RequestMapping("doc/getSecond/{caseId}/{secondId}/{num}")
+    public String getSecond(@PathVariable("caseId") String caseId,@PathVariable("secondId") String secondId,@PathVariable("num") String num) throws Exception {
+        TbDoctorVO doc= validDoctor();
+        if(num.equals("1")){
+           return "doc/getReturn";
+        }else if(num.equals("2")){
+            return "doc/getHospitalized";
+        }else if(num.equals("3")){
+            return "doc/getSurgery";
+        }else if(num.equals("4")){
+            return "doc/getAnalyze";
+        }else if(num.equals("5")){
+            return "doc/getConsultation";
+        }else if(num.equals("6")){
+            return "doc/getTransfer";
+        }else if(num.equals("7")){
+            return "doc/getLeaveHos";
+        }
+        return "login";
+    }
+    @RequestMapping("doc/addSecondReturn/{caseId}/{secondId}/{num}")
+    public String addSecondReturn(
+            @PathVariable("caseId") String caseId,
+            @PathVariable("secondId") String secondId,
+            @PathVariable("num") String num) throws Exception {
+        TbDoctorVO doc= validDoctor();
+        if(num.equals("1")){
+           return "doc/addReturn";
+        }else if(num.equals("2")){
+            return "doc/addHosReturn";
+        }else if(num.equals("3")){
+            return "doc/addSurReturn";
+        }
+        return "login";
+    }
+
+    @RequestMapping("doc/getSecondReturn/{caseId}/{secondId}/{num}")
+    public String getSecondReturn(
+            @PathVariable("caseId") String caseId,
+            @PathVariable("secondId") String secondId,
+            @PathVariable("num") String num) throws Exception {
+        TbDoctorVO doc= validDoctor();
+        if(num.equals("1")){
+           return "doc/getReturn";
+        }else if(num.equals("2")){
+            return "doc/getHosReturn";
+        }else if(num.equals("3")){
+            return "doc/getSurReturn";
         }
         return "login";
     }

@@ -25,7 +25,7 @@
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">新增住院</span>
+    <span id="title0">新增会诊</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
 </div>
@@ -34,7 +34,7 @@
         <tr>
             <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
             <td>初诊时间：<input id="caseDate1" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>入院时间：<input id="hosDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
+            <td>会诊时间：<input id="conDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
             <td>门诊卡号：<input id="treatCode" type="text" value=""></td>
 
         </tr>
@@ -65,20 +65,20 @@
 <div id="case" style="height: 800px">
     <table>
         <tr>
-            <td>入院原因：</td>
-            <td><input id="cause" type="text" value=""></td>
+            <td>邀请会诊医院及科室名称：</td>
+            <td><textarea id="hosAndDept"></textarea></td>
+        </tr>
+        <tr>
+            <td>与会医生</td>
+            <td><textarea id="doctors"></textarea></td>
+        </tr>
+        <tr>
+            <td>会诊原因和目的：</td>
+            <td><input id="aim" type="text" value=""></td>
         </tr>
         <tr>
             <td>病情摘要</td>
             <td><input id="summary" type="text" value=""></td>
-        </tr>
-        <tr>
-            <td>内科情况</td>
-            <td><textarea id="internal"></textarea></td>
-        </tr>
-        <tr>
-            <td>外科情况</td>
-            <td><textarea id="external"></textarea></td>
         </tr>
         <tr>
             <td>体格检查</td>
@@ -89,9 +89,15 @@
             <td><textarea id="medicalRecord"></textarea></td>
         </tr>
         <tr>
-            <td>入院诊断</td>
-            <td><input id="diagnosis"></input></td>
-        </tr>   <tr>
+            <td>会诊意见：</td>
+            <td><textarea id="opinion"></textarea></td>
+        </tr>
+        <tr>
+            <td>建议：</td>
+            <td><textarea id="suggestion"></textarea></td>
+        </tr>
+
+        <tr>
             <td>备注</td>
             <td><textarea id="remark"></textarea></td>
         </tr>
@@ -100,7 +106,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveHospitalized()">
+    <input type="button" class="btn" value="保存" onclick="saveConsultation()">
 </div>
 </body>
 </html>
