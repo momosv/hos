@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加</title>
+    <title>住院详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/js/common.js"></script>
@@ -16,18 +16,18 @@
     </style>
     <script language="JavaScript">
         $(function () {
-            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
-            getCaseDetail();
+            getCaseSecondDetail();
+            getHospitalized();
+            getSecondReturnList(2);
         });
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">新增住院</span>
+    <span id="title0">住院详情</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -63,7 +63,7 @@
     </table>
 </div>
 <div id="case" style="height: 800px">
-    <table>
+    <table style="float: left;">
         <tr>
             <td>入院原因：</td>
             <td><input id="cause" type="text" value=""></td>
@@ -98,9 +98,20 @@
 
     </table>
 
+    <div id="secondR_right" style="overflow-y: auto;height: 800px;width: 300px;float: right;border: pink 1px solid">
+        <ul id="surL">
+            <li>查房(复诊)but<input  type="button"  value="+" class="btn" onclick=addSingelSecondReturn(2)>
+                <ul id="secondReturnUl">
+                    <li>1</li>
+                    <li>2</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveHospitalized()">
+    <input type="button" class="btn" value="保存更新" onclick="updateHospitalized() ()">
 </div>
 </body>
 </html>

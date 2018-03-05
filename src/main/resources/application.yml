@@ -1,6 +1,6 @@
 logging:
   config: classpath:logback.xml
-  path: C:/logs
+  path: logs
   level: 
     org: 
       springframework: 

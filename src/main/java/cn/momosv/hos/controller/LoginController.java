@@ -58,6 +58,10 @@ public class LoginController extends BasicController{
 		basicService.selectByExample(example);
 		PageInfo data=new PageInfo<>(page.getResult());
 		map.put("orgList",data.getList());
+
+		BasicExample basicExample=new BasicExample("u.id_card = p.user_id","tb_base_user u,tb_org_patient p");
+		//basicExample.setCol("u.id");
+		basicService.selectJoint(basicExample);
 		return  "login";
 	}
 

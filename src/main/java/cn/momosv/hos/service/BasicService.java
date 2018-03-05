@@ -31,6 +31,8 @@ public interface BasicService<T ,E > {
 
     List<T> selectByExample(E example) throws Exception;
 
+    List<T> selectJoint(E example) throws Exception;
+
     T selectByPrimaryKey(Class<T> clazz, String ids)throws Exception;
 
     List<T> selectByPrimaryKey(Class<T> clazz, String[] ids) throws Exception;

@@ -42,6 +42,7 @@ public class FileUploadController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+
     }
     @RequestMapping(method = RequestMethod.POST, value = "/up")
     public Object handleFileUpload(@RequestParam("file") MultipartFile file,
@@ -55,4 +56,6 @@ public class FileUploadController {
         }
         return Msg.fail("上传的文件为空");
     }
+
+
 }

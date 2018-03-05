@@ -43,6 +43,8 @@ public interface BasicMapper<T ,E> {
 
     List<Map> selectByExample(@Param("example") E example);
 
+    List<Map> selectJoint(@Param("example") E example);
+
     List<Map> selectByPrimaryKey(@Param("pks")String[] pks, @Param("pkName")String pkName, @Param("tbName")String tbName);
 
 

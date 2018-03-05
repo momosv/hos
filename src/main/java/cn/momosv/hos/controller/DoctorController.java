@@ -356,7 +356,7 @@ public class DoctorController extends BasicController {
     @RequestMapping("updateLeaveHospital")
     public Object updateLeaveHospital(TbLeaveHospitalPO leaveHospital) throws Exception {
         TbDoctorVO doctorVO=validDoctor();
-        TbLeaveHospitalPO old= (TbLeaveHospitalPO) basicService.selectByPrimaryKey(TbAnalyzePlanPO.class,leaveHospital.getId());
+        TbLeaveHospitalPO old= (TbLeaveHospitalPO) basicService.selectByPrimaryKey(TbLeaveHospitalPO.class,leaveHospital.getId());
         if(null== old){
             return failMsg("出院小结不存在或者已经被删除");
         }
@@ -581,6 +581,16 @@ public class DoctorController extends BasicController {
         validCase(caseId);
         //住院
         return doctorService.getSecondList(caseId);
+
+    }
+
+    @RequestMapping("getSecondReturn")
+    public Msg getSecondReturn(String secondId,String type) throws Exception {
+        BasicExample example=new BasicExample(TbReturnVisitPO.class);
+        example.createCriteria().andVarEqualTo("secondId",secondId)
+                .andVarEqualTo("type",type);
+        example.setOrderByClause("create_time desc");
+        return successMsg().add("list",basicService.selectByExample(example));
 
     }
 

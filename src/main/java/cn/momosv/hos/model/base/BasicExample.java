@@ -8,6 +8,10 @@ public class BasicExample <T extends IBaseDBPO>{
     
 	protected  Object tName;
 
+	protected  Object join;
+
+	protected  Object col="*";
+
 	protected  Class clazz;
 
 	protected  Object pkName;
@@ -22,9 +26,18 @@ public class BasicExample <T extends IBaseDBPO>{
 	
 	protected Map<String,Object> tMap=new HashMap<>();
 
-	public BasicExample() {
+	public BasicExample(String join, String... tN) throws IllegalAccessException, InstantiationException {
+		String n="";
+		for (String t: tN) {
+			n+=","+t;
+		}
+		this.tName=n.substring(1);
+		this.join=join;
+		oredCriteria = new ArrayList<Criteria>();
+	}public BasicExample() {
 		oredCriteria = new ArrayList<Criteria>();
 	}
+
 	public BasicExample(Class<T> clazz) throws InstantiationException, IllegalAccessException {
 		T t=clazz.newInstance();
 		this.clazz=clazz;
@@ -32,6 +45,22 @@ public class BasicExample <T extends IBaseDBPO>{
 		this.pkName=t._getPKColumnName();
 		this.pkValue=t._getPKValue();
 		oredCriteria = new ArrayList<Criteria>();
+	}
+
+	public Object getJoin() {
+		return join;
+	}
+
+	public void setJoin(String join) {
+		this.join = join;
+	}
+
+	public Object getCol() {
+		return col;
+	}
+
+	public void setCol(String col) {
+		this.col = col;
 	}
 
 	public Class getClazz() {
@@ -57,6 +86,7 @@ public class BasicExample <T extends IBaseDBPO>{
 		tMap.put("tName", tableName);
 		this.tName = tableName;
 	}
+
 
 	public Object getPkName() {
 		return pkName;

@@ -22,11 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 @Transactional
@@ -99,6 +95,25 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		}
 		return list;
 	}
+
+	@Override
+	public List selectJoint(E example) throws Exception{
+		List<Map> mapL=   basicMapper.selectJoint(example);
+/*		Set<String> set0=null;
+		if(mapL.size()>0){
+			set0=mapL.get(0).entrySet();
+			for(Map map:mapL) {
+				for (Object s : set0) {
+					map.put(RegexUtils.lineToHump((String) s),map.get(s));
+					map.remove(s);
+				}
+
+			}
+		}*/
+		return mapL;
+	}
+
+
 
 	@Override
 	public T selectByPrimaryKey(Class<T> clazz,String id) throws Exception{

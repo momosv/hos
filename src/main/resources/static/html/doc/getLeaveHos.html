@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加</title>
+    <title>出院记录详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/js/common.js"></script>
@@ -16,18 +16,75 @@
     </style>
     <script language="JavaScript">
         $(function () {
-            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#leaveDate").val(submitTime);
-            getCaseDetail();
+            getCaseSecondDetail();
+            getLeaveHos();
         });
+
+
+        function updateLeaveHos() {
+            $.ajax({
+                url: "/doc/updateLeaveHospital",
+                type: 'POST',
+                data: {
+                    id: $("#secondId").val(),
+                    entryTime: $("#entryTime").val(),
+                    leaveTime: $("#leaveDate").val(),
+                    summary: $("#summary").val(),
+                    diagnosis: $("#diagnosis").val(),
+                    inProcess: $("#inProcess").val(),
+                    leaveSituation: $("#leaveSituation").val(),
+                    enjoin: $("#enjoin").val(),
+                    remark: $("#remark").val()
+                },
+                success: function (re) {
+                    if(re.code==-1){
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    }else  if (re.code != 200) {
+                        jQuery.alertWindow("保存成功");
+                    }else {
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
+
+        function getLeaveHos() {
+            $.ajax({
+                url: "/doc/getLeaveHospital",
+                type: 'POST',
+                data: {
+                    id: $("#secondId").val(),
+                },
+                success: function (re) {
+                    if(re.code==-1){
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    }else  if (re.code != 200) {
+
+                        var detail =re.extend.detail;
+                        $("#leaveDate").val(new Date(detail.leaveTime).Format("yyyy-MM-ddThh:mm"));
+                        $("#entryTime").val(new Date(detail.entryTime).Format("yyyy-MM-ddThh:mm"));
+                            $("#summary").val(detail.summary);
+                            $("#diagnosis").val(detail.diagnosis);
+                            $("#inProcess").val(detail.inProcess);
+                             $("#leaveSituation").val(detail.leaveSituation)
+                             $("#enjoin").val(detail.enjoin);
+                             $("#remark").val(detail.remark)
+                    }else {
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">出院记录</span>
+    <span id="title0">出院记录详情</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -97,7 +154,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveLeaveHos()">
+    <input type="button" class="btn" value="保存" onclick="updateLeaveHos()">
 </div>
 </body>
 </html>

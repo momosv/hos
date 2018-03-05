@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加</title>
+    <title>会诊详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/js/common.js"></script>
@@ -16,18 +16,78 @@
     </style>
     <script language="JavaScript">
         $(function () {
-            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
-            getCaseDetail();
+            getCaseSecondDetail();
+            getConsultation();
         });
+
+
+        function updateConsultation() {
+            $.ajax({
+                url: "/doc/updateConsultation",
+                type: 'POST',
+                data: {
+                    Id: $("#secondId").val(),
+                    createTime: $("#conDate").val(),
+                    hosAndDept: $("#hosAndDept").val(),
+                    doctors: $("#doctors").val(),
+                    aim: $("#aim").val(),
+                    summary: $("#summary").val(),
+                    phyExam: $("#phyExam").val(),
+                    medicalRecord: $("#medicalRecord").val(),
+                    opinion: $("#opinion").val(),
+                    suggestion:  $("#suggestion").val(),
+                    remark:  $("#remark").val()
+                },
+                success: function (re) {
+                    if(re.code==-1){
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    }else if (re.code != 200) {
+                        jQuery.alertWindow("保存成功");
+                    }else {
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
+        function getConsultation() {
+            $.ajax({
+                url: "/doc/getConsultation",
+                type: 'POST',
+                data: {
+                    id: $("#secondId").val()
+                },
+                success: function (re) {
+                    if (re.code == -1) {
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    } else if (re.code != 200) {
+                        var detail =re.extend.detail;
+                        $("#conDate").val(new Date(detail.createTime).Format("yyyy-MM-ddThh:mm"));
+                        $("#summary").val(detail.summary);
+                        $("#phyExam").val(detail.phyExam);
+                        $("#medicalRecord").val(detail.medicalRecord);
+                        $("#remark").val(detail.remark);
+                        $("#hosAndDept").val(detail.hosAndDept);
+                        $("#doctors").val(detail.doctors);
+                        $("#aim").val(detail.aim);
+                        $("#opinion").val(detail.opinion);
+                        $("#suggestion").val(detail.suggestion);
+                    } else {
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
+
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">新增会诊</span>
+    <span id="title0">会诊详情</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -106,7 +166,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveConsultation()">
+    <input type="button" class="btn" value="保存更新" onclick="updateConsultation()">
 </div>
 </body>
 </html>

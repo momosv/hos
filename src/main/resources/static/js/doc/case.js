@@ -38,6 +38,7 @@ function getCaseSecondDetail(isTreat){
                     $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-ddThh:mm"));
                     $("#bedNum").val(caseo.bedNum);
                     $("#complaint").val(caseo.complaint);
+                    $("#allergicHistory").val(caseo.allergicHistory);
                 }
             }else {
                 jQuery.alertWindow(re.msg);
@@ -91,6 +92,7 @@ function getCaseDetail(){
                      $("#treat").val(caseo.treat);
                      $("#remark").val(caseo.remark);
                      $("#bedNum").val(caseo.bedNum);
+                     $("#allergicHistory").val(caseo.allergicHistory);
                 }
             }else {
                 jQuery.alertWindow(re.msg);
@@ -308,8 +310,10 @@ function addSecond(num){
 
 }
 function addSecondReturn(num,t){
-    alert($(t).attr("id"));
-    window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$(t).attr("id")+"/"+num);
+    alert($(t).attr("id"));window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$(t).attr("id")+"/"+num);
+}
+function addSingelSecondReturn(num){
+    window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$("#secondId").val()+"/"+num);
 }
 
 function saveReturn(type) {
@@ -369,7 +373,7 @@ function getReturn() {
     });
 }
 
-function updateReturn() {
+function updateReturn(type) {
     $.ajax({
         url: "/doc/updateReturnVisit",
         type: 'POST',
@@ -428,6 +432,65 @@ function saveHospitalized() {
     });
 }
 
+function updateHospitalized() {
+    $.ajax({
+        url: "/doc/updateHospitalized",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val(),
+            createTime: $("#hosDate").val(),
+            summary: $("#summary").val(),
+            cause: $("#cause").val(),
+            internal: $("#internal").val(),
+            external: $("#external").val(),
+            phyExam: $("#phyExam").val(),
+            medicalRecord: $("#medicalRecord").val(),
+            diagnosis: $("#diagnosis").val(),
+            remark: $("#remark").val(),
+            bedNum:  $("#bedNum").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }else  if (re.code != 200) {
+                jQuery.alertWindow("保存成功");
+                getHospitalized()
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+function getHospitalized() {
+    $.ajax({
+        url: "/doc/getHospitalized",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                window.open("/hos/login");
+            }else  if (re.code != 200) {
+                var detail=re.extend.detail;
+                     $("#hosDate").val(new Date(detail.createTime).Format("yyyy-MM-ddThh:mm"));
+                     $("#summary").val(detail.summary);
+                     $("#cause").val(detail.cause);
+                     $("#internal").val(detail.internal);
+                     $("#external").val(detail.external);
+                     $("#phyExam").val(detail.phyExam);
+                     $("#medicalRecord").val(detail.medicalRecord);
+                     $("#diagnosis").val(detail.diagnosis);
+                     $("#remark").val(detail.remark);
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+
 function saveTransfer() {
     $.ajax({
         url: "/doc/addTransfer",
@@ -451,6 +514,38 @@ function saveTransfer() {
                 jQuery.alertWindow("登录已经失效，请重新登录！",10000);
             }else  if (re.code != 200) {
                 jQuery.alertWindow("保存成功");
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+
+
+function updateTransfer() {
+    $.ajax({
+        url: "/doc/updateTransfer",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val(),
+            createTime: $("#transferDate").val(),
+            summary: $("#summary").val(),
+            phyExam: $("#phyExam").val(),
+            pathologyReport: $("#pathologyReport").val(),
+            diagnosis: $("#diagnosis").val(),
+            inProcess: $("#inProcess").val(),
+            finalDiagnosis: $("#finalDiagnosis").val(),
+            transferReason: $("#transferReason").val(),
+            transferOrg: $("#transferOrg").val(),
+            remark: $("#remark").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }else  if (re.code != 200) {
+                jQuery.alertWindow("保存成功");
+                getTransfer();
             }else {
                 jQuery.alertWindow(re.msg);
             }
@@ -544,6 +639,71 @@ function saveSurgery() {
         }
     });
 }
+function updateSurgery() {
+    $.ajax({
+        url: "/doc/updateSurgery",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val(),
+            createTime: $("#surgeryDate").val(),
+            cause: $("#cause").val(),
+            start: $("#start").val(),
+            finding: $("#finding").val(),
+            process: $("#process").val(),
+            treat: $("#treat").val(),
+            end: $("#end").val(),
+            afterTreat: $("#afterTreat").val(),
+            diagnosis:  $("#diagnosis").val(),
+            attention:  $("#attention").val(),
+            surgeon:  $("#surgeon").val(),
+            remark:  $("#remark").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }else  if (re.code != 200) {
+                jQuery.alertWindow("保存成功");
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+function getSurgery() {
+    $.ajax({
+        url: "/doc/getSurgery",
+        type: 'POST',
+        data: {
+            id: $("#secondId").val()
+        },
+        success: function (re) {
+            if(re.code==-1){
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                window.open("/hos/login");
+            }else  if (re.code != 200) {
+                var detail=re.extend.detail;
+                $("#surgeryDate").val(new Date(detail.createTime).Format("yyyy-MM-ddThh:mm"));
+                $("#cause").val(detail.cause);
+                $("#start").val(detail.start);
+                $("#finding").val(detail.finding);
+                $("#process").val(detail.process);
+                $("#treat").val(detail.treat);
+                $("#end").val(detail.end);
+                $("#afterTreat").val(detail.afterTreat);
+                $("#diagnosis").val(detail.diagnosis);
+                $("#afterTreat").val(detail.afterTreat);
+                $("#attention").val(detail.attention);
+                $("#surgeon").val(detail.surgeon);
+                $("#remark").val(detail.remark);
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+    });
+}
+
+
 function saveConsultation() {
     $.ajax({
         url: "/doc/addConsultation",
@@ -581,4 +741,28 @@ function getSecond(num,t) {
 
 function getSecondReturn(num,t) {
     window.open("/hos/page/doc/getSecondReturn/"+$("#caseId").val()+"/"+$(t).attr("id")+"/"+num);
+}
+
+
+function getSecondReturnList(num){
+
+    $.ajax({
+        url: "/doc/getSecondReturn",
+        type: 'POST',
+        data: {
+            secondId:$("#secondId").val(),
+            type:num
+        },
+        success:function(re){
+            $("#secondReturnUl").empty();
+            var inH="";
+            for (var obj of re.extend.list) {
+                inH+="<li id="+obj.id+" onclick=getSecondReturn("+num+",this)>" +
+                        new Date(obj.createTime).Format("yyyyMMdd-hhmmss")+
+                        "</li>";
+            }
+            $("#secondReturnUl").html(inH);
+        }
+    });
+
 }

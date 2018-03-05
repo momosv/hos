@@ -16,10 +16,8 @@
     </style>
     <script language="JavaScript">
         $(function () {
-/*            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#surgeryDate").val(submitTime);*/
-            getCaseDetail();
+            getCaseSecondDetail();
+            getSecondReturnList(3);
         });
     </script>
 </head>
@@ -28,6 +26,8 @@
     <span id="title0">新增手术记录</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
+
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -63,7 +63,7 @@
     </table>
 </div>
 <div id="case" style="height: 800px">
-    <table>
+    <table style="float: left">
         <tr>
             <td>手术原因：</td>
             <td><input id="cause" type="text" value=""></td>
@@ -109,10 +109,20 @@
         </tr>
 
     </table>
+    <div id="secondR_right" style="overflow-y: auto;height: 800px;width: 300px;float: right;border: pink 1px solid">
+        <ul >
+            <li>术后小记<input  type="button"  value="+"  class="btn" onclick=addSingelSecondReturn(3)>
+                <ul id="secondReturnUl">
+                    <li>1</li>
+                    <li>2</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveSurgery()">
+    <input type="button" class="btn" value="保存" onclick="updateSurgery()">
 </div>
 </body>
 </html>

@@ -13,10 +13,11 @@
     <result column="transfer_reason" property="transferReason" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="transfer_org" property="transferOrg" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, case_id, summary, phy_exam, diagnosis, in_process, final_diagnosis, pathology_report, 
-    transfer_reason, create_time, transfer_org
+    transfer_reason, create_time, transfer_org,remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

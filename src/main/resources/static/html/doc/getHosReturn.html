@@ -16,10 +16,8 @@
     </style>
     <script language="JavaScript">
         $(function () {
-            var today=new Date();
-            var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
-            getCaseDetail();
+            getCaseSecondDetail();
+            getReturn();
         });
     </script>
 </head>
@@ -28,6 +26,7 @@
     <span id="title0">住院查房（复诊）</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
+    <input type="hidden" id="secondId" value="${secondId}" >
 </div>
 <div id="user" style="">
     <table style="height: 200px">
@@ -93,7 +92,7 @@
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveReturn(1)">
+    <input type="button" class="btn" value="保存" onclick="updateReturn(2)">
 </div>
 </body>
 </html>
