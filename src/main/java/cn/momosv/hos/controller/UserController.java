@@ -14,32 +14,61 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserController extends BasicController{
 
 
     @Autowired
     UserService userService;
 
-    public Object getCaseList(String title,
+    @RequestMapping("getCaseList")
+    public Object getCaseList(
+                                String key,
+                                String keyType,
                               @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
                               @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
         TbBaseUserPO userPO=validUser();
-        BasicExample example=new BasicExample(TbCasePO.class);
+        BasicExample example=new BasicExample();
         Criteria criteria=example.createCriteria();
-        if(!StringUtils.isEmpty(title)){
-            criteria.andVarLike("title","%"+title+"%");
+        if(!StringUtils.isEmpty(key)) {
+            if(keyType.equals("diagnosis")){
+                criteria.andVarLike("diagnosis","%"+key+"%");
+            }else if(keyType.equals("docName")){
+                criteria.andVarLike("doc.name","%"+key+"%");
+            }else{
+                criteria.andVarLike("org.name","%"+key+"%");
+            }
         }
-        List<String> patientId = userService.getPatientIdListByIdCard(userPO.getIdCard());
-        criteria.andVarIn("patient_id",patientId);
+       example.setTName("tb_case c,tb_doctor doc,tb_medical_org org,tb_department dept");
+       example.setCol("c.id,c.diagnosis,c.create_time,doc.name as doc_name,org.name as org_name,dept.name as dept_name");
+        criteria.andJoin("c.org_id=org.id and doc.id=c.doctor_id and c.dept_id=dept.id");
         Page page = PageHelper.startPage(pageNum, pageSize);
-        basicService.selectByExample(example);
+        basicService.selectJoint(example);
         return Msg.success().add("page",new PageInfo(page.getResult()));
+    }
+
+    /**
+     * 详情
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("getCase")
+    public Object getCase(String id) throws Exception {
+        TbBaseUserPO user=   validUser();
+        TbCasePO casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,id);
+        TbOrgPatientPO patientPO=null;
+        if(null!=casePO){
+             patientPO= (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,casePO.getPatientId());
+        }
+        return successMsg("获取成功").add("patient",patientPO).add("user",user).add("case",casePO);
     }
 
     private TbBaseUserPO validUser() throws Exception {

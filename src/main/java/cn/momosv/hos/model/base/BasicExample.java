@@ -235,6 +235,12 @@ public class BasicExample <T extends IBaseDBPO>{
 			criteria.add(new Criterion(condition, value1, value2));
 		}
 
+		public Criteria andJoin(String var) {
+			var = RegexUtils.humpToLine(var);
+			addCriterion(var);
+			return (Criteria) this;
+		}
+
 		public Criteria andVarIsNull(String var) {
 			var = RegexUtils.humpToLine(var);
 			addCriterion(var + " is null");

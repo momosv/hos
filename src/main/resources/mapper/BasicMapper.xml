@@ -35,7 +35,7 @@
 		</where>
 	</sql>
 
-	<sql id="Example_Clause">
+	<sql id="Example_Clause_joint">
 			<foreach collection="example.oredCriteria" item="criteria"
 					 separator="or">
 				<if test="criteria.valid">
@@ -239,9 +239,8 @@
 			resultType="java.util.Map">
 		select ${example.col} from ${example.tName}
 		<where>
-			${example.join}
 			<if test="_parameter != null">
-				<include refid="Example_Clause" />
+				<include refid="Example_Clause_joint" />
 			</if>
 		</where>
 	</select>

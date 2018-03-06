@@ -4,11 +4,12 @@ public class TbCaseVO {
 
   //  c.id,title,c.create_time,diagnosis,name,treat_code
     String id;
-    String title;
     String creatTime;
     String diagnosis;
     String name;
     String treatCode;
+    String doctorName;
+    String orgName;
 
     public String getId() {
         return id;
@@ -16,14 +17,6 @@ public class TbCaseVO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getCreatTime() {

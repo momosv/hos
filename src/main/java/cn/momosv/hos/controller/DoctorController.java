@@ -40,7 +40,7 @@ public class DoctorController extends BasicController {
         casePO.setDoctorId(doc.getId());
         casePO.setOrgId(doc.getOrgId());
         casePO.setFromDeptName(doc.getDeptName());
-        casePO.setFromOrgName(doc.getDeptName());
+        casePO.setFromOrgName(doc.getOrgName());
         doctorService.addCase(user,casePO,isAgent,validDoctor(),patientId);
         return successMsg("保存成功");
     }
@@ -577,7 +577,11 @@ public class DoctorController extends BasicController {
 
     @RequestMapping("getCaseSecondList")
     public Object getCaseSecondList(String caseId) throws Exception {
-        validDoctor();
+        try {
+            validUser();
+        }catch (Exception e){
+            validDoctor();
+        }
         validCase(caseId);
         //住院
         return doctorService.getSecondList(caseId);
@@ -614,6 +618,15 @@ public class DoctorController extends BasicController {
         }
         catch (Exception e){
             throw new Exception("非法请求，请登录医生身份账号后再操作");
+        }
+    }
+
+    private TbBaseUserPO validUser() throws Exception {
+        try{
+            return (TbBaseUserPO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录个人身份账号后再操作");
         }
     }
 }

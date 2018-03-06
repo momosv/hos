@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>手术详情</title>
+    <title>会诊详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/js/common.js"></script>
-    <script src="/js/doc/case.js"></script>
+    <script src="/js/user/userCase.js"></script>
     <style type="text/css">
         #head,#user,#case,#save_btn{
             width: 1100px;
@@ -17,24 +17,56 @@
     <script language="JavaScript">
         $(function () {
             getCaseSecondDetail();
-            getSecondReturnList(3);
+            getConsultation();
         });
+
+
+
+        function getConsultation() {
+            $.ajax({
+                url: "/doc/getConsultation",
+                type: 'POST',
+                data: {
+                    id: $("#secondId").val()
+                },
+                success: function (re) {
+                    if (re.code == -1) {
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    } else if (re.code != 200) {
+                        var detail =re.extend.detail;
+                        $("#conDate").val(new Date(detail.createTime).Format("yyyy-MM-ddThh:mm"));
+                        $("#summary").val(detail.summary);
+                        $("#phyExam").val(detail.phyExam);
+                        $("#medicalRecord").val(detail.medicalRecord);
+                        $("#remark").val(detail.remark);
+                        $("#hosAndDept").val(detail.hosAndDept);
+                        $("#doctors").val(detail.doctors);
+                        $("#aim").val(detail.aim);
+                        $("#opinion").val(detail.opinion);
+                        $("#suggestion").val(detail.suggestion);
+                    } else {
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
+
     </script>
 </head>
 <body>
 <div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
-    <span id="title0">手术详情</span>
+    <span id="title0">会诊详情</span>
     <input type="hidden" id="patientId" >
     <input type="hidden" id="caseId" value="${caseId}" >
     <input type="hidden" id="secondId" value="${secondId}" >
-
 </div>
 <div id="user" style="">
     <table style="height: 200px">
         <tr>
             <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
             <td>初诊时间：<input id="caseDate1" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>手术时间：<input id="surgeryDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
+            <td>会诊时间：<input id="conDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
             <td>门诊卡号：<input id="treatCode" type="text" value=""></td>
 
         </tr>
@@ -63,66 +95,49 @@
     </table>
 </div>
 <div id="case" style="height: 800px">
-    <table style="float: left">
+    <table>
         <tr>
-            <td>手术原因：</td>
-            <td><input id="cause" type="text" value=""></td>
-        </tr><tr>
-            <td>手术初始：</td>
-            <td><input id="start" type="text" value=""></td>
+            <td>邀请会诊医院及科室名称：</td>
+            <td><textarea id="hosAndDept"></textarea></td>
         </tr>
         <tr>
-            <td>手书所见：</td>
-            <td><input id="finding" type="text" value=""></td>
+            <td>与会医生</td>
+            <td><textarea id="doctors"></textarea></td>
         </tr>
         <tr>
-            <td>探查经过：</td>
-            <td><textarea id="process"></textarea></td>
+            <td>会诊原因和目的：</td>
+            <td><input id="aim" type="text" value=""></td>
         </tr>
         <tr>
-            <td>处理：</td>
-            <td><textarea id="treat"></textarea></td>
+            <td>病情摘要</td>
+            <td><input id="summary" type="text" value=""></td>
         </tr>
         <tr>
-            <td>结束：</td>
-            <td><textarea id="end"></textarea></td>
+            <td>体格检查</td>
+            <td><textarea id="phyExam"></textarea></td>
         </tr>
         <tr>
-            <td>术后处理：</td>
-            <td><textarea id="afterTreat"></textarea></td>
+            <td>医技报告</td>
+            <td><textarea id="medicalRecord"></textarea></td>
         </tr>
         <tr>
-            <td>术后诊断</td>
-            <td><input id="diagnosis"></input></td>
+            <td>会诊意见：</td>
+            <td><textarea id="opinion"></textarea></td>
         </tr>
         <tr>
-            <td>术后注意事项</td>
-            <td><textarea id="attention"></textarea></td>
+            <td>建议：</td>
+            <td><textarea id="suggestion"></textarea></td>
         </tr>
-        <tr>
-            <td>主刀医生</td>
-            <td><input type="text" id="surgeon"></td>
-        </tr>
+
         <tr>
             <td>备注</td>
             <td><textarea id="remark"></textarea></td>
         </tr>
 
     </table>
-    <div id="secondR_right" style="overflow-y: auto;height: 800px;width: 300px;float: right;border: pink 1px solid">
-        <ul >
-            <li>术后小记<input  type="button"  value="+"  class="btn" onclick=addSingelSecondReturn(3)>
-                <ul id="secondReturnUl">
-                    <li>1</li>
-                    <li>2</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="updateSurgery()">
 </div>
 </body>
 </html>

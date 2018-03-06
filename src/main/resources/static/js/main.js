@@ -1,4 +1,10 @@
 
+function user_case_manager(){
+    hide_head();
+    $("#user_page").show();
+    $("#user_iframe").attr("src",'/allowHtml/user/caseHead.html');
+}
+
 function doc_case_manager(){
     hide_head();
     $("#doc_page").show();
@@ -154,7 +160,7 @@ $(
         $(".exit").show();
         $("#login_button").hide();
 
-    }else if($("#identity").val()=='user'){
+    }else if($("#identity").val()=='normal'){
         $(".a_user").show();
         $(".exit").show();
         $("#login_button").hide();

@@ -1,6 +1,7 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
+import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbDepartmentPO;
 import cn.momosv.hos.model.TbMedicalOrgPO;
 import cn.momosv.hos.util.SysUtil;
@@ -102,6 +103,9 @@ public class PageController extends BasicController {
         return "login";
     }
 
+
+
+
     @RequestMapping("doc/getSecondReturn/{caseId}/{secondId}/{num}")
     public String getSecondReturn(
             @PathVariable("caseId") String caseId,
@@ -118,6 +122,59 @@ public class PageController extends BasicController {
         return "login";
     }
 
+
+    @RequestMapping("user/getSecond/{caseId}/{secondId}/{num}")
+    public String getUserSecond(@PathVariable("caseId") String caseId,@PathVariable("secondId") String secondId,@PathVariable("num") String num) throws Exception {
+        validUser();
+        if(num.equals("1")){
+            return "user/getReturn";
+        }else if(num.equals("2")){
+            return "user/getHospitalized";
+        }else if(num.equals("3")){
+            return "user/getSurgery";
+        }else if(num.equals("4")){
+            return "user/getAnalyze";
+        }else if(num.equals("5")){
+            return "user/getConsultation";
+        }else if(num.equals("6")){
+            return "user/getTransfer";
+        }else if(num.equals("7")){
+            return "user/getLeaveHos";
+        }
+        return "login";
+    }
+
+    @RequestMapping("user/getSecondReturn/{caseId}/{secondId}/{num}")
+    public String getUserSecondReturn(
+            @PathVariable("caseId") String caseId,
+            @PathVariable("secondId") String secondId,
+            @PathVariable("num") String num) throws Exception {
+        validUser();
+        if(num.equals("1")){
+           return "user/getReturn";
+        }else if(num.equals("2")){
+            return "user/getHosReturn";
+        }else if(num.equals("3")){
+            return "user/getSurReturn";
+        }
+        return "login";
+    }
+
+
+    @RequestMapping("user/caseDetail/{caseId}")
+    public String userCaseDetail(@PathVariable("caseId") String caseId) throws Exception {
+        validUser();
+        return "user/caseDetail";
+    }
+
+    private TbBaseUserPO validUser() throws Exception {
+        try{
+            return (TbBaseUserPO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录个人身份账号后再操作");
+        }
+    }
     private TbDoctorVO validDoctor() throws Exception {
         try{
             return (TbDoctorVO)session.getAttribute(SysUtil.USER);
