@@ -7,6 +7,7 @@
     <result column="apply_dept_id" property="applyDeptId" jdbcType="VARCHAR" />
     <result column="apply_org_id" property="applyOrgId" jdbcType="VARCHAR" />
     <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="case_org_id" property="caseOrgId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="deadline" property="deadline" jdbcType="TIMESTAMP" />
@@ -15,7 +16,7 @@
     <result column="allow_grade" property="allowGrade" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, doctor_id, apply_dept_id, apply_org_id, case_id, user_id, create_time, operator, 
+    id, doctor_id, apply_dept_id, apply_org_id, case_id, case_org_id,user_id, create_time, operator,
     is_allow, allow_grade,deadline
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

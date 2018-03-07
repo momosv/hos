@@ -4,17 +4,22 @@ import cn.momosv.hos.dao.TbOrgManagerPOMapper;
 import cn.momosv.hos.email.MailService;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbDoctorPO;
+import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.OrgService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbOrgManagerVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,5 +128,38 @@ public class OrgServiceImpl implements OrgService {
         // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
         String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
         mailService.sendHtmlMail(doctorPO.getAccount(), map.get("orgName")+"人员修改通知", htmlText);
+    }
+
+    @Override
+    public Object getAuthorityList(int isAllow, String key, String keyType, Integer pageNum, Integer pageSize,String orgId) throws Exception {
+        BasicExample example =new BasicExample();
+        BasicExample.Criteria criteria=example.createCriteria();
+        criteria.andVarEqualTo("case_org_id",orgId);
+        example.setOrderByClause("create_time");
+        example.setCol("a.*,c.diagnosis, u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name " );
+        example.setTName(" tb_data_authority a " +
+                "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
+                "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
+                "LEFT JOIN tb_base_user u ON a.user_id=u.id_card " +
+                "LEFT JOIN tb_case c on c.id=a.case_id " +
+                "LEFT JOIN tb_medical_org o on a.apply_org_id=o.id ");
+        if(!StringUtils.isEmpty(key)){
+            if(keyType.equals("name")){
+                criteria.andVarLike("u.name","%"+key+"%");
+            }else if(keyType.equals("diagnosis")){
+                criteria.andVarLike("c.diagnosis","%"+key+"%");
+            }else if(keyType.equals("org")){
+                criteria.andVarLike("o.name","%"+key+"%");
+            }
+        }
+        if(isAllow==-1){
+            criteria.andVarEqualTo("is_allow","-1");
+        }else if(isAllow>-1){
+            criteria.andVarGreaterThan("is_allow","-1");
+        }
+
+        Page page= PageHelper.startPage(pageNum,pageSize);
+        basicService.selectJoint(example);
+        return  new PageInfo(page.getResult());
     }
 }

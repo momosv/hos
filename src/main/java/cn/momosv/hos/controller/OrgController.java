@@ -160,6 +160,17 @@ public class OrgController extends BasicController {
         return successMsg("添加成功");
     }
 
+    @RequestMapping("getAuthorityList")
+    public Msg getAuthorityList(@RequestParam(defaultValue = "-2") int isAllow,//-1未审批,-2全部
+                             String key,
+                             String keyType,
+                             @RequestParam(defaultValue = "1")Integer pageNum,
+                             @RequestParam(defaultValue = "10")Integer pageSize) throws Exception {
+        TbOrgManagerVO org= validOrgManager();
+        return successMsg().add("page",orgService.getAuthorityList(isAllow,key,keyType,pageNum,pageSize,org.getOrgId()));
+    }
+
+
     private TbOrgManagerVO validOrgManager() throws Exception {
         try{
             return (TbOrgManagerVO)session.getAttribute(SysUtil.USER);

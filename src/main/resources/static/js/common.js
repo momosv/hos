@@ -51,6 +51,8 @@ Date.prototype.Format = function (fmt) { //author: tony
     return fmt;
 };
 
+
+
 //定义函数--从给定的毫秒数中取出年、月、日进行拼接
 function getMyDate(str){
     var oDate = new Date(str),
@@ -60,7 +62,7 @@ function getMyDate(str){
         oHour = oDate.getHours(),
         oMin = oDate.getMinutes(),
         oSen = oDate.getSeconds(),
-        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin);//最后拼接时间
+        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin)+':'+getzf(oSen);//最后拼接时间
     return oTime;
 };
 //定义函数--补0操作

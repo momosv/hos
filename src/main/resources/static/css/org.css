@@ -11,7 +11,7 @@
 	width: 850px;
 }
 
-#org_search input{
+#org_search input,#data_key{
 	float: right;
 	outline: none;
 	padding: 3px 10px;

@@ -45,9 +45,27 @@ public class TbDataAuthorityPO extends IBaseDBPO{
 
     private String operator;
 
+    private String caseOrgId;
+
     private Integer isAllow;
 
     private Integer allowGrade;
+
+    public String getCaseOrgId() {
+        return caseOrgId;
+    }
+
+    public void setCaseOrgId(String caseOrgId) {
+        this.caseOrgId = caseOrgId;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
 
     public String getId() {
         return id;

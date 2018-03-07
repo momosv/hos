@@ -18,4 +18,6 @@ public interface OrgService {
     void insertDoctor(TbBaseUserPO user, TbDoctorPO doctor,String deptName) throws Exception;
 
     void updateDoctor(TbDoctorPO doctorPO, TbBaseUserPO userPO, TbOrgManagerVO org, String deptName) throws IOException, TemplateException;
+
+    Object getAuthorityList(int isAllow, String key, String keyType, Integer pageNum, Integer pageSize,String orgId) throws Exception;
 }

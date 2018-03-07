@@ -3,44 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <link rel="stylesheet" href="/css/sys.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/org.css">
+    <script src="/js/common.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/js/sys.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/org/approve.js"></script>
+    <script src="/js/main.js">
+
+    </script>
 </head>
 <body>
 <div id="sys_content">
     <div id="sys_left" style="float: left;min-height: 800px;width: 200px;padding-top: 80px">
         <ul class="ul" >
-            <li onclick="getOrgList(3);">全部机构</li>
-            <li onclick="getOrgList(1)">已经审批</li>
-            <li onclick="getOrgList(0)">等待审批</li>
+            <li onclick="getAuthList(-2)">全部</li>
+            <li onclick="getAuthList(0)">已审批</li>
+            <li onclick="getAuthList(-1)">待审批</li>
         </ul>
     </div>
     <div id="sys_right" style="float: left;min-height: 800px;width: 850px">
         <div class="org_table" id="org_search">
-            <input type="button" value="搜索" id="org_search_btn" onclick="org_search_key()">
-            <input type="text" value="" placeholder="请输入机构名称" id="org_search_key" onchange="org_search_key()">
+            <input type="button" value="搜索" id="auth_search_btn" onclick="auth_search_key()">
+            <input type="text" value="" placeholder="请输入关键字" id="auth_search_key" onchange="auth_search_key()">
+            <select id="data_key" onchange="case_search_key()">
+                <option value="diagnosis" selected>诊断</option>
+                <option value="name">病人名字</option>
+                <option value="org">申请所在机构</option>
+            </select>
         </div>
         <div class="org_table" id="org_table">
             <table id="org_table_data">
                 <tr>
-                    <th>机构名称</th>
-                    <th>入驻时间</th>
-                    <th>联系人</th>
-                    <th>联系方式</th>
-                    <th>邮箱</th>
+                    <th>诊断</th>
+                    <th>病人名字</th>
+                    <th>申请人</th>
+                    <th>申请人科室</th>
+                    <th>申请人机构</th>
+                    <th>申请级别</th>
+                    <th>申请时间</th>
                     <th>状态</th>
                 </tr>
             </table>
             <table id="org_table_model" style="display: none">
-                <tr style="cursor: pointer" orgId="{id}" onclick="getOrgDetail(this)">
-                    <td>{name}</td>
-                    <td>{time}</td>
-                    <td>{linkman}</td>
-                    <td>{phone}</td>
-                    <td>{email}</td>
-                    <td>{act}</td>
+                <tr style="cursor: pointer" dataId="{dataId}" caseId="{caseId}" onclick="getOrgDetail(this)">
+                    <td>{diagnosis}</td>
+                    <td>{user_name}</td>
+                    <td>{doc_name}</td>
+                    <td>{dept_name}</td>
+                    <td>{org_name}</td>
+                    <td>{allow_grade}</td>
+                    <td>{create_time}</td>
+                    <td>{isAllow}</td>
                 </tr>
             </table>
 
