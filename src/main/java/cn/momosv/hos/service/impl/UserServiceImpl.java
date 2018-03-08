@@ -31,6 +31,13 @@ public class UserServiceImpl implements UserService {
         userExample.createCriteria().andVarEqualTo("idCard",idCard);
         return  (TbBaseUserPO) basicService.selectOneByExample(userExample);
     }
+
+    @Override
+    public TbBaseUserPO getUserByPatientId(String id) throws Exception {
+        TbOrgPatientPO p= (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,id);
+        return this.getUserByIdCard(p.getUserId());
+
+    }
     @Override
     public TbOrgPatientPO getPatientByTreatCode(String code, String orgId) throws Exception {
         BasicExample userExample=new BasicExample(TbOrgPatientPO.class);

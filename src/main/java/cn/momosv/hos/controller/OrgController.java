@@ -170,6 +170,12 @@ public class OrgController extends BasicController {
         return successMsg().add("page",orgService.getAuthorityList(isAllow,key,keyType,pageNum,pageSize,org.getOrgId()));
     }
 
+    @RequestMapping("getAuthorityDetail")
+    public Msg getAuthorityListDetail(String authId) throws Exception {
+        TbOrgManagerVO org= validOrgManager();
+        return successMsg().add("detail",orgService.getAuthorityDetail(authId,org.getOrgId()));
+    }
+
 
     private TbOrgManagerVO validOrgManager() throws Exception {
         try{

@@ -1,7 +1,3 @@
-$(function(){
-        getAuthorityList(-2,1);
-    }
-);
 
 var isAllow=-2;
 /*导航条页码*/
@@ -85,6 +81,38 @@ function pageMenu(page) {
 }
 
 function getAuthorityDetail(t) {
-    var id = $(t).attr("id");
+    var id = $(t).attr("dataId");
     window.open("/hos/page/org/AuthorityDetail/" + id);
+}
+
+function ajaxAuthorityDetail() {
+    var id = $("#authId").val();
+    $.ajax({
+        url:"/org/getAuthorityDetail",
+        data:{authId:id},
+        type: 'POST',
+        success:function (re) {
+            if(re.code==-1){
+                jQuery.alertWindow("登录已经失效，请重新登录！");
+                window.open("/hos/login");
+            }else  if (re.code != 200) {
+                var detail=re.extend.detail[0];
+                alert(detail.doc_name);
+                $("#docName").val(detail.doc_name);
+                $("#position").val(detail.position);
+                $("#deptName").val(detail.dept_name);
+                $("#orgName").val(detail.org_name);
+                $("#email").val(detail.doc_email);
+                $("#orgPhone").val(detail.org_phone);
+
+                $("#caseTitle").val(detail.diagnosis+"-"+detail.user_name);
+                $("#allowGrade").val(detail.allow_grade);
+                $("#caseA").attr("href","user/caseDetail/"+detail.case_id);
+                $("#reason").val(detail.reason);
+            }else {
+                jQuery.alertWindow(re.msg);
+            }
+        }
+
+    });
 }

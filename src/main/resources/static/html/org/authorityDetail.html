@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病历详情</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/org/approve.js"></script>
+    <style type="text/css">
+        #head,#user,#save_btn{
+            width: 1100px;
+            margin: 0 auto;
+            border: 1px orchid solid;
+        }
+    </style>
+    <script language="JavaScript">
+        $(function () {
+            ajaxAuthorityDetail();
+        });
+
+    </script>
+</head>
+<body>
+<div id="head" style="height: 100px;text-align: center;font-size: 44px;padding-top: 30px;color:#000;">
+    申请详情
+    <input type="hidden" id="authId" value="${authId}" >
+</div>
+<div id="user" style="">
+    <table style="height: 200px">
+        <tr>
+            <td>申请人：<input readonly="readonly" type="text" id="docName" value=""></td>
+            <td>职位：<input type="text" id="position" value=""></td>
+            <td>科室/部门：<input type="text" id="deptName" value=""></td>
+            <td>机构：<input type="text" id="orgName" value=""></td>
+
+        </tr>
+        <tr>
+            <td>申请人电话：<input id="telephone" type="text" value=""></td>
+            <td>申请人邮箱：<input id="email" type="text" value=""></td>
+            <td>机构联系人：<input id="linkman" type="text" ></td>
+            <td>机构联系电话：<input id="orgPhone" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td colspan="3">申请病历：<input id="caseTitle" type="text" value=""></td>
+            <td ><a target="_blank" id="caseA" href="/user/getCase">病历详情</a></td>
+        </tr>
+        <tr>
+            <td>申请级别：<input id="allowGrade" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td colspan="4">申请理由：<textarea id="reason" readonly="readonly"></textarea></td>
+        </tr>
+        <tr>
+            <td>权限截止时间：<input type="date" id="deadline"></td>
+        </tr>
+    </table>
+</div>
+
+<div id="save_btn" style="height: 100px;text-align: center">
+    <input type="button" class="btn" value="通过" onclick="">
+    <input type="button" class="btn" value="不通过" onclick="">
+</div>
+</body>
+</html>

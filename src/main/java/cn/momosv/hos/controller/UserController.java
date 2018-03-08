@@ -62,8 +62,13 @@ public class UserController extends BasicController{
      */
     @RequestMapping("getCase")
     public Object getCase(String id) throws Exception {
-        TbBaseUserPO user=   validUser();
+        TbBaseUserPO user=null;
         TbCasePO casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,id);
+        try{
+           user= validUser();
+        }catch (Exception e){
+            user=userService.getUserByPatientId(casePO.getPatientId());
+        }
         TbOrgPatientPO patientPO=null;
         if(null!=casePO){
              patientPO= (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,casePO.getPatientId());

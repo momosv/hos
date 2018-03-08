@@ -9,6 +9,8 @@ public interface UserService {
 
    TbBaseUserPO getUserByIdCard(String idCard) throws Exception;
 
+    TbBaseUserPO getUserByPatientId(String id) throws Exception;
+
     TbOrgPatientPO getPatientByTreatCode(String code, String orgId) throws Exception;
 
     TbOrgPatientPO getPatientByIdCard(String idCard, String orgId) throws Exception;

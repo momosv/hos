@@ -6,6 +6,7 @@ import cn.momosv.hos.model.TbDepartmentPO;
 import cn.momosv.hos.model.TbMedicalOrgPO;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
+import cn.momosv.hos.vo.TbOrgManagerVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -163,8 +164,22 @@ public class PageController extends BasicController {
 
     @RequestMapping("user/caseDetail/{caseId}")
     public String userCaseDetail(@PathVariable("caseId") String caseId) throws Exception {
-        validUser();
+       // validUser();
         return "user/caseDetail";
+    }
+    @RequestMapping("org/AuthorityDetail/{authId}")
+    public String getAuthorityDetail(@PathVariable("authId") String authId) throws Exception {
+        validOrgManager();
+        return "org/authorityDetail";
+    }
+
+    private TbOrgManagerVO validOrgManager() throws Exception {
+        try{
+            return (TbOrgManagerVO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录机构管理员后再操作");
+        }
     }
 
     private TbBaseUserPO validUser() throws Exception {

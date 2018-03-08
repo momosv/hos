@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("upload")
 public class FileUploadController {

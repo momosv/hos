@@ -162,4 +162,25 @@ public class OrgServiceImpl implements OrgService {
         basicService.selectJoint(example);
         return  new PageInfo(page.getResult());
     }
+
+    @Override
+    public Object getAuthorityDetail(String authId, String orgId) throws Exception {
+        BasicExample example =new BasicExample();
+        BasicExample.Criteria criteria=example.createCriteria();
+        criteria.andVarEqualTo("case_org_id",orgId);
+        example.setCol("a.*," +
+                " c.diagnosis,c.create_time as case_time," +
+                " u.name as user_name," +
+                " d.`name` as doc_name,d.account as doc_email,d.position," +
+                " de.`name` as dept_name," +
+                " o.`name` as org_name,o.linkman,o.telephone as org_phone " );
+        example.setTName(" tb_data_authority a " +
+                "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
+                "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
+                "LEFT JOIN tb_base_user u ON a.user_id=u.id_card " +
+                "LEFT JOIN tb_case c on c.id=a.case_id " +
+                "LEFT JOIN tb_medical_org o on a.apply_org_id=o.id ");
+        criteria.andVarEqualTo("a.id",authId);
+        return  basicService.selectJoint(example);
+    }
 }

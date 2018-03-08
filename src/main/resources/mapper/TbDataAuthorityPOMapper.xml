@@ -12,12 +12,13 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="deadline" property="deadline" jdbcType="TIMESTAMP" />
     <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="is_allow" property="isAllow" jdbcType="INTEGER" />
     <result column="allow_grade" property="allowGrade" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, doctor_id, apply_dept_id, apply_org_id, case_id, case_org_id,user_id, create_time, operator,
-    is_allow, allow_grade,deadline
+    is_allow, allow_grade,deadline,reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

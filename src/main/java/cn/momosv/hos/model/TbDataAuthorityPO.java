@@ -46,10 +46,19 @@ public class TbDataAuthorityPO extends IBaseDBPO{
     private String operator;
 
     private String caseOrgId;
+    private String reason;
 
     private Integer isAllow;
 
     private Integer allowGrade;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public String getCaseOrgId() {
         return caseOrgId;
