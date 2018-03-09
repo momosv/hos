@@ -1,6 +1,7 @@
 package cn.momosv.hos.service;
 
 import cn.momosv.hos.model.TbBaseUserPO;
+import cn.momosv.hos.model.TbDataAuthorityPO;
 import cn.momosv.hos.model.TbDoctorPO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
 import freemarker.template.TemplateException;
@@ -22,4 +23,7 @@ public interface OrgService {
     Object getAuthorityList(int isAllow, String key, String keyType, Integer pageNum, Integer pageSize,String orgId) throws Exception;
 
     Object getAuthorityDetail(String authId, String orgId) throws Exception;
+
+    void sendAuthApproveMsg(TbDataAuthorityPO auth) throws Exception;
+
 }

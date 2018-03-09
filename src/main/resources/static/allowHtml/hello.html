@@ -1,0 +1,48 @@
+<!DOCTYPE html>  
+<html>  
+<head>
+    <meta charset="UTF-8">
+    <title>联系我们</title>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+    <link rel="stylesheet" href="/css/common.css">
+    <style type="text/css">
+        table tr td:nth-child(odd){
+            text-align: right;
+        }
+        table tr td{
+            font-size: 20px;
+            color: #66ccff;
+        }
+    </style>
+</head>
+<body>
+<div  id="nav" style="position: relative;width: 1050px;margin: 0 auto;border: solid pink 1px;
+min-height: 800px;text-align: center;padding-top: 150px;">
+    <span style="font-size: 36px;">信息反馈/帮助/建议</span> <a href="/hos/login" style="float: right">返回首页</a>
+
+    <table style="width: 400px;margin:0 auto">
+        <tr>
+            <td>标题：</td>
+            <td id="title"><input type="text" placeholder="最多30个字"></td>
+        </tr>
+        <tr>
+            <td>内容：</td>
+            <td id="content"><textarea></textarea></td>
+        </tr>
+        <tr>
+            <td>您的E-mail：</td>
+            <td id="email"><input type="text"></td>
+        </tr>
+        <tr>
+            <td>联系电话</td>
+            <td id="phone"><input type="tel"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><input type="button" class="btn" value="提交"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

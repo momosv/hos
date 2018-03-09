@@ -22,6 +22,12 @@ function org_approve_manager(){
     $("#org_page").show();
     $("#org_iframe").attr("src",'/allowHtml/org/approveHead.html');
 }
+function my_org(){
+    hide_head();
+    $("#org_page").show();
+    $("#org_iframe").attr("src",'/allowHtml/org/my.html');
+}
+
 //sys 管理员
 function sys_org_manager(){
     hide_head();

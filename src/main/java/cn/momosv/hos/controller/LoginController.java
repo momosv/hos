@@ -322,4 +322,19 @@ public class LoginController extends BasicController{
 		return Msg.success().add("data",result);
 	}
 
+	@ResponseBody
+	@RequestMapping("contact")
+	public Msg contactUs(TbContactUsPO contactUsPO){
+		if(null==contactUsPO.getContent()||null==contactUsPO.getTitle()){
+			return failMsg("标题或者内容不能为空");
+		}
+		if(contactUsPO.getEmail()==null&&contactUsPO.getPhone()==null){
+			return failMsg("电子邮箱或者电话须填写至少一项");
+		}
+		contactUsPO.setId(UUID36());
+		contactUsPO.setCreateTime(new Date());
+		basicService.insertOne(contactUsPO);
+		return successMsg("反馈成功，我们将会尽快和您联系！");
+	}
+
 }

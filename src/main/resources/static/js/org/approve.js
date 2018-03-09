@@ -34,6 +34,7 @@ function getAuthorityList(allow,pageNum) {
                 var inHtml="";
 
                 for(var i=0;i<list.length;i++){
+                    alert(list[i].user_name);
                     var allow_grade="个人";
                     if(list[i].allow_grade==1){
                         allow_grade="部门";
@@ -42,7 +43,10 @@ function getAuthorityList(allow,pageNum) {
                     }                    inHtml+=htmlModel
                         .replace("{dataId}",list[i].id)
                         .replace("{caseId}",list[i].case_id==undefined?"":list[i].case_id)
+                        .replace("{case_dept}",list[i].from_dept_name==undefined?"":list[i].from_dept_name)
+                        .replace("{case_org}",list[i].from_org_name==undefined?"":list[i].from_org_name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
+                        .replace("{case_time}",list[i].case_time==undefined?"":list[i].case_time)
                         .replace("{user_name}",list[i].user_name==undefined?"":list[i].user_name)
                         .replace("{doc_name}",list[i].doc_name==undefined?"":list[i].doc_name)
                         .replace("{dept_name}",list[i].dept_name==undefined?"":list[i].dept_name)
@@ -97,22 +101,43 @@ function ajaxAuthorityDetail() {
                 window.open("/hos/login");
             }else  if (re.code != 200) {
                 var detail=re.extend.detail[0];
-                alert(detail.doc_name);
-                $("#docName").val(detail.doc_name);
-                $("#position").val(detail.position);
-                $("#deptName").val(detail.dept_name);
-                $("#orgName").val(detail.org_name);
-                $("#email").val(detail.doc_email);
-                $("#orgPhone").val(detail.org_phone);
+                if(detail==null)return;
+                $("#docName").val(detail.doc_name==undefined?"":detail.doc_name);
+                $("#docPhone").val(detail.doc_phone==undefined?"":detail.doc_phone);
+                $("#position").val(detail.position==undefined?"":detail.position);
+                $("#deptName").val(detail.dept_name==undefined?"":detail.dept_name);
+                $("#orgName").val(detail.org_name==undefined?"":detail.org_name);
+                $("#email").val(detail.doc_email==undefined?"":detail.doc_email);
+                $("#orgPhone").val(detail.org_phone==undefined?"":detail.org_phone);
+                $("#linkman").val(detail.linkman==undefined?"":detail.linkman);
 
-                $("#caseTitle").val(detail.diagnosis+"-"+detail.user_name);
-                $("#allowGrade").val(detail.allow_grade);
-                $("#caseA").attr("href","user/caseDetail/"+detail.case_id);
-                $("#reason").val(detail.reason);
+                $("#caseTitle").val(detail.diagnosis==undefined?"":detail.diagnosis+"-"+detail.user_name==undefined?"":detail.user_name);
+                $("#allowGrade").val(detail.allow_grade==undefined?"":detail.allow_grade);
+                $("#caseA").attr("href","/hos/page/user/caseDetail/"+detail.case_id);
+                $("#reason").val(detail.reason==undefined?"":detail.reason);
             }else {
                 jQuery.alertWindow(re.msg);
             }
         }
 
+    });
+}
+
+
+
+function approveAuthority(isA) {
+    if(isA!=1)isA=0;
+    $.ajax({
+        url:"/org/approveAuthority",
+        data:{id : $("#authId").val(),isAllow:isA,allowGrade:$("#allowGrade").val(),deadline:$("#deadline").val()},
+        type: 'POST',
+        success:function (re) {
+            if(re.code==-1){
+                jQuery.alertWindow("登录已经失效，请重新登录！");
+                window.open("/hos/login");
+            }else{
+                jQuery.alertWindow(re.msg);
+            }
+        }
     });
 }

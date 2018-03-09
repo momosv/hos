@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8"/>
+        <title>病历权限审批【${isPass}】通知</title>
+    </head>
+    <br>
+    尊敬的${name}:
+    <#if isAllow=="1">
+    <br/>
+    您申请的的病历："${case}"(${orgName})审批【通过】，感谢使用病人跟踪治疗信息管理系统。
+    <br/>
+    <br/>
+        点击使用<a href="${basePath}hos/login">病人跟踪治疗信息管理系统首页</a>
+    </#if>
+    <#if isAllow=="0">
+        <br/>
+        很遗憾通知您，您申请的的病历："${case}"审批【不通过】。
+        <br/>
+        如需帮助，请进入<a href="${basePath}hos/login">病人跟踪治疗信息管理系统首页</a>联系我们
+        <br/>
+    </#if>
+    <br/>
+    </body>
+</html>

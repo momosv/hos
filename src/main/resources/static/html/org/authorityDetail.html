@@ -36,30 +36,34 @@
 
         </tr>
         <tr>
-            <td>申请人电话：<input id="telephone" type="text" value=""></td>
+            <td>申请人电话：<input id="docPhone" type="text" value=""></td>
             <td>申请人邮箱：<input id="email" type="text" value=""></td>
             <td>机构联系人：<input id="linkman" type="text" ></td>
             <td>机构联系电话：<input id="orgPhone" type="text" value=""></td>
         </tr>
         <tr>
             <td colspan="3">申请病历：<input id="caseTitle" type="text" value=""></td>
-            <td ><a target="_blank" id="caseA" href="/user/getCase">病历详情</a></td>
+            <td ><a target="_blank" id="caseA" href="">病历详情</a></td>
         </tr>
         <tr>
-            <td>申请级别：<input id="allowGrade" type="text" value=""></td>
+            <td>申请级别：<select id="allowGrade" >
+                <option value="0" selected="selected">个人</option>
+                <option value="1">部门</option>
+                <option value="2">机构</option>
+            </select></td>
         </tr>
         <tr>
             <td colspan="4">申请理由：<textarea id="reason" readonly="readonly"></textarea></td>
         </tr>
         <tr>
-            <td>权限截止时间：<input type="date" id="deadline"></td>
+            <td>权限截止日期：<input type="date" id="deadline"></td>
         </tr>
     </table>
 </div>
 
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="通过" onclick="">
-    <input type="button" class="btn" value="不通过" onclick="">
+    <input type="button" class="btn" value="通过" onclick="approveAuthority(1)">
+    <input type="button" class="btn" value="不通过" onclick="approveAuthority(0)">
 </div>
 </body>
 </html>

@@ -126,7 +126,6 @@ public class PageController extends BasicController {
 
     @RequestMapping("user/getSecond/{caseId}/{secondId}/{num}")
     public String getUserSecond(@PathVariable("caseId") String caseId,@PathVariable("secondId") String secondId,@PathVariable("num") String num) throws Exception {
-        validUser();
         if(num.equals("1")){
             return "user/getReturn";
         }else if(num.equals("2")){
@@ -150,7 +149,6 @@ public class PageController extends BasicController {
             @PathVariable("caseId") String caseId,
             @PathVariable("secondId") String secondId,
             @PathVariable("num") String num) throws Exception {
-        validUser();
         if(num.equals("1")){
            return "user/getReturn";
         }else if(num.equals("2")){

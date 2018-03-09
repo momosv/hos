@@ -216,6 +216,31 @@ public class DoctorServiceImpl implements DoctorService {
                 .add("conList",conList);
     }
 
+    @Override
+    public boolean checkAuth(TbDoctorVO doctorVO, String caseId) throws Exception {
+        BasicExample example =new BasicExample(TbDataAuthorityPO.class);
+        BasicExample.Criteria criteria= example.createCriteria();
+        criteria.andVarEqualTo("apply_org_id",doctorVO.getOrgId());
+        criteria.andVarEqualTo("case_id",caseId);
+        criteria.andVarEqualTo("allow_grade","2");
+        criteria.andVarEqualTo("is_allow","1");
+        example.or();
+        criteria.andVarEqualTo("apply_dept_id",doctorVO.getDeptId());
+        criteria.andVarEqualTo("case_id",caseId);
+        criteria.andVarEqualTo("allow_grade","1");
+        criteria.andVarEqualTo("is_allow","1");
+        example.or();
+        criteria.andVarEqualTo("doctor_id",doctorVO.getId());
+        criteria.andVarEqualTo("case_id",caseId);
+        criteria.andVarEqualTo("allow_grade","0");
+        criteria.andVarEqualTo("is_allow","1");
+        TbDataAuthorityPO auth = (TbDataAuthorityPO) basicService.selectByExample(example);
+        if(auth==null||!auth.getIsAllow().equals(1)){
+            return false;
+        }
+        return true;
+    }
+
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {
         BasicExample tExample = new BasicExample(TbOrgPatientPO.class);
         tExample.createCriteria().andVarEqualTo("user_id",user.getIdCard());

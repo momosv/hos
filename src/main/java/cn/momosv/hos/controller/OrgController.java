@@ -1,10 +1,7 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbDepartmentPO;
-import cn.momosv.hos.model.TbDoctorPO;
-import cn.momosv.hos.model.TbOrgManagerPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.OrgService;
@@ -174,6 +171,26 @@ public class OrgController extends BasicController {
     public Msg getAuthorityListDetail(String authId) throws Exception {
         TbOrgManagerVO org= validOrgManager();
         return successMsg().add("detail",orgService.getAuthorityDetail(authId,org.getOrgId()));
+    }
+
+    @RequestMapping("approveAuthority")
+    public Msg getAuthorityListDetail(TbDataAuthorityPO auth) throws Exception {
+        TbOrgManagerVO org= validOrgManager();
+        if(StringUtils.isEmpty(auth.getId())){
+           return failMsg("权限id不能为空");
+        }
+        TbDataAuthorityPO old= (TbDataAuthorityPO) basicService.selectByPrimaryKey(TbDataAuthorityPO.class,auth.getId());
+        if(!old.getCaseOrgId().equals(org.getOrgId())){
+            return failMsg("您无权限操作不是本机构数据");
+        }
+        if(auth.getDeadline()==null){
+            return failMsg("权限截止日期不能为空");
+        }
+        auth.setCaseId(old.getCaseId());
+        auth.setDoctorId(old.getDoctorId());
+        basicService.updateOne(auth,true);
+        orgService.sendAuthApproveMsg(auth);
+        return successMsg("更新成功");
     }
 
 

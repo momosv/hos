@@ -7,8 +7,11 @@ import cn.momosv.hos.model.TbOrgPatientPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
+import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
+import cn.momosv.hos.vo.TbDoctorVO;
+import cn.momosv.hos.vo.TbOrgManagerVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +30,9 @@ public class UserController extends BasicController{
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    DoctorService doctorService;
 
     @RequestMapping("getCaseList")
     public Object getCaseList(
@@ -64,15 +70,33 @@ public class UserController extends BasicController{
     public Object getCase(String id) throws Exception {
         TbBaseUserPO user=null;
         TbCasePO casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,id);
+        if(null==casePO){
+            return failMsg("该病历数据不存在或者已经被删除");
+        }
         try{
-           user= validUser();
+          TbOrgManagerVO orgVO = validOrgManager();
+          if(!orgVO.getOrgId().equals(casePO.getOrgId())){
+                return failMsg("您无权限查看该病历数据");
+          }
         }catch (Exception e){
-            user=userService.getUserByPatientId(casePO.getPatientId());
+            try {
+               TbDoctorVO doctorVO = validDoctor();
+               if(!doctorService.checkAuth(doctorVO,casePO.getId())){
+                   return failMsg("您无权限查看该病历数据");
+               }
+            }catch (Exception ed){
+                TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
+                 user = validUser();
+                if(userPO0.getIdCard().equals(user.getIdCard())){
+                    return failMsg("您无权限查看该病历数据");
+                }
+            }
+
         }
-        TbOrgPatientPO patientPO=null;
-        if(null!=casePO){
-             patientPO= (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,casePO.getPatientId());
+        if(user==null) {
+            user = userService.getUserByPatientId(casePO.getPatientId());
         }
+        TbOrgPatientPO patientPO = (TbOrgPatientPO) basicService.selectByPrimaryKey(TbOrgPatientPO.class,casePO.getPatientId());
         return successMsg("获取成功").add("patient",patientPO).add("user",user).add("case",casePO);
     }
 
@@ -85,4 +109,21 @@ public class UserController extends BasicController{
         }
     }
 
+    private TbDoctorVO validDoctor() throws Exception {
+        try{
+            return (TbDoctorVO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录医生身份账号后再操作");
+        }
+    }
+
+    private TbOrgManagerVO validOrgManager() throws Exception {
+        try{
+            return (TbOrgManagerVO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录机构管理员后再操作");
+        }
+    }
 }

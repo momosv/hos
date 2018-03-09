@@ -3,6 +3,8 @@ package cn.momosv.hos.service.impl;
 import cn.momosv.hos.dao.TbOrgManagerPOMapper;
 import cn.momosv.hos.email.MailService;
 import cn.momosv.hos.model.TbBaseUserPO;
+import cn.momosv.hos.model.TbCasePO;
+import cn.momosv.hos.model.TbDataAuthorityPO;
 import cn.momosv.hos.model.TbDoctorPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
@@ -17,6 +19,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
@@ -136,7 +139,7 @@ public class OrgServiceImpl implements OrgService {
         BasicExample.Criteria criteria=example.createCriteria();
         criteria.andVarEqualTo("case_org_id",orgId);
         example.setOrderByClause("create_time");
-        example.setCol("a.*,c.diagnosis, u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name " );
+        example.setCol("a.*,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name " );
         example.setTName(" tb_data_authority a " +
                 "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
                 "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
@@ -171,16 +174,37 @@ public class OrgServiceImpl implements OrgService {
         example.setCol("a.*," +
                 " c.diagnosis,c.create_time as case_time," +
                 " u.name as user_name," +
-                " d.`name` as doc_name,d.account as doc_email,d.position," +
+                " d.`name` as doc_name,d.account as doc_email,d.position,du.telephone as doc_phone ," +
                 " de.`name` as dept_name," +
                 " o.`name` as org_name,o.linkman,o.telephone as org_phone " );
         example.setTName(" tb_data_authority a " +
                 "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
+                "LEFT JOIN tb_base_user du ON d.user_id=du.id " +
                 "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
                 "LEFT JOIN tb_base_user u ON a.user_id=u.id_card " +
                 "LEFT JOIN tb_case c on c.id=a.case_id " +
                 "LEFT JOIN tb_medical_org o on a.apply_org_id=o.id ");
         criteria.andVarEqualTo("a.id",authId);
         return  basicService.selectJoint(example);
+    }
+
+    @Override
+    public void sendAuthApproveMsg(TbDataAuthorityPO auth) throws Exception {
+        TbDoctorPO doc= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,auth.getDoctorId());
+        TbCasePO casePO= (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,auth.getCaseId());
+        TbBaseUserPO userPO=userService.getUserByPatientId(casePO.getPatientId());
+        //下发邮件
+        Map<String, String> map = new HashedMap();
+        map.put("isAllow",auth.getIsAllow().toString());
+        map.put("case",casePO.getDiagnosis()+"-"+userPO.getName());
+        map.put("isPass", auth.getIsAllow().equals(1)?"通过":"不通过");
+        map.put("orgName", ((TbOrgManagerVO)session.getAttribute("user")).getOrgName());
+        map.put("name", doc.getName());
+        map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+        // 通过指定模板名获取FreeMarker模板实例
+        Template template = freeMarkerConfig.getConfiguration().getTemplate("org/approveCaseAuthEmail.html");
+        // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+        String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+        mailService.sendHtmlMail(doc.getAccount(), "病历【"+casePO.getDiagnosis()+"-"+userPO.getName()+"】权限审核["+map.get("isPass")+"]通知", htmlText);
     }
 }

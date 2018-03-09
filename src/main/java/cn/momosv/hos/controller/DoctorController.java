@@ -8,6 +8,7 @@ import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
+import cn.momosv.hos.vo.TbOrgManagerVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -219,7 +220,29 @@ public class DoctorController extends BasicController {
      */
     @RequestMapping("getReturnVisit")
     public Object getReturnVisit(String id) throws Exception {
-        return successMsg("获取成功").add("detail",basicService.selectByPrimaryKey(TbReturnVisitPO.class,id));
+        TbReturnVisitPO returnVisitPO= (TbReturnVisitPO) basicService.selectByPrimaryKey(TbReturnVisitPO.class,id);
+        TbCasePO casePO= (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,returnVisitPO.getCaseId());
+        try{
+            TbOrgManagerVO orgVO = validOrgManager();
+            if(!orgVO.getOrgId().equals(casePO.getOrgId())){
+                return failMsg("您无权限查看该病历数据");
+            }
+        }catch (Exception e){
+            try {
+                TbDoctorVO doctorVO = validDoctor();
+                if(!doctorService.checkAuth(doctorVO,casePO.getId())){
+                    return failMsg("您无权限查看该病历数据");
+                }
+            }catch (Exception ed){
+                TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
+                TbBaseUserPO user = validUser();
+                if(userPO0.getIdCard().equals(user.getIdCard())){
+                    return failMsg("您无权限查看该病历数据");
+                }
+            }
+
+        }
+        return successMsg("获取成功").add("detail",returnVisitPO);
     }
     /**
      * 更新
@@ -577,12 +600,27 @@ public class DoctorController extends BasicController {
 
     @RequestMapping("getCaseSecondList")
     public Object getCaseSecondList(String caseId) throws Exception {
-        try {
-            validUser();
+        TbCasePO casePO = validCase(caseId);
+        try{
+            TbOrgManagerVO orgVO = validOrgManager();
+            if(!orgVO.getOrgId().equals(casePO.getOrgId())){
+                return failMsg("您无权限查看该病历数据");
+            }
         }catch (Exception e){
-            validDoctor();
+            try {
+                TbDoctorVO doctorVO = validDoctor();
+                if(doctorVO.getDeptId().equals(casePO.getDeptId())||!doctorService.checkAuth(doctorVO,casePO.getId())){
+                    return failMsg("您无权限查看该病历数据");
+                }
+            }catch (Exception ed){
+                TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
+               TbBaseUserPO userPO = validUser();
+               if(userPO0.getIdCard().equals(userPO.getIdCard())){
+                   return failMsg("您无权限查看该病历数据");
+               }
+            }
+
         }
-        validCase(caseId);
         //住院
         return doctorService.getSecondList(caseId);
 
@@ -627,6 +665,15 @@ public class DoctorController extends BasicController {
         }
         catch (Exception e){
             throw new Exception("非法请求，请登录个人身份账号后再操作");
+        }
+    }
+
+    private TbOrgManagerVO validOrgManager() throws Exception {
+        try{
+            return (TbOrgManagerVO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录机构管理员后再操作");
         }
     }
 }

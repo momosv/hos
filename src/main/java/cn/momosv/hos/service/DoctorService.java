@@ -24,4 +24,6 @@ public interface DoctorService {
     void getHosList(String caseId);
 
     Object getSecondList(String caseId);
+
+    boolean checkAuth(TbDoctorVO doctorVO, String caseId) throws IllegalAccessException, InstantiationException, Exception;
 }
