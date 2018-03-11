@@ -116,9 +116,12 @@ public class LoginController extends BasicController{
 				vo.setDeptName(deptPO.getName());
 				TbMedicalOrgPO orgPO= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,vo.getOrgId());
 				vo.setOrgName(orgPO.getName());
+				TbBaseUserPO baseUser= (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,vo.getUserId());
+
 				session.setAttribute("deptName",deptPO.getName());
 				session.setAttribute("orgName",orgPO.getName());
 				session.setAttribute("user",vo);
+				session.setAttribute("baseUser",baseUser);
 				session.setAttribute("identity",DOCTOR);
 				return successMsg("登录成功").add("user",vo.getName()).add("identity",DOCTOR);
 			}
@@ -161,6 +164,23 @@ public class LoginController extends BasicController{
 			}
 		}
 		return failMsg("登录失败");
+	}
+
+	@RequestMapping("/org/my")
+	public String orgMy(){
+		return "org/my";
+	}
+	@RequestMapping("/sys/my")
+	public String sysMy(){
+		return "sys/my";
+	}
+	@RequestMapping("/doc/my")
+	public String docMy(){
+		return "doc/my";
+	}
+	@RequestMapping("/user/my")
+	public String userMy(){
+		return "user/my";
 	}
 
 	@ResponseBody
@@ -333,6 +353,7 @@ public class LoginController extends BasicController{
 		}
 		contactUsPO.setId(UUID36());
 		contactUsPO.setCreateTime(new Date());
+		contactUsPO.setIsRead(0);
 		basicService.insertOne(contactUsPO);
 		return successMsg("反馈成功，我们将会尽快和您联系！");
 	}

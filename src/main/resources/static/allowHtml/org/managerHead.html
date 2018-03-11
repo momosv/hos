@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/css/sys.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/org/manager.js"></script>
+    <script src="/js/common.js"></script>
+</head>
+<body>
+<div id="sys_content">
+    <div id="sys_right" style="position: absolute;text-align: center;min-height: 1050px;width: 850px">
+        <div class="org_table" id="org_search">
+            <input type="button" value="新增" id="man_add_btn" onclick="man_add()">
+            <input type="button" value="搜索" id="man_search_btn" onclick="man_search_key()">
+            <input type="text" value="" placeholder="请输入管理员名字" id="man_search_key" onchange="man_search_key()">
+        </div>
+        <div class="org_table" id="org_table" >
+            <table id="man_table_data" style="margin: 0 auto;width: 900px">
+                <tr>
+                    <th>名字</th>
+                    <th>账号</th>
+                    <th>邮箱</th>
+                    <th>密码</th>
+                    <th>联系电话</th>
+                    <th>等级</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </table>
+            <table id="man_table_model" style="display: none">
+                <tr style="cursor: pointer" >
+                    <td>{name}</td>
+                    <td>{account}</td>
+                    <td>{email}</td>
+                    <td>{passwd}</td>
+                    <td>{phone}</td>
+                    <td>{grade}</td>
+                    <td>{create_time}</td>
+                    <td><span id="{did}" onclick="deleteM(this)">删除</span>|<span  id="{cid}" onclick="changeM(this)">更改</span></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="org_table" id="org_page">
+            <ul id="ul_page">
+            </ul>
+
+            <div style="float: left;margin: 0 10px 0 10px">
+                跳到第<input type="number"  value="" id="page_num" onchange="getOrderManList(this)"
+                          style="width: 40px;font-size: 13px;margin: 0 3px ;
+                                 "
+            >页
+            </div>
+            <span id="total_num">共1页 </span>
+            <span id="pre_num">第1页 </span>
+        </div>
+    </div>
+
+    <div  id="cdiv" style="display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
+        <span style="float: right;margin-right: 20px;font-size: 28px;color: #818181;cursor: pointer" onclick="hideC()">X</span>
+        <table style="margin: 0 auto;width: 400px">
+            <tr style="text-align: center;font-size: 24px;color: black">
+                <td colspan="2" id="cTitle">更新管理员</td>
+            </tr>
+            <tr>
+                <td>名字</td>
+                <td><input id="cname" type="text"><input type="hidden" id="hiddenId" value=""></td>
+            </tr>
+            <tr>
+                <td>账号</td>
+                <td><input id="caccount" type="text"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input id="cpasswd" type="text"></td>
+            </tr>
+            <tr>
+                <td>电子邮箱</td>
+                <td><input id="cemail" type="text"></td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td><input id="cphone" type="text"></td>
+            </tr>
+            <tr>
+                <td>等级</td>
+                <td><input id="cgrade" type="text"></td>
+            </tr>
+        </table>
+        <input class="btn" type="button" value="保存" onclick="saveOrUpdate()">
+    </div>
+</div>
+
+</body>
+</html>

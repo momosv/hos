@@ -34,15 +34,41 @@ public class TbContactUsPO extends IBaseDBPO {
     private Date createTime;
 
     private String name;
-    private Integer phone;
+    private String phone;
     private String email;
+    private String reply;
     private int isRead;
+    private int isDeal;
 
-    public Integer getPhone() {
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public int getIsDeal() {
+        return isDeal;
+    }
+
+    public void setIsDeal(int isDeal) {
+        this.isDeal = isDeal;
+    }
+
+    public int getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
+    }
+
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

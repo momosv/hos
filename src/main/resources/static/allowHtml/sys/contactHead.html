@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/css/sys.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/sys/contact.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<div id="sys_content">
+    <div id="sys_left" style="float: left;min-height: 800px;width: 200px;padding-top: 80px">
+        <ul class="ul" >
+            <li onclick="getConList(-1);">全部来信</li>
+            <li onclick="getConList(1)">已读</li>
+            <li onclick="getConList(0)">未读</li>
+        </ul>
+    </div>
+    <div id="sys_right" style="float: left;min-height: 800px;width: 850px">
+        <div class="org_table" id="org_search">
+            <input type="button" value="搜索" id="con_search_btn" onclick="con_search_key()">
+            <input type="text" value="" placeholder="请输入标题关键字" id="con_search_key" onchange="con_search_key()">
+        </div>
+        <div class="org_table" id="org_table">
+            <table id="con_table_data">
+                <tr>
+                    <th>标题</th>
+                    <th>时间</th>
+                    <th>来信者</th>
+                    <th>联系方式</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                </tr>
+            </table>
+            <table id="con_table_model" style="display: none">
+                <tr style="cursor: pointer" conId="{id}" onclick="getConDetail(this)">
+                    <td>{title}</td>
+                    <td>{time}</td>
+                    <td>{name}</td>
+                    <td>{phone}</td>
+                    <td>{email}</td>
+                    <td>{isRead}|{isDeal}</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="org_table" id="org_page">
+            <ul id="ul_page">
+            </ul>
+
+            <div style="float: left;margin: 0 10px 0 10px">
+                跳到第<input type="number"  value="" id="page_num" onchange="getOrderConList(this)"
+                          style="width: 40px;font-size: 13px;margin: 0 3px ;
+                                 "
+            >页
+            </div>
+            <span id="total_num">共1页 </span>
+            <span id="pre_num">第1页 </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

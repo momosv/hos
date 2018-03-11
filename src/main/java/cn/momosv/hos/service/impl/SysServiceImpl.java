@@ -9,16 +9,14 @@ package cn.momosv.hos.service.impl;
 
 
 import cn.momosv.hos.email.MailService;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbMedicalOrgPO;
-import cn.momosv.hos.model.TbOrgManagerPO;
-import cn.momosv.hos.model.TbSysManagerPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.SysService;
 import cn.momosv.hos.util.Constants;
 import cn.momosv.hos.util.SysUtil;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -141,5 +140,20 @@ public class SysServiceImpl implements SysService {
 		}
 
 	}
+
+    @Override
+    public void reply(TbContactUsPO contact) throws IOException, TemplateException {
+		Map<String, String> map = new HashedMap();
+		map.put("title", contact.getTitle());
+		map.put("content", contact.getContent());
+		map.put("name", contact.getName());
+		map.put("reply", contact.getReply());
+		map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+		// 通过指定模板名获取FreeMarker模板实例
+		Template template = freeMarkerConfig.getConfiguration().getTemplate("sys/replyEmail.html");
+		// 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+		String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+		mailService.sendHtmlMail(contact.getEmail(), "关于来信["+contact.getTitle()+"]的回复", htmlText);
+    }
 
 }

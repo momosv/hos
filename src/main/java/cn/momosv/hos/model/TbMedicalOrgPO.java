@@ -40,7 +40,7 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
 
     private String county;
 
-    private Integer telephone;
+    private String telephone;
 
     private String type;
 
@@ -179,11 +179,11 @@ public class TbMedicalOrgPO  extends IBaseDBPO {
         this.county = county == null ? null : county.trim();
     }
 
-    public Integer getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(Integer telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 

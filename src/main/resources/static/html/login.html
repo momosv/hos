@@ -19,18 +19,20 @@
 		<a id="a_head" href="/hos/login">首页</a>
 		<a class="a_sys a_head_child" id="a_sys_org" onclick="sys_org_manager()" style="display: none">机构管理</a>
 		<a class="a_sys a_head_child" id="a_sys_user" onclick="user_org_manager()" style="display: none">用户管理</a>
-		<a class="a_sys a_head_child" id="a_sys_owner" onclick="contact_manager()" style="display: none">反馈信息管理</a>
+		<a class="a_sys a_head_child" id="a_sys_contact" onclick="contact_manager()" style="display: none">反馈信息管理</a>
+		<a class="a_sys a_head_child" id="a_sys_owner" onclick="my_sys()" style="display: none">个人中心</a>
 
 		<a class="a_org a_head_child" id="a_org_dept" onclick="org_dept_manager()" style="display: none">部门人员</a>
 		<a class="a_org a_head_child" id="a_org_perm" onclick="org_approve_manager()" style="display: none">授权审批</a>
 		<a class="a_org a_head_child" id="a_org_owner" onclick="my_org()" style="display: none">个人中心</a>
 
 		<a class="a_doc a_head_child" id="a_doc_case" onclick="doc_case_manager()" style="display: none">病历管理</a>
-		<a class="a_doc a_head_child" id="a_doc_owner" href="/hos/login" style="display: none">个人中心</a>
+		<a class="a_doc a_head_child" id="a_doc_auth" onclick="doc_auth_manager()" style="display: none">病历权限</a>
+		<a class="a_doc a_head_child" id="a_doc_owner" onclick="my_doc()"  style="display: none">个人中心</a>
 
 		<a class="a_user a_head_child" id="a_user_case" onclick="user_case_manager()" style="display: none">病历记录</a>
-		<a class="a_user a_head_child" id="a_user_perm" href="/hos/login" style="display: none">授权管理</a>
-		<a class="a_user a_head_child" id="a_user_owner" href="/org/my" style="display: none">个人中心</a>
+		<a class="a_user a_head_child" id="a_user_perm" onclick="user_auth_manager()" style="display: none">授权管理</a>
+		<a class="a_user a_head_child" id="a_user_owner" onclick="my_user()"  style="display: none">个人中心</a>
 
 		<a id="a_relative" href="/allowHtml/hello.html" >联系我们</a>
 		<a class="exit a_head_child" id="a_exit"  onclick="exit()" style="display: none">退出</a>

@@ -1,15 +1,14 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbMedicalOrgPO;
-import cn.momosv.hos.model.TbSysManagerPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.SysService;
 import cn.momosv.hos.util.Constants;
 import cn.momosv.hos.util.SysUtil;
+import cn.momosv.hos.vo.TbOrgManagerVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -129,6 +128,166 @@ public class SysController extends BasicController{
         basicService.deleteByPrimaryKey(TbSysManagerPO.class,id);
         return Msg.success();
     }
+
+    @RequestMapping("getContactList")
+    public Msg getContactList(@RequestParam(defaultValue = "-1")String type,String key,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "10") int pageSize) throws Exception {
+            BasicExample example = new BasicExample(TbContactUsPO.class);
+            BasicExample.Criteria criteria = example.createCriteria();
+            example.setOrderByClause("create_time desc");
+            if(!StringUtils.isEmpty(key)){
+                criteria.andVarLike("title","%"+key+"%");
+            }
+            if(type.equals("1")||type.equals("0")){
+                criteria.andVarLike("is_read",type);
+            }
+            Page page=PageHelper.startPage(pageNum,pageSize);
+            basicService.selectByExample(example);
+            return successMsg().add("page",new PageInfo<>(page.getResult()));
+    }
+    @RequestMapping("reply")
+    public Msg replyContact(TbContactUsPO contact) throws Exception {
+        TbContactUsPO old = (TbContactUsPO) basicService.selectByPrimaryKey(TbContactUsPO.class,contact.getId());
+        if(null==old){
+            return failMsg("回复失败，来访信息不存在");
+        }
+        if(StringUtils.isEmpty(contact.getReply())){
+            return failMsg("回复失败，回复内容不能为空");
+        }
+        contact.setIsRead(1);
+        contact.setIsDeal(1);
+        basicService.updateOne(contact,true);
+        old.setReply(contact.getReply());
+        sysService.reply(old);
+        return successMsg("回复成功，已向来信人发送邮件");
+    }
+
+    @RequestMapping("updateMy")
+    public Msg updateMy(TbSysManagerPO man) throws Exception {
+        TbSysManagerPO old = validSysManager();
+        if(StringUtils.isEmpty(man.getAccount())||StringUtils.isEmpty(man.getEmail())){
+            return failMsg("账号/电子邮箱不能为空");
+        }
+        if(StringUtils.isEmpty(man.getPasswd())){
+            return failMsg("密码不能为空");
+        }
+        BasicExample example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail()).andVarNotEqualTo("id",old.getId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在");
+        }
+        example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount()).andVarNotEqualTo("id",old.getId());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在");
+        }
+        man.setId(old.getId());
+        basicService.updateOne(man,true);
+        return successMsg("更改成功，请退出重新登录生效");
+    }
+
+    @RequestMapping("addChildManager")
+    public Msg addChildManager(TbSysManagerPO man) throws Exception {
+        if(StringUtils.isEmpty(man.getAccount())||StringUtils.isEmpty(man.getEmail())){
+            return failMsg("账号/电子邮箱不能为空");
+        }
+        if(StringUtils.isEmpty(man.getPasswd())){
+            return failMsg("密码不能为空");
+        }
+
+        TbSysManagerPO old = validSysManager();
+        BasicExample example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在");
+        }
+        example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在");
+        }
+        man.setCreateTime(new Date());
+        man.setId(UUID36());
+        man.setGrade(old.getGrade()+1);
+        basicService.insertOne(man);
+        return successMsg("添加成功");
+    }
+    @RequestMapping("getChildManager")
+    public Msg getChildManager(String id) throws Exception {
+        TbSysManagerPO sys = validSysManager();
+        TbSysManagerPO child = (TbSysManagerPO) basicService.selectByPrimaryKey(TbSysManagerPO.class,id);
+        if(child==null){
+            return failMsg("账号不存在或者已经被删除");
+        }
+        if(child.getGrade()<=sys.getGrade()){
+            return failMsg("您无权限查看同级或者上级管理员");
+        }
+        return successMsg().add("detail",child);
+    }
+
+    @RequestMapping("updateChildManager")
+    public Msg updateChildManager(TbSysManagerPO man) throws Exception {
+        TbSysManagerPO sys = validSysManager();
+        if(StringUtils.isEmpty(man.getAccount())||StringUtils.isEmpty(man.getEmail())){
+            return failMsg("账号/电子邮箱不能为空");
+        }
+        if(StringUtils.isEmpty(man.getPasswd())){
+            return failMsg("密码不能为空");
+        }
+        TbSysManagerPO old = (TbSysManagerPO) basicService.selectByPrimaryKey(TbSysManagerPO.class,man.getId());
+        if(null==old){
+            return failMsg("子账号不存在或者已经被删除");
+        }
+        if(old.getGrade()<=sys.getGrade()){
+            return failMsg("您无权限删除同级或者上级管理员");
+        }
+        BasicExample example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail()).andVarNotEqualTo("id",man.getId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在");
+        }
+        example=new BasicExample(TbSysManagerPO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount()).andVarNotEqualTo("id",man.getId());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在");
+        }
+        basicService.updateOne(man,true);
+        return successMsg("更改成功");
+    }
+
+    @RequestMapping("deleteChildManager")
+    public Msg deleteChildManager(String id) throws Exception {
+        TbSysManagerPO sys = validSysManager();
+        TbSysManagerPO old = (TbSysManagerPO) basicService.selectByPrimaryKey(TbSysManagerPO.class,id);
+        if(null==old){
+            return failMsg("子账号不存在或者已经被删除");
+        }
+        if(sys.getGrade()>=old.getGrade()){
+            return failMsg("您无权限删除同级或者上级管理员");
+        }
+        basicService.deleteByPrimaryKey(TbSysManagerPO.class,id);
+        return successMsg("删除成功");
+    }
+
+    @RequestMapping("getChildManagerList")
+    public Msg getChildManager(String key,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "10") int pageSize ) throws Exception {
+        TbSysManagerPO sys = validSysManager();
+        BasicExample example=new BasicExample(TbSysManagerPO.class);
+       BasicExample.Criteria  criteria = example.createCriteria();
+        criteria.andVarGreaterThan("grade",sys.getGrade().toString());
+        if(!StringUtils.isEmpty(key)){
+        criteria.andVarLike("name","%"+key+"%");
+        }
+        Page page=PageHelper.startPage(pageNum,pageSize);
+        basicService.selectByExample(example);
+        return successMsg().add("page",new PageInfo<>(page.getResult()));
+    }
+
 
     private TbSysManagerPO validSysManager() throws Exception {
         try{

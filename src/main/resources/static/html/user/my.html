@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="/js/common.js"></script>
+    <link rel="stylesheet" href="/css/common.css">
+    <style type="text/css">
+        table tr td:nth-child(odd){
+            text-align: right;
+        }
+        table tr td{
+            font-size: 20px;
+            color: #66ccff;
+        }
+    </style>
+    <script language="JavaScript">
+       function showS() {
+           $("#S").show();
+       }
+       function update() {
+           $.ajax({
+               url:"/org/updateMy",
+               type:"post",
+               data:{
+                   name:$("#name").val(),
+                   account:$("#account").val(),
+                   email:$("#email").val(),
+                   passwd:$("#passwd").val()
+               },
+               success:function(re){
+                   if(re.code==-1){
+                       window.open("/hos/login");
+                       jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                   }else{
+                       jQuery.alertWindow(re.msg);
+                   }
+               }
+           });
+       }
+    </script>
+</head>
+<body>
+<div id="nav" style="width: 1050px;margin: 0 auto;border: solid pink 1px;min-height: 800px">
+<table style="width: 400px;margin:0 auto">
+    <tr>
+        <td>管理员级别：</td>
+        <td id="grade"><#if user.grade==0>机构超管</#if><#if user.grade!=0>机构子管</#if></td>
+    </tr>
+    <tr>
+        <td>用户名：</td>
+        <td ><input id="name" type="text" value="${user.name}" onchange="showS()"></td>
+    </tr>
+    <tr>
+        <td>账号：</td>
+        <td ><input id="account" type="text" value="${user.account}" onchange="showS()"></td>
+    </tr>
+    <tr>
+        <td>密码：</td>
+        <td ><input id="passwd" type="text" value="${user.passwd}" onchange="showS()"></td>
+    </tr>
+    <tr>
+        <td>E-mail：</td>
+        <td ><input id="email" type="text" value="${user.email}" onchange="showS()"></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center"><input id="S" style="" type="button" class="btn" value="保存更改" onclick="update()"></td>
+    </tr>
+</table>
+</div>
+</body>
+</html>

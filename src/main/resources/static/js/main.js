@@ -25,7 +25,22 @@ function org_approve_manager(){
 function my_org(){
     hide_head();
     $("#org_page").show();
-    $("#org_iframe").attr("src",'/allowHtml/org/my.html');
+    $("#org_iframe").attr("src",'/hos/org/my');
+}
+function my_sys(){
+    hide_head();
+    $("#sys_page").show();
+    $("#sys_iframe").attr("src",'/hos/sys/my');
+}
+function my_doc(){
+    hide_head();
+    $("#doc_page").show();
+    $("#doc_iframe").attr("src",'/hos/doc/my');
+}
+function my_user(){
+    hide_head();
+    $("#doc_page").show();
+    $("#doc_iframe").attr("src",'/hos/user/my');
 }
 
 //sys 管理员
@@ -38,6 +53,11 @@ function user_org_manager(){
     hide_head();
     $("#sys_page").show();
     $("#sys_iframe").attr("src",'/allowHtml/sys/userHead.html');
+}
+function contact_manager(){
+    hide_head();
+    $("#sys_page").show();
+    $("#sys_iframe").attr("src",'/allowHtml/sys/contactHead.html');
 }
 
 function hide_head() {

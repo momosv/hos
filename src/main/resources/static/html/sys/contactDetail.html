@@ -1,0 +1,82 @@
+<!DOCTYPE html>  
+<html>  
+<head>
+    <meta charset="UTF-8">
+    <title>联系我们</title>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="/js/common.js"></script>
+    <link rel="stylesheet" href="/css/common.css">
+    <style type="text/css">
+        table tr td:nth-child(odd){
+            text-align: right;
+        }
+        table tr td{
+            font-size: 20px;
+            color: #66ccff;
+        }
+    </style>
+    <script language="JavaScript">
+        function reply() {
+
+            if($("#reply").val()==''){
+                jQuery.alertWindow("回复的内容不能为空");
+                return;
+            }
+            $.ajax({
+                url:"/sys/reply",
+                type:"post",
+                data:{id:$("#contactId").val(),reply:$("#reply").val()},
+                success:function (re) {
+                    if(re.code==-1){
+                        window.open("/hos/login");
+                        jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+                    }else{
+                        jQuery.alertWindow(re.msg);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<input type="hidden" id="contactId" value="${id}">
+<div  id="nav" style="position: relative;width: 1050px;margin: 0 auto;border: solid pink 1px;
+min-height: 800px;text-align: center;padding-top: 150px;">
+    <span style="font-size: 36px;">信息反馈处理</span> <a href="/hos/login" style="float: right">返回首页</a>
+
+    <table style="width: 400px;margin:0 auto">
+        <tr>
+            <td>标题：</td>
+            <td id="title">${con.title}</td>
+        </tr>
+        <tr>
+            <td>内容：</td>
+            <td ><textarea id="content">${con.content}</textarea></td>
+        </tr>
+        <tr>
+            <td>来信人：</td>
+            <td id="name">${con.name}</td>
+        </tr>
+        <tr>
+            <td>E-mail：</td>
+            <td id="email">${con.email}</td>
+        </tr>
+        <tr>
+            <td>联系电话</td>
+            <td id="phone">${con.phone}</td>
+        </tr>
+        <tr>
+            <td>管理员回复：</td>
+            <td ><textarea id="reply">${con.reply}</textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <input type="button" class="btn" value="回复" onclick="reply()">
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>

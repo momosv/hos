@@ -192,6 +192,131 @@ public class OrgController extends BasicController {
         orgService.sendAuthApproveMsg(auth);
         return successMsg("更新成功");
     }
+    @RequestMapping("updateMy")
+    public Msg updateMy(TbOrgManagerPO man) throws Exception {
+        TbOrgManagerVO old = validOrgManager();
+        BasicExample example=new BasicExample(TbOrgManagerPO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail()).andVarNotEqualTo("id",old.getId()).andVarEqualTo("org_id",old.getOrgId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在该机构");
+        }
+        example=new BasicExample(TbOrgManagerPO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount()).andVarNotEqualTo("id",old.getId()).andVarEqualTo("org_id",old.getOrgId());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在该机构");
+        }
+        man.setId(old.getId());
+        man.setUpdateTime(new Date());
+        basicService.updateOne(man,true);
+        return successMsg("更改成功，请退出重新登录生效");
+    }
+
+
+    @RequestMapping("addChildManager")
+    public Msg addChildManager(TbOrgManagerPO man) throws Exception {
+        if(StringUtils.isEmpty(man.getAccount())||StringUtils.isEmpty(man.getEmail())){
+            return failMsg("账号/电子邮箱不能为空");
+        }
+        if(StringUtils.isEmpty(man.getPasswd())){
+            return failMsg("密码不能为空");
+        }
+
+        TbOrgManagerVO org = validOrgManager();
+        BasicExample example=new BasicExample(TbOrgManagerVO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在");
+        }
+        example=new BasicExample(TbOrgManagerVO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在");
+        }
+        man.setCreateTime(new Date());
+        man.setId(UUID36());
+        man.setGrade(org.getGrade()+1);
+        man.setOrgId(org.getOrgId());
+        man.setCreator(org.getName());
+        basicService.insertOne(man);
+        return successMsg("添加成功");
+    }
+
+    @RequestMapping("getChildManager")
+    public Msg getChildManager(String id) throws Exception {
+        TbOrgManagerVO sys = validOrgManager();
+        TbOrgManagerPO child = (TbOrgManagerPO) basicService.selectByPrimaryKey(TbOrgManagerPO.class,id);
+        if(child==null){
+            return failMsg("账号不存在或者已经被删除");
+        }
+        if(child.getGrade()<=sys.getGrade()){
+            return failMsg("您无权限查看同级或者上级管理员");
+        }
+        return successMsg().add("detail",child);
+    }
+
+    @RequestMapping("updateChildManager")
+    public Msg updateChildManager(TbOrgManagerPO man) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        if(StringUtils.isEmpty(man.getAccount())||StringUtils.isEmpty(man.getEmail())){
+            return failMsg("账号/电子邮箱不能为空");
+        }
+        if(StringUtils.isEmpty(man.getPasswd())){
+            return failMsg("密码不能为空");
+        }
+        TbOrgManagerPO old = (TbOrgManagerPO) basicService.selectByPrimaryKey(TbOrgManagerPO.class,man.getId());
+        if(null==old){
+            return failMsg("子账号不存在或者已经被删除");
+        }
+        if(org.getGrade()>=old.getGrade()){
+            return failMsg("您无权限删除同级或者上级管理员");
+        }
+        BasicExample example=new BasicExample(TbOrgManagerPO.class);
+        example.createCriteria().andVarEqualTo("email",man.getEmail()).andVarNotEqualTo("id",man.getId()).andVarEqualTo("org_id",org.getOrgId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("邮箱已经存在");
+        }
+        example=new BasicExample(TbOrgManagerPO.class);
+        example.createCriteria().andVarEqualTo("account",man.getAccount()).andVarNotEqualTo("id",man.getId()).andVarEqualTo("org_id",org.getOrgId());
+        list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号已经存在");
+        }
+        basicService.updateOne(man,true);
+        return successMsg("更改成功");
+    }
+
+    @RequestMapping("deleteChildManager")
+    public Msg deleteChildManager(String id) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        TbOrgManagerPO old = (TbOrgManagerPO) basicService.selectByPrimaryKey(TbOrgManagerPO.class,id);
+        if(null==old){
+            return failMsg("子账号不存在或者已经被删除");
+        }
+        if(org.getGrade()>=old.getGrade()){
+            return failMsg("您无权限删除同级或者上级管理员");
+        }
+        basicService.deleteByPrimaryKey(TbOrgManagerPO.class,id);
+        return successMsg("删除成功");
+    }
+
+    @RequestMapping("getChildManagerList")
+    public Msg getChildManager(String key,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "10") int pageSize ) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        BasicExample example=new BasicExample(TbOrgManagerPO.class);
+        BasicExample.Criteria  criteria = example.createCriteria();
+        criteria.andVarGreaterThan("grade",org.getGrade().toString());
+        if(!StringUtils.isEmpty(key)){
+            criteria.andVarLike("name","%"+key+"%");
+        }
+        Page page=PageHelper.startPage(pageNum,pageSize);
+        basicService.selectByExample(example);
+        return successMsg().add("page",new PageInfo<>(page.getResult()));
+    }
 
 
     private TbOrgManagerVO validOrgManager() throws Exception {

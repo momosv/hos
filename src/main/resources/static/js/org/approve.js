@@ -34,7 +34,6 @@ function getAuthorityList(allow,pageNum) {
                 var inHtml="";
 
                 for(var i=0;i<list.length;i++){
-                    alert(list[i].user_name);
                     var allow_grade="个人";
                     if(list[i].allow_grade==1){
                         allow_grade="部门";

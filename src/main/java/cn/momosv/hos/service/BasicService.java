@@ -7,6 +7,8 @@
  */
 package cn.momosv.hos.service;
 
+import cn.momosv.hos.model.TbContactUsPO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +70,6 @@ public interface BasicService<T ,E > {
 	int deleteByPrimaryKey(Class<T> clazz, List<String> id) throws InstantiationException, IllegalAccessException;
 
 	int deleteByPrimaryKey(Class<T> clazz, String[] id) throws IllegalAccessException, InstantiationException;
-	
+
+
 }

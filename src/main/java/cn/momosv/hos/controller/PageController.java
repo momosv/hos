@@ -1,9 +1,7 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbDepartmentPO;
-import cn.momosv.hos.model.TbMedicalOrgPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
@@ -18,14 +16,23 @@ import java.util.Map;
 public class PageController extends BasicController {
 
     @RequestMapping("sys/orgDetail/{id}")
-    public String orgDetail(@PathVariable("id") String id,Map map){
-      //  map.put("id",id);
+    public String orgDetail(@PathVariable("id") String id){
         return "sys/orgDetail";
     }
     @RequestMapping("sys/userDetail/{id}")
-    public String userDetail(@PathVariable("id") String id,Map map){
-      //  map.put("id",id);
+    public String userDetail(@PathVariable("id") String id){
         return "sys/userDetail";
+    }
+    @RequestMapping("sys/conDetail/{id}")
+    public String contactDetail(@PathVariable("id") String id,Map map) throws Exception {
+        validSysManager();
+        TbContactUsPO con = (TbContactUsPO) basicService.selectByPrimaryKey(TbContactUsPO.class,id);
+        if(con!=null){
+            con.setIsRead(1);
+            basicService.updateOne(con);
+        }
+        map.put("con",con);
+        return "sys/contactDetail";
     }
     @RequestMapping("org/docDetail/{id}")
     public String docDetail(@PathVariable("id") String id,Map map){
@@ -194,6 +201,15 @@ public class PageController extends BasicController {
         }
         catch (Exception e){
             throw new Exception("非法请求，请登录医生身份账号后再操作");
+        }
+    }
+
+    private TbSysManagerPO validSysManager() throws Exception {
+        try{
+            return (TbSysManagerPO)session.getAttribute(SysUtil.USER);
+        }
+        catch (Exception e){
+            throw new Exception("非法请求，请登录系统管理员后再操作");
         }
     }
 }

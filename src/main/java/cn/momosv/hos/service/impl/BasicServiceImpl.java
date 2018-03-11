@@ -10,6 +10,7 @@ package cn.momosv.hos.service.impl;
 
 
 import cn.momosv.hos.dao.BasicMapper;
+import cn.momosv.hos.model.TbContactUsPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.IBaseDBPO;
 import cn.momosv.hos.service.BasicService;
@@ -56,7 +57,9 @@ public class BasicServiceImpl<T extends IBaseDBPO, E extends BasicExample> imple
 		T t=clazz.newInstance();
 		return basicMapper.deleteByPrimaryKey(id,t._getPKColumnName(),t._getTableName());
 	}
-	@Override
+
+
+    @Override
 	public int deleteByPrimaryKey(Class<T> clazz,String id) throws InstantiationException, IllegalAccessException {
 		return this.deleteByPrimaryKey(clazz, new String[] {id});
 	}
