@@ -289,8 +289,9 @@ public class LoginController extends BasicController{
 		if(!StringUtils.isEmpty(user.getEmail())){
 			example=new BasicExample(TbBaseUserPO.class);
 			example.createCriteria().andVarEqualTo("email",user.getEmail());
+			example.createCriteria().andVarNotEqualTo("act_code","0");
 			if(basicService.countByExample(example)>0){
-				throw new MyException("该用户邮箱已经被注册");
+				throw new MyException("该邮箱已经被注册且验证,可以直接登录");
 			}
 		}
 		return successMsg().add("msg","验证通过");
@@ -352,5 +353,43 @@ public class LoginController extends BasicController{
 		basicService.insertOne(contactUsPO);
 		return successMsg("反馈成功，我们将会尽快和您联系！");
 	}
+	/**
+	 * 找回密码
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("user/findPW")
+	public Msg findPW(@RequestParam(required = true) String email,String orgId,@RequestParam(required = true)String type) throws Exception {
+		BasicExample example =new BasicExample();
+		if(type.equals(NORMAL)){
+			example.setClazz(TbBaseUserPO.class);
+			example.createCriteria().andVarEqualTo("email",email);
+		}else if(type.equals(DOCTOR)){
+			if(StringUtils.isEmpty(orgId)){
+				return failMsg("机构不能为空");
+			}
+			example.setClazz(TbDoctorPO.class);
+			example.createCriteria().andVarEqualTo("account",email);
+			example.createCriteria().andVarEqualTo("org_id",orgId);
+		}else if(type.equals(ORG_MANAGER)){
+			if(StringUtils.isEmpty(orgId)){
+				return failMsg("机构不能为空");
+			}
+			example.setClazz(TbOrgManagerPO.class);
+			example.createCriteria().andVarEqualTo("email",email);
+			example.createCriteria().andVarEqualTo("org_id",orgId);
+		}
 
+		if(type.equals(NORMAL)){
+			TbBaseUserPO userPO = (TbBaseUserPO) basicService.selectOneByExample(example);
+			loginService.findPW(email,userPO.getName(),userPO.getAccount(),userPO.getPasswd(),type);
+		}else if(type.equals(DOCTOR)){
+			TbDoctorPO doctorPO = (TbDoctorPO) basicService.selectOneByExample(example);
+			loginService.findPW(email,doctorPO.getName(),doctorPO.getAccount(),doctorPO.getPasswd(),type);
+		}else if(type.equals(ORG_MANAGER)){
+			TbOrgManagerPO managerPO = (TbOrgManagerPO) basicService.selectOneByExample(example);
+			loginService.findPW(email,managerPO.getName(),managerPO.getAccount(),managerPO.getPasswd(),type);
+		}
+		return  successMsg("已经通过电子邮件给您重新下发密码，请注意查收!");
+	}
 }

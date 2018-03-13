@@ -68,4 +68,19 @@ public class LoginServiceImpl  implements LoginService{
     public List<TbMedicalOrgVO> getLoginOrg(String[] orgId) {
         return TbMedicalOrgPOMapper.getLoginOrg(orgId);
     }
+
+    @Override
+    public void findPW(String email,String name, String account, String passwd, String type) throws IOException, TemplateException {
+        Map<String,String> map=new HashedMap();
+        map.put("name",name;
+        map.put("account",account);
+        map.put("passwd", passwd);
+        map.put("type", type);
+        map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+        // 通过指定模板名获取FreeMarker模板实例
+        Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");
+        // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+        String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+        mailService.sendHtmlMail(email,"邮箱认证激活",htmlText);
+    }
 }

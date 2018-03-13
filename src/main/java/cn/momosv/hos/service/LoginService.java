@@ -12,4 +12,6 @@ public interface LoginService {
     void sendUserRegisterMail(TbBaseUserPO user) throws IOException, TemplateException;
 
     List<TbMedicalOrgVO> getLoginOrg(String[] orgId);
+
+    void findPW(String email,String name, String account, String passwd, String type) throws IOException, TemplateException;
 }

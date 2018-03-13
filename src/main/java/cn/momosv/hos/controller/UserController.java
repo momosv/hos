@@ -1,6 +1,7 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
+import cn.momosv.hos.exception.MyException;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbCasePO;
 import cn.momosv.hos.model.TbOrgPatientPO;
@@ -9,6 +10,7 @@ import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.DoctorService;
 import cn.momosv.hos.service.UserService;
+import cn.momosv.hos.util.Constants;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
@@ -41,6 +43,9 @@ public class UserController extends BasicController{
                               @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
                               @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
         TbBaseUserPO userPO=validUser();
+        if(!userPO.getActCode().equals(Constants.USER_PASSED)){
+            return failMsg("身份信息尚未通过实名认证，不能进行病历查阅，请到个人中心进行实名认证申请！");
+        }
         List<String> pList= userService.getPatientIdListByIdCard(userPO.getIdCard());
         if(pList.size()==0){
             return Msg.success().add("page",null);
@@ -93,6 +98,9 @@ public class UserController extends BasicController{
             }catch (Exception ed){
                 TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
                  user = validUser();
+                if(!user.getActCode().equals(Constants.USER_PASSED)){
+                    return failMsg("身份信息尚未通过实名认证，不能进行病历查阅，请到个人中心进行实名认证申请！");
+                }
                 if(!userPO0.getIdCard().equals(user.getIdCard())){
                     return failMsg("您无权限查看该病历数据");
                 }
