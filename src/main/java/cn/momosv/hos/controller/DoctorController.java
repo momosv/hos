@@ -609,13 +609,13 @@ public class DoctorController extends BasicController {
         }catch (Exception e){
             try {
                 TbDoctorVO doctorVO = validDoctor();
-                if(doctorVO.getDeptId().equals(casePO.getDeptId())||!doctorService.checkAuth(doctorVO,casePO.getId())){
+                if(!doctorVO.getDeptId().equals(casePO.getDeptId())||!doctorService.checkAuth(doctorVO,casePO.getId())){
                     return failMsg("您无权限查看该病历数据");
                 }
             }catch (Exception ed){
                 TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
                TbBaseUserPO userPO = validUser();
-               if(userPO0.getIdCard().equals(userPO.getIdCard())){
+               if(!userPO0.getIdCard().equals(userPO.getIdCard())){
                    return failMsg("您无权限查看该病历数据");
                }
             }
@@ -634,6 +634,27 @@ public class DoctorController extends BasicController {
         example.setOrderByClause("create_time desc");
         return successMsg().add("list",basicService.selectByExample(example));
 
+    }
+
+
+    @RequestMapping("updateMy")
+    public Msg updateMy(TbDoctorPO doctorPO,String telephone,int sex,String address) throws Exception {
+        TbDoctorVO old = validDoctor();
+        doctorPO.setId(old.getId());
+        BasicExample example=new BasicExample(TbDoctorPO.class);
+        example.createCriteria().andVarEqualTo("account",doctorPO.getAccount()).andVarNotEqualTo("id",old.getId()).andVarEqualTo("org_id",old.getOrgId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号/邮箱已经存在该机构");
+        }
+        doctorPO.setUpdateTime(new Date());
+        TbBaseUserPO user=new TbBaseUserPO();
+        user.setId(old.getUserId());
+        user.setSex(sex);
+        user.setAddress(address);
+        user.setTelephone(telephone);
+        doctorService.updateMy(doctorPO,user);
+        return successMsg("更改成功，请退出重新登录生效");
     }
 
 

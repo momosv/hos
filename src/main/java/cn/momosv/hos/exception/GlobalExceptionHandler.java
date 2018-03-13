@@ -32,6 +32,9 @@ public class GlobalExceptionHandler{
         if (e instanceof MissingServletRequestParameterException) {
             return Msg.fail().add("msg", e.getMessage());
         }
+        if (e instanceof MyException) {
+            return Msg.fail(e.getMessage());
+        }
         return  Msg.fail().add("msg",StringUtils.isEmpty(e.getMessage())?"系统出现异常":e.getMessage());
     }
 }

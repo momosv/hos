@@ -27,8 +27,10 @@
                data:{
                    name:$("#name").val(),
                    account:$("#account").val(),
-                   email:$("#email").val(),
-                   passwd:$("#passwd").val()
+                   passwd:$("#passwd").val(),
+                   sex:$("#sex").val(),
+                   address:$("#address").val(),
+                   telephone:$("#telephone").val()
                },
                success:function(re){
                    if(re.code==-1){
@@ -90,7 +92,7 @@
     <tr>
         <td>账号/邮箱:</td>
         <td >
-            <input id="email" type="text" value="${user.account}">
+            <input id="account" type="text" value="${user.account}">
         </td>
     </tr>
     <tr>

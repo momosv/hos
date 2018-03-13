@@ -41,6 +41,10 @@ public class UserController extends BasicController{
                               @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
                               @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
         TbBaseUserPO userPO=validUser();
+        List<String> pList= userService.getPatientIdListByIdCard(userPO.getIdCard());
+        if(pList.size()==0){
+            return Msg.success().add("page",null);
+        }
         BasicExample example=new BasicExample();
         Criteria criteria=example.createCriteria();
         if(!StringUtils.isEmpty(key)) {
@@ -55,6 +59,8 @@ public class UserController extends BasicController{
        example.setTName("tb_case c,tb_doctor doc,tb_medical_org org,tb_department dept");
        example.setCol("c.id,c.diagnosis,c.create_time,doc.name as doc_name,org.name as org_name,dept.name as dept_name");
         criteria.andJoin("c.org_id=org.id and doc.id=c.doctor_id and c.dept_id=dept.id");
+        criteria.andVarIn("patient_id",pList);
+
         Page page = PageHelper.startPage(pageNum, pageSize);
         basicService.selectJoint(example);
         return Msg.success().add("page",new PageInfo(page.getResult()));
@@ -87,7 +93,7 @@ public class UserController extends BasicController{
             }catch (Exception ed){
                 TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
                  user = validUser();
-                if(userPO0.getIdCard().equals(user.getIdCard())){
+                if(!userPO0.getIdCard().equals(user.getIdCard())){
                     return failMsg("您无权限查看该病历数据");
                 }
             }

@@ -6,19 +6,15 @@ import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
-import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.LoginService;
 import cn.momosv.hos.util.Constants;
-import cn.momosv.hos.util.SpringUtil;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
-import cn.momosv.hos.vo.TbMedicalOrgVO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
+import cn.momosv.hos.exception.MyException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import freemarker.template.TemplateException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.*;
 
 
@@ -186,7 +181,7 @@ public class LoginController extends BasicController{
 	@ResponseBody
 	@RequestMapping("register/user")
 	public Msg register(TbBaseUserPO user) throws Exception {
-		user.setEmail(user.getAccount());
+		user.setAccount(user.getEmail());
 		validUser(user);
 		if(StringUtils.isEmpty(user.getIdCard())){
 			return failMsg("注册身份证号不能为空");
@@ -286,16 +281,16 @@ public class LoginController extends BasicController{
 	}
 
 	@RequestMapping("validUser")
-	public Object validUser(TbBaseUserPO user) throws Exception {
+	public Object validUser(TbBaseUserPO user) throws MyException, IllegalAccessException, InstantiationException {
 		BasicExample example;
 		if(StringUtils.isEmpty(user.getEmail())){
-			throw new Exception("邮箱不能为空");
+			throw new MyException("邮箱不能为空");
 		}
 		if(!StringUtils.isEmpty(user.getEmail())){
 			example=new BasicExample(TbBaseUserPO.class);
 			example.createCriteria().andVarEqualTo("email",user.getEmail());
 			if(basicService.countByExample(example)>0){
-				throw new Exception("该用户邮箱已经被注册");
+				throw new MyException("该用户邮箱已经被注册");
 			}
 		}
 		return successMsg().add("msg","验证通过");

@@ -241,6 +241,14 @@ public class DoctorServiceImpl implements DoctorService {
         return true;
     }
 
+    @Override
+    public void updateMy(TbDoctorPO doctorPO, TbBaseUserPO user) {
+        basicService.updateOne(doctorPO,true);
+        if(!StringUtils.isEmpty(user.getId())){
+            basicService.updateOne(user,true);
+        }
+    }
+
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {
         BasicExample tExample = new BasicExample(TbOrgPatientPO.class);
         tExample.createCriteria().andVarEqualTo("user_id",user.getIdCard());

@@ -2,6 +2,7 @@ package cn.momosv.hos.service;
 
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbCasePO;
+import cn.momosv.hos.model.TbDoctorPO;
 import cn.momosv.hos.model.TbOrgPatientPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
@@ -26,4 +27,6 @@ public interface DoctorService {
     Object getSecondList(String caseId);
 
     boolean checkAuth(TbDoctorVO doctorVO, String caseId) throws IllegalAccessException, InstantiationException, Exception;
+
+    void updateMy(TbDoctorPO doctorPO, TbBaseUserPO user);
 }

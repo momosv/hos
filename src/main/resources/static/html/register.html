@@ -1,29 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="${basePath}/webjars/bootstrap/3.3.7/css/bootstrap.css">
- <script type="text/javascript" src="${basePath}/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/common.css">
+	<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/js/common.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<script language="JavaScript">
 
+        function register() {
+            $.ajax({
+                url: "/hos/register/user",
+                type:'post',
+                data:{
+					email:$("#email").val(),
+					name:$("#name").val(),
+					sex:$("#sex").val(),
+					address:$("#address").val(),
+					telephone:$("#telephone").val(),
+                    passwd:$("#passwd").val(),
+					idCard:$("#idCard").val(),
+					headImage:$("#headImage").attr("src")
+				},
+                success:function (re) {
+                    if(re.code!=200){
+                        jQuery.alertWindow("注册成功，请前往邮箱激活账号");
+                    }else {
+                        jQuery.alertWindow(re.msg);
+					}
+                }
+            });
+        }
+
+        function uploadimag(){
+            if( $("#file0").val==null){
+                return;
+            }
+            var formData = new FormData(document.getElementById('upload_my_img'));
+            $.ajax({
+                url: "/upload/up",
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                datatype:"json",
+                success: function(rs) {
+                    if(rs.code!="200"){
+                        $("#headImageI").val(rs.extend.url);
+                        document.getElementById("headImage").src=rs.extend.url;
+                    }else{
+                        alert(rs.msg);
+                    }
+                }
+            });
+        }
+        function clickImg() {
+            $("#files0").click();
+        }
+	</script>
+	<style>
+		table tr td{
+			padding-left: 20px;
+			width: 700px;
+
+		}
+		table tr td:first-child{
+			text-align: right;
+			width: 200px;
+
+		}
+		#title{
+			border: none;outline: none;font-size: 44px;
+			margin:auto 0;
+			width: 1100px;
+			text-align: center;
+		}
+		.button{
+			width: 100px;
+			height: 40px;
+			border-radius: 10px;
+			color: white;
+			text-align: center;
+			font-size: 24px;
+			outline: none;
+			border: none;
+		}
+	</style>
 </head>
-<body>
-<form action="/sys/checkLogin" method="post" >
-	<input type="text" name="user.id" value="1" />
-	<input type="text" name="user.userName" value="momo" />
-	<input type="submit" value="goin"/>
-	
-</form>
-<h4>亲爱的${toUserName}，你好！</h4>  
-   ${basePath}
-<p id="hello"> ${hello}mmp</p>  
-  
-祝：开心！  
-</br>  
-<a class="btn btn-default" href="#" role="button">Link</a>
-<button class="btn btn-default" type="submit">Button</button>
-<input class="btn btn-default" type="button" value="Input">
-<input class="btn btn-default" type="submit" value="Submit">
+<body style="width: 1100px;margin:0 auto">
+<input type="text" readonly="readonly" id="title"  value="注册个人账号">
+<table>
+	<tr>
+		<td>头像</td>
+		<td>
+			<img id="headImage" style="width: 80px;height: 100px" onclick="clickImg()">
+			<input id="headImageI" type="hidden" >
+		</td>
+	</tr>
+	<tr>
+		<td>姓名:</td>
+		<td><input id="name" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>邮箱:</td>
+		<td><input id="email" type="text" value="">
+		</td>
+	</tr>
+	<tr>
+		<td>密码:</td>
+		<td><input id="passwd" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>再次输入密码:</td>
+		<td><input id="passwd1" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>性别:</td>
+		<td><select id="sex">
+			<option value="0" selected>男</option>
+			<option value="1">女</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td>联系电话:</td>
+		<td><input id="telephone" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>详细地址:</td>
+		<td><input id="address" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>身份证号:</td>
+		<td><input id="idCard" type="text">
+		</td>
+	</tr>
+</table>
+
+<div style="height: 300px;width: 1100px;margin: auto 0;padding: 50px 50px;text-align: center">
+	<input class="button" type="button" value="提交注册" onclick="register()" style="background-color: #66ccff">
+</div>
+
+<div id="my" style="display: none">
+	<form method="post" action="" enctype="multipart/form-data" id="upload_my_img" >
+		<input type="file" id="files0" name="file" onchange="uploadimag()" accept="image/*"
+			   style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+	</form>
+</div>
 </body>
 </html>
