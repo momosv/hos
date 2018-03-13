@@ -4,26 +4,95 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${basePath}/webjars/bootstrap/3.3.7/css/bootstrap.css">
- <script type="text/javascript" src="${basePath}/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/css/common.css">
 <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+ <script type="text/javascript" src="${basePath}/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+ <script type="text/javascript" src="/js/common.js"></script>
+<script language="JavaScript">
 
+    function login_type_select(t) {
+        if($(t).val()=="doctor"||$(t).val()=="org"){
+            $("#orgSelect").show();
+            $("#orgSelect").empty();
+            var loginAccount=$("#loginAccount").val();
+            var typeSelect=$("#typeSelect").val();
+            $.ajax({
+                url: "/hos/login/getOrg",
+                type: 'POST',
+                data: {loginAccount:loginAccount,type:typeSelect},
+                dataType: 'json',
+                beforeSend: function() {
+                    // $("#logintips").html("正在验证登录，请稍候");
+                },
+
+                success: function(re) {
+                    if (re.code != 200) {
+                        if(re.extend.list==null){
+                            jQuery.alertWindow("无法获取该账号所属的机构，请确认账号无误");
+                            return;
+                        }
+                        $.each(re.extend.list,function(i,item){
+                            var id=item.id;
+                            var name = item.name;
+                            $("#orgSelect").append('<option value='+id+'>'+name+'</option>');
+                        });
+                    } else {
+                        alert("无法获取该账号所属的机构，请确认账号无误");
+                    }
+                },
+                error: function(rs) {
+                    alert(rs.extend.msg);
+                }
+            });
+        }else {
+            $("#orgSelect").hide();
+        }
+    }
+ function findPW() {
+        $.ajax({
+            url: "/hos/user/findPW",
+            type: 'POST',
+            data: {email:$("#loginAccount").val(),type:$("#typeSelect").val(),orgId:$("#orgSelect").val()},
+            dataType: 'json',
+            beforeSend: function() {
+
+            },
+
+            success: function(re) {
+                if (re.code != 200) {
+                    if(re.extend.list==null){
+                        jQuery.alertWindow(re.msg);
+                        return;
+                    }
+                    $.each(re.extend.list,function(i,item){
+                        var id=item.id;
+                        var name = item.name;
+                        $("#orgSelect").append('<option value='+id+'>'+name+'</option>');
+                    });
+                } else {
+                    jQuery.alertWindow(re.msg);
+                }
+            },
+            error: function(rs) {
+                jQuery.alertWindow("系统出现异常");
+            }
+        });
+ }
+</script>
 </head>
 <body>
-<form action="/sys/checkLogin" method="post" >
-	<input type="text" name="user.id" value="1" />
-	<input type="text" name="user.userName" value="momo" />
-	<input type="submit" value="goin"/>
-	
-</form>
-<h4>亲爱的${toUserName}，你好！</h4>  
-   ${basePath}
-<p id="hello"> ${hello}mmp</p>  
-  
-祝：开心！  
-</br>  
-<a class="btn btn-default" href="#" role="button">Link</a>
-<button class="btn btn-default" type="submit">Button</button>
-<input class="btn btn-default" type="button" value="Input">
-<input class="btn btn-default" type="submit" value="Submit">
+<input type="text" class="login_input" id="loginAccount" name="account" placeholder="邮箱" value="" onchange="login_type_select('#typeSelect')"/>
+<br/>
+<br/>
+<select class="login_input" id="typeSelect" name="type" onchange="login_type_select(this)">
+	<option value="normal">普通用户</option>
+	<option value ="doctor" >医疗人员</option>
+	<option value ="org">机构管理员</option>
+</select>
+<br/>
+<select class="login_input" id="orgSelect" name="orgId" >
+</select>
+<br/>
+<input class="login_input goin"  type="button" value="提交" onclick="findPW()"/>
 </body>
 </html>

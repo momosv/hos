@@ -3,6 +3,7 @@
 <head>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
     <script language="JavaScript">
         $(function(){
             $.ajax({
@@ -10,18 +11,18 @@
                 type: 'post',
                 data:{id:$("#userId").val()},
                 success: function(re) {
-                    var org=re.extend.org;
-                    if(org!=null||org!=undefined){
-                        $("#userName").val(org.name);
-                        $("#act").html(org.actCode==0?'待审批':(org.actCode==1?'审批通过':'审批不通过'));
-                        $("#sex").html(org.sex==0?'男':'女');
-                        $("#address").html(org.address);
-                        $("#telephone").html(org.telephone);
-                        $("#email").html(org.email);
-                        $("#idFace").attr("src",org.idFace);
-                        $("#idHand").attr("src",org.idHand);
-                        $("#idNational").attr("src",org.idNational);
-                        $("#headImage").attr("src",org.headImage);
+                    var detail=re.extend.detail;
+                    if(detail!=null||detail!=undefined){
+                        $("#userName").val(detail.name);
+                        $("#act").html(detail.actCode==0?'待审批':(detail.actCode==1?'审批通过':'审批不通过'));
+                        $("#sex").html(detail.sex==0?'男':'女');
+                        $("#address").html(detail.address);
+                        $("#telephone").html(detail.telephone);
+                        $("#email").html(detail.email);
+                        $("#idFace").attr("src",detail.idFace);
+                        $("#idHand").attr("src",detail.idHand);
+                        $("#idNational").attr("src",detail.idNational);
+                        $("#headImage").attr("src",detail.headImage);
                     }
                 }
             });
@@ -43,34 +44,6 @@
                 }
             });
         }
-
-        jQuery.extend({
-            alertWindow:function(e,n){var e=e,r;n===undefined?r="#00a8b7":r=n;
-                if($("body").find(".alertWindow1").length===0){
-                    var i='<div class="alertWindow1" ' +
-                        'style="width: 100%;height: 100%; ' +
-                        'background:rgba(0,0,0,0.5);position: fixed; ' +
-                        'left:0px; top: 0px; z-index: 9999;">' +
-                        '<div  style="width: 360px; height: 80px;background: #66ccff;' +
-                        'margin: 300px auto;border: none;border-radius: 10px">'+
-                        '<div  style="width: inherit;height: 20px;">'+
-                        '<div class="alertWindowCloseButton1" ' +
-                        'style="float: right; width: 10px; height: 30px;margin-right:5px;' +
-                        'font-family:\'microsoft yahei\';color:'+r+';cursor: pointer;"></div>'+
-                        "</div>"+'<div id="successImg" class="alertWindowTitle" ' +
-                        'style="margin-top:10px;text-align:center;' +
-                        'font-family:\'Verdana, Geneva, Arial, Helvetica, sans-serif\';' +
-                        'font-size: 18px;font-weight: normal;color: '+r+';">'+"</div>"+
-                        '<div class="alertWindowContent" style="width:360px;height: 30px;text-align:center;' +
-                        'font-size: 24px;color: white;margin-top:10px;">'+e+"</div>"+"</div>"+"</div>";
-                    $("body").append(i);
-                    var s=$(".alertWindow1");
-                    //2秒后自动关闭窗口
-                    setTimeout(function(){s.hide()},1500);
-                }
-                else {$(".alertWindowContent").text(e),$(".alertWindow1").show(),setTimeout(function(){$(".alertWindow1").hide()},1000);}
-            }
-        });
     </script>
     <style>
         table tr td{

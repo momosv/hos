@@ -98,7 +98,7 @@ public class SysController extends BasicController{
     public Object userDetail(@RequestParam(name="id",required = true)String id) throws Exception {
         TbSysManagerPO sys=validSysManager();
         Object obj= basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
-        return Msg.success().add("org",obj);
+        return Msg.success().add("detail",obj);
     }
 
     @RequestMapping("userApprove")//1是邮箱认证，2是待审批，3是审批通过，4是不通过

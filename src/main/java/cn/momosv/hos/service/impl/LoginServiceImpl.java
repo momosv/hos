@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,18 +70,19 @@ public class LoginServiceImpl  implements LoginService{
         return TbMedicalOrgPOMapper.getLoginOrg(orgId);
     }
 
+
     @Override
     public void findPW(String email,String name, String account, String passwd, String type) throws IOException, TemplateException {
         Map<String,String> map=new HashedMap();
-        map.put("name",name;
-        map.put("account",account);
+        map.put("name",name);
+        map.put("email",account);
         map.put("passwd", passwd);
         map.put("type", type);
         map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
         // 通过指定模板名获取FreeMarker模板实例
-        Template template = freeMarkerConfig.getConfiguration().getTemplate("validReg.html");
+        Template template = freeMarkerConfig.getConfiguration().getTemplate("findPWEmail.html");
         // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
         String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
-        mailService.sendHtmlMail(email,"邮箱认证激活",htmlText);
+        mailService.sendHtmlMail(email,"【病人跟踪治疗信息管理系统】找回密码",htmlText);
     }
 }

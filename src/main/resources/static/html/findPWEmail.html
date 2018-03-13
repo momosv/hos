@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8"/>
+        <title>跟踪治疗信息管理系统找回密码</title>
+    </head>
+    <br>
+    尊敬的用户：${name}
+    <br/>
+
+    <br/>
+    您的<#if type=="doctor">医生</#if><#if type=="normal">个人</#if><#if type=="org">机构管理员</#if>登录账号/邮箱为：${email}，密码：${passwd}，请牢记！
+    <br/>
+        马上去登录，<a href="${basePath}/hos/login">病人跟踪治疗信息管理系统首页</a>
+    <br/>
+    </body>
+</html>

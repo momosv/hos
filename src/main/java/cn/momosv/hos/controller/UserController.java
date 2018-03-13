@@ -114,6 +114,15 @@ public class UserController extends BasicController{
         return successMsg("获取成功").add("patient",patientPO).add("user",user).add("case",casePO);
     }
 
+
+    @RequestMapping("userDetail")
+    public Object getUserDetail() throws Exception {
+        TbBaseUserPO user = validUser();
+        return successMsg().add("user",user);
+    }
+
+
+
     private TbBaseUserPO validUser() throws Exception {
         try{
             return (TbBaseUserPO)session.getAttribute(SysUtil.USER);

@@ -122,7 +122,7 @@ public class LoginController extends BasicController{
 			}
 		}else if(type.equals(ORG_MANAGER)){
 			if(StringUtils.isEmpty(orgId)){
-				throw new  NullPointerException("所属机构不能为空或者不存在");
+				return failMsg("所属机构不能为空或者不存在");
 			}
 			example=new BasicExample(TbOrgManagerVO.class);
 			Criteria criteria=  example.createCriteria();
@@ -153,12 +153,15 @@ public class LoginController extends BasicController{
 			criteria.andVarEqualTo("account",account).andVarEqualTo("passwd",psw);
 			TbBaseUserPO po= (TbBaseUserPO) basicService.selectOneByExample(example);
 			if(po!=null){
+				if(po.getActCode().equals(Constants.USER_EMAIL_UN_IDENTIFY)){
+					return failMsg("登录失败,账号尚未激活，请激活邮箱或重新注册再使用");
+				}
 				session.setAttribute("user",po);
 				session.setAttribute("identity",NORMAL);
 				return successMsg("登录成功").add("user",po.getName()).add("identity",NORMAL);
 			}
 		}
-		return failMsg("登录失败");
+		return failMsg("登录失败，账号/密码不正确");
 	}
 
 	@RequestMapping("/org/my")
@@ -186,11 +189,10 @@ public class LoginController extends BasicController{
 		if(StringUtils.isEmpty(user.getIdCard())){
 			return failMsg("注册身份证号不能为空");
 		}
-
 		//检查是否有认证过得身份证
 		BasicExample example=new BasicExample(TbBaseUserPO.class);
 		example.createCriteria().andVarEqualTo("id_card",user.getIdCard());
-		TbBaseUserPO userPO= (TbBaseUserPO) basicService.selectOneByExample(example);
+		TbBaseUserPO userPO = (TbBaseUserPO) basicService.selectOneByExample(example);
 		if(null!=userPO){
 			if(userPO.getActCode().equals(Constants.USER_PASSED)
 					||(userPO.getActCode().equals(Constants.USER_UN_APPROVED))){
@@ -358,6 +360,7 @@ public class LoginController extends BasicController{
 	 * @return
 	 * @throws Exception
 	 */
+	@ResponseBody
 	@RequestMapping("user/findPW")
 	public Msg findPW(@RequestParam(required = true) String email,String orgId,@RequestParam(required = true)String type) throws Exception {
 		BasicExample example =new BasicExample();
@@ -379,15 +382,19 @@ public class LoginController extends BasicController{
 			example.createCriteria().andVarEqualTo("email",email);
 			example.createCriteria().andVarEqualTo("org_id",orgId);
 		}
+	    Object obj =	basicService.selectOneByExample(example);
+		if(obj==null){
+			return failMsg("账号/邮箱不存在");
+		}
 
 		if(type.equals(NORMAL)){
-			TbBaseUserPO userPO = (TbBaseUserPO) basicService.selectOneByExample(example);
+			TbBaseUserPO userPO = (TbBaseUserPO)obj;
 			loginService.findPW(email,userPO.getName(),userPO.getAccount(),userPO.getPasswd(),type);
 		}else if(type.equals(DOCTOR)){
-			TbDoctorPO doctorPO = (TbDoctorPO) basicService.selectOneByExample(example);
+			TbDoctorPO doctorPO = (TbDoctorPO) obj;
 			loginService.findPW(email,doctorPO.getName(),doctorPO.getAccount(),doctorPO.getPasswd(),type);
 		}else if(type.equals(ORG_MANAGER)){
-			TbOrgManagerPO managerPO = (TbOrgManagerPO) basicService.selectOneByExample(example);
+			TbOrgManagerPO managerPO = (TbOrgManagerPO) obj;
 			loginService.findPW(email,managerPO.getName(),managerPO.getAccount(),managerPO.getPasswd(),type);
 		}
 		return  successMsg("已经通过电子邮件给您重新下发密码，请注意查收!");

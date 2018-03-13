@@ -5,7 +5,7 @@ jQuery.extend({
                 'style="width: 100%;height: 100%; ' +
                 'background:rgba(0,0,0,0.5);position: fixed; ' +
                 'left:0px; top: 0px; z-index: 9999;">' +
-                '<div  style="width: 360px; height: 80px;background: #66ccff;' +
+                '<div  style="width: 360px; height: 120px;background: #66ccff;' +
                 'margin: 300px auto;border: none;border-radius: 10px">'+
                 '<div  style="width: inherit;height: 20px;">'+
                 '<div class="alertWindowCloseButton1" ' +
@@ -20,7 +20,7 @@ jQuery.extend({
             $("body").append(i);
             var s=$(".alertWindow1");
             //2秒后自动关闭窗口
-            setTimeout(function(){s.hide()},1500);
+            setTimeout(function(){s.hide()},2000);
         }
         else {$(".alertWindowContent").text(e),$(".alertWindow1").show(),setTimeout(function(){$(".alertWindow1").hide()},1000);}
     }

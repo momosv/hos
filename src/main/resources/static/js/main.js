@@ -39,8 +39,8 @@ function my_doc(){
 }
 function my_user(){
     hide_head();
-    $("#doc_page").show();
-    $("#doc_iframe").attr("src",'/hos/user/my');
+    $("#user_page").show();
+    $("#user_iframe").attr("src",'/hos/user/my');
 }
 
 //sys 管理员
@@ -147,7 +147,7 @@ function login_type_select(t) {
             success: function(re) {
                 if (re.code != 200) {
                     if(re.extend.list==null){
-                        alert("无法获取该账号所属的机构，请确认账号无误");
+                        jQuery.alertWindow("无法获取该账号所属的机构，请确认账号无误");
                         return;
                     }
                     $.each(re.extend.list,function(i,item){
@@ -156,11 +156,11 @@ function login_type_select(t) {
                         $("#orgSelect").append('<option value='+id+'>'+name+'</option>');
                     });
                 } else {
-                    alert("无法获取该账号所属的机构，请确认账号无误");
+                    jQuery.alertWindow("无法获取该账号所属的机构，请确认账号无误");
                 }
             },
             error: function(rs) {
-                alert(rs.extend.msg);
+                jQuery.alertWindow("系统出现异常");
             }
         });
     }else {
