@@ -1,5 +1,5 @@
 jQuery.extend({
-    alertWindow:function(e,n){var e=e,r;n===undefined?r="#00a8b7":r=n;
+    alertWindow:function(e,n,s){var e=e,r;n===undefined?r="#00a8b7":r=n;
         if($("body").find(".alertWindow1").length===0){
             var i='<div class="alertWindow1" ' +
                 'style="width: 100%;height: 100%; ' +
@@ -20,7 +20,8 @@ jQuery.extend({
             $("body").append(i);
             var s=$(".alertWindow1");
             //2秒后自动关闭窗口
-            setTimeout(function(){s.hide()},2000);
+            if(s==null)s=2000;
+            setTimeout(function(){s.hide()},s);
         }
         else {$(".alertWindowContent").text(e),$(".alertWindow1").show(),setTimeout(function(){$(".alertWindow1").hide()},1000);}
     }

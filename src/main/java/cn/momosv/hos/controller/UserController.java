@@ -118,9 +118,53 @@ public class UserController extends BasicController{
     @RequestMapping("userDetail")
     public Object getUserDetail() throws Exception {
         TbBaseUserPO user = validUser();
-        return successMsg().add("user",user);
+        TbBaseUserPO user0 = (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,user.getId());
+        if(user0!=null)
+        user0.setPasswd("");
+        return successMsg().add("user",user0);
     }
 
+    @RequestMapping("validPW")
+    public Object validPW(@RequestParam(required = true) String oldP,@RequestParam(required = true)String id) throws Exception {
+        TbBaseUserPO user0 = (TbBaseUserPO) basicService.selectByPrimaryKey(TbBaseUserPO.class,id);
+        if(user0!=null&&oldP.trim().equals(user0.getPasswd())){
+            return successMsg("验证通过");
+        }
+        return failMsg("旧密码验证不通过");
+    }
+
+
+    @RequestMapping("updateMy")
+    public Msg updateMy(TbBaseUserPO userPO) throws Exception {
+        TbBaseUserPO old = validUser();
+        if(userPO.getIdCard()!=null&&!userPO.getIdCard().equals(old.getIdCard())){
+            return failMsg("不能对身份证号进行修改");
+        }
+        userPO.setId(old.getId());
+        userPO.setAccount(userPO.getEmail());
+        BasicExample example=new BasicExample(TbBaseUserPO.class);
+        example.createCriteria().andVarEqualTo("account",userPO.getAccount()).andVarNotEqualTo("id",old.getId());
+        example.or().andVarEqualTo("email",userPO.getEmail()).andVarNotEqualTo("id",old.getId());
+        List list= basicService.selectByExample(example);
+        if(list.size()>0){
+            return failMsg("账号/邮箱已经被其他用户注册");
+        }
+        basicService.updateOne(userPO,true);
+        return successMsg("更改成功，请退出重新登录生效");
+    }
+
+    @RequestMapping("updateMyA")
+    public Msg updateMyA(TbBaseUserPO userPO) throws Exception {
+        TbBaseUserPO old = validUser();
+        userPO.setId(old.getId());
+        userPO.setActCode(2);
+        if(userPO.getIdCard()!=null&&!userPO.getIdCard().equals(old.getIdCard())){
+            return failMsg("不能对身份证号进行修改");
+        }
+        userPO.setIdCard(null);
+        basicService.updateOne(userPO,true);
+        return successMsg("更改成功，请退出重新登录生效");
+    }
 
 
     private TbBaseUserPO validUser() throws Exception {

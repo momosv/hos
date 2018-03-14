@@ -6,7 +6,11 @@
     <script src="/js/common.js"></script>
     <link rel="stylesheet" href="/css/common.css">
     <script language="JavaScript">
-        $(function(){
+        $(function (){
+            init();
+        });
+        function init(){
+
             $.ajax({
                 url: "/user/userDetail",
                 type: 'post',
@@ -17,11 +21,13 @@
                         var actStr="身份未认证";
                         if(user.actCode==2){
                             actStr="身份认证待审批";
+                            $("#actTips").val("重新申请认证")
                         }else if(user.actCode==3){
                             actStr="身份认证通过";
-                            $("#applyAct").hide();
+                            $("#actTips").hide();
                         }else if(user.actCode==4){
                             actStr="身份认证不通过";
+                            $("#actTips").val("重新申请认证")
                         }
                         $("#userName").val(user.name);
                         $("#act").html(actStr);
@@ -29,6 +35,7 @@
                         $("#address").html(user.address);
                         $("#telephone").html(user.telephone);
                         $("#email").html(user.email);
+                        $("#idCard").html(user.idCard);
                         $("#idFace").attr("src",user.idFace);
                         $("#idHand").attr("src",user.idHand);
                         $("#idNational").attr("src",user.idNational);
@@ -36,23 +43,190 @@
                     }
                 }
             });
-        });
-        function userApprove(act) {
+        }
+        function init1(){
+
             $.ajax({
-                url: "/sys/userApprove",
-                type:'post',
-                data:{act:act,id:$("#userId").val()},
-                success:function (re) {
-                    if(re.code!=200){
-                        if(act==3) {
-                            $("#act").html("审批通过")
-                        }else if(act==4){
-                            $("#act").html("审批不通过")
+                url: "/user/userDetail",
+                type: 'post',
+                data:{id:$("#userId").val()},
+                success: function(re) {
+                    var user=re.extend.user;
+                    if(user!=null||user!=undefined){
+                        var actStr="身份未认证";
+                        if(user.actCode==2){
+                            actStr="身份认证待审批";
+                            $("#actTips").val("重新申请认证")
+                        }else if(user.actCode==3){
+                            actStr="身份认证通过";
+                            $("#actTips").hide();
+                        }else if(user.actCode==4){
+                            actStr="身份认证不通过";
+                            $("#actTips").val("重新申请认证")
                         }
-                        jQuery.alertWindow("操作成功");
+                        //update
+                        $("#uuserName").val(user.name);
+                        $("#uact").text(actStr);
+                        $("#usex").val(user.sex);
+                        $("#uaddress").val(user.address);
+                        $("#utelephone").val(user.telephone);
+                        $("#uemail").val(user.email);
+                        $("#uidCard").html(user.idCard);
+                        $("#uidFace").attr("src",user.idFace);
+                        $("#uidHand").attr("src",user.idHand);
+                        $("#uidNational").attr("src",user.idNational);
+                        $("#uheadImage").attr("src",user.headImage);
+                        $("#aidCard").html(user.idCard);
+                        $("#aidFace").attr("src",user.idFace);
+                        $("#aidHand").attr("src",user.idHand);
+                        $("#aidNational").attr("src",user.idNational);
+                        $("#oPasswd").val("");
+
                     }
                 }
             });
+        }
+        function update() {
+            $.ajax({
+                url: "/user/updateMy",
+                type:'post',
+                data:{
+                    id:$("#userId").val(),
+                    name:$("#uuserName").val(),
+                    sex:$("#usex").val(),
+                    address:$("#uaddress").val(),
+                    telephone:$("#utelephone").val(),
+                    email:$("#uemail").val(),
+                    passwd:$("#passwd").val(),
+                },
+                success:function (re) {
+                    jQuery.alertWindow(re.msg);
+                }
+            });
+        }
+        function updateA() {
+            $.ajax({
+                url: "/user/updateMyA",
+                type:'post',
+                data:{
+                    id:$("#userId").val(),
+                    idHand:$("#aidHand").attr("src"),
+                    idNational:$("#aidNational").attr("src"),
+                    idFace:$("#aidFace").attr("src")
+                },
+                success:function (re) {
+                    jQuery.alertWindow(re.msg);
+                }
+            });
+        }
+        function validP() {
+            $.ajax({
+                url: "/user/validPW",
+                type: 'post',
+                data: {
+                    id: $("#userId").val(),
+                    oldP: $("#oPasswd").val(),
+                },
+                success:function(re) {
+                    jQuery.alertWindow(re.msg);
+                    if(re.code==100){
+                        $("#btn_u").removeAttr("disabled")
+                    }else{
+                        $("#btn_u").attr("disabled","true")
+                    }
+                }
+             });
+        }
+        function u() {
+            $("#navDetail").hide();
+            $("#navUpdate").show();
+
+            init1();
+        }
+        function p() {
+            $("#navDetail").hide();
+            $("#navApply").show();
+
+            init1();
+        }
+
+        function uploadHimag(){
+            if( $("#files0").val==null){
+                return;
+            }
+            var formData = new FormData(document.getElementById('upload_h_img'));
+            $.ajax({
+                url: "/upload/up",
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                datatype:"json",
+                success: function(rs) {
+                    if(rs.code!="200"){
+                        document.getElementById("aidHand").src=rs.extend.url;
+                    }else{
+                        alert(rs.msg);
+                    }
+                }
+            });
+        }
+        function uploadFimag(){
+            if( $("#files1").val==null){
+                return;
+            }
+            var formData = new FormData(document.getElementById('upload_f_img'));
+            $.ajax({
+                url: "/upload/up",
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                datatype:"json",
+                success: function(rs) {
+                    if(rs.code!="200"){
+                        document.getElementById("aidFace").src=rs.extend.url;
+                    }else{
+                        alert(rs.msg);
+                    }
+                }
+            });
+        }
+        function uploadNimag(){
+            if( $("#files2").val==null){
+                return;
+            }
+            var formData = new FormData(document.getElementById('upload_n_img'));
+            $.ajax({
+                url: "/upload/up",
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                datatype:"json",
+                success: function(rs) {
+                    if(rs.code!="200"){
+                        document.getElementById("aidNational").src=rs.extend.url;
+                    }else{
+                        alert(rs.msg);
+                    }
+                }
+            });
+        }
+        function clickHImg() {
+            $("#files0").click();
+        }
+        function clickFImg() {
+            $("#files1").click();
+        }
+        function clickNImg() {
+            $("#files2").click();
         }
     </script>
     <style>
@@ -86,6 +260,7 @@
 </head>
 <body style="width: 1100px;margin:0 auto;height: 1500px;overflow-y: auto">
 <input type="hidden" value="${user.id}" id="userId">
+<div id="navDetail">
 <input type="text" readonly="readonly"  id="userName" value="">
 <table>
     <tr>
@@ -93,12 +268,11 @@
         <td>
             <img id="headImage" style="width: 80px;height: 100px">
         </td>
-        <td id="applyAct"><input type="button" class="btn" value="完善资料并申请认证"></td>
+        <td ><input type="button" class="btn" value="修改基本资料" onclick="u()"></td>
     </tr>
     <tr>
-        <td>认证状态:</td>
-        <td id="act"></td>
-
+        <td>身份认证状态:</td>
+        <td ><span id="act"></span><input  type="button" class="btn" id="actTips" onclick="p()" value="申请认证"></td>
     </tr>
     <tr>
         <td>性别:</td>
@@ -110,7 +284,7 @@
         <td id="telephone"></td>
     </tr>
     <tr>
-        <td>邮箱:</td>
+        <td>邮箱（账号）:</td>
         <td id="email"></td>
     </tr>
     <tr>
@@ -140,5 +314,133 @@
         </td>
     </tr>
 </table>
+</div>
+<div id="navUpdate" style="display: none">
+    <table>
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" id="uuserName"></td>
+            </td>
+        </tr><tr>
+        <td>头像</td>
+        <td>
+            <img id="uheadImage" style="width: 80px;height: 100px">
+        </td>
+    </tr>
+        <tr>
+            <td>认证状态:</td>
+            <td ><span id="uact"></span></td>
+        </tr>
+        <tr>
+            <td>性别:</td>
+            <td>
+                <select id="usex">
+                    <option value="0" selected>男</option>
+                    <option value="1">女</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>联系电话:</td>
+            <td ><input type="text" id="utelephone"></td>
+        </tr>
+        <tr>
+            <td>邮箱:</td>
+            <td ><input type="text" id="uemail"></td>
+        </tr>
+        <tr>
+            <td>旧密码:</td>
+            <td ><input type="password" id="oPasswd" value="" placeholder="请输入旧密码" onblur="validP()"></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td ><input type="text" id="passwd"></td>
+        </tr>
+        <tr>
+            <td>再次输入密码:</td>
+            <td ><input type="text" id="passwd0"></td>
+        </tr>
+        <tr>
+            <td>详细地址:</td>
+            <td><input type="text"  id="uaddress"></td>
+        </tr>
+        <tr>
+            <td>身份证号:</td>
+            <td id="uidCard"></td>
+        </tr>
+        <tr>
+            <td>身份证照（人脸）</td>
+            <td>
+                <img id="uidFace" style="max-width: 450px;max-height: 320px">
+            </td>
+        </tr>
+        <tr>
+            <td>身份证照（国徽）</td>
+            <td>
+                <img id="uidNational" style="max-width: 450px;max-height: 320px">
+            </td>
+        </tr>
+        <tr>
+            <td>身份证照（手持）</td>
+            <td>
+                <img id="uidHand" style="max-width: 450px;max-height: 320px">
+            </td>
+        </tr>
+        <tr style="text-align: center">
+            <td style="text-align: center" colspan="2"><input type="button" class="btn" disabled id="btn_u" value="保存更新" onclick="update()"></td>
+        </tr>
+    </table>
+</div>
+
+<div id="navApply" style="display: none">
+    <table>
+        <tr>
+            <td>身份证号:</td>
+            <td id="aidCard"></td>
+        </tr>
+        <tr>
+            <td>身份证照（人脸）</td>
+            <td>
+                <img id="aidFace" style="width: 450px;height: 320px" onclick="clickFImg()">
+            </td>
+        </tr>
+        <tr>
+            <td>身份证照（国徽）</td>
+            <td>
+                <img id="aidNational" style="width: 450px;height: 320px" onclick="clickNImg()">
+            </td>
+        </tr>
+        <tr>
+            <td>身份证照（手持）</td>
+            <td>
+                <img id="aidHand" style="width: 450px;height: 320px" onclick="clickHImg()">
+            </td>
+        </tr>
+        <tr style="text-align: center">
+            <td style="text-align: center" colspan="2"><input type="button" class="btn"  id="btn_a" value="提交申请" onclick="updateA()"></td>
+        </tr>
+    </table>
+</div>
+
+<div id="hand" style="display: none">
+    <form method="post" action="" enctype="multipart/form-data" id="upload_h_img" >
+        <input type="file" id="files0" name="file" onchange="uploadHimag()" accept="image/*"
+               style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+    </form>
+</div>
+
+<div id="face" style="display: none">
+    <form method="post" action="" enctype="multipart/form-data" id="upload_f_img" >
+        <input type="file" id="files1" name="file" onchange="uploadFimag()" accept="image/*"
+               style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+    </form>
+</div>
+
+<div id="nation" style="display: none">
+    <form method="post" action="" enctype="multipart/form-data" id="upload_n_img" >
+        <input type="file" id="files2" name="file" onchange="uploadNimag()" accept="image/*"
+               style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+    </form>
+</div>
 </body>
 </html>

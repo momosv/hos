@@ -23,16 +23,16 @@
 				},
                 success:function (re) {
                     if(re.code!=200){
-                        jQuery.alertWindow("注册成功，请前往邮箱激活账号");
+                       alert("注册成功，请前往邮箱激活账号");
                     }else {
-                        jQuery.alertWindow(re.msg);
+                        alert(re.msg);
 					}
                 }
             });
         }
 
         function uploadimag(){
-            if( $("#file0").val==null){
+            if( $("#files0").val()==null){
                 return;
             }
             var formData = new FormData(document.getElementById('upload_my_img'));

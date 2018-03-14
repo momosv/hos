@@ -184,33 +184,8 @@ public class LoginController extends BasicController{
 	@ResponseBody
 	@RequestMapping("register/user")
 	public Msg register(TbBaseUserPO user) throws Exception {
-		user.setAccount(user.getEmail());
-		validUser(user);
-		if(StringUtils.isEmpty(user.getIdCard())){
-			return failMsg("注册身份证号不能为空");
-		}
-		//检查是否有认证过得身份证
-		BasicExample example=new BasicExample(TbBaseUserPO.class);
-		example.createCriteria().andVarEqualTo("id_card",user.getIdCard());
-		TbBaseUserPO userPO = (TbBaseUserPO) basicService.selectOneByExample(example);
-		if(null!=userPO){
-			if(userPO.getActCode().equals(Constants.USER_PASSED)
-					||(userPO.getActCode().equals(Constants.USER_UN_APPROVED))){
-			return Msg.fail(201,"身份信息已经被注册认证或处于待审批认证中");
-			}else{
-				userPO.setCreateTime(new Date());
-				user.setActCode(0);
-				basicService.updateOne(user,true);
-				loginService.sendUserRegisterMail(userPO);
-				return successMsg("注册成功");
-			}
-		}
-		user.setId(UUID.randomUUID().toString());
-		user.setCreateTime(new Date());
-		user.setActCode(0);
-		basicService.insertOne(user);
-		loginService.sendUserRegisterMail(user);
-		return successMsg("注册成功");
+		return (Msg) loginService.registerUser(user);
+
 	}
 
 	@ResponseBody
@@ -290,10 +265,10 @@ public class LoginController extends BasicController{
 		}
 		if(!StringUtils.isEmpty(user.getEmail())){
 			example=new BasicExample(TbBaseUserPO.class);
-			example.createCriteria().andVarEqualTo("email",user.getEmail());
-			example.createCriteria().andVarNotEqualTo("act_code","0");
+			example.createCriteria().andVarEqualTo("email",user.getEmail())
+			.andVarNotBetween("act_code","0","1");
 			if(basicService.countByExample(example)>0){
-				throw new MyException("该邮箱已经被注册且验证,可以直接登录");
+				throw new MyException("注册失败，该邮箱已经被注册且身份验证,可以直接登录");
 			}
 		}
 		return successMsg().add("msg","验证通过");
