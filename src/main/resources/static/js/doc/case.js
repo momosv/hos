@@ -169,7 +169,7 @@ function getCaseSecondList() {
                     $("#leaL").append(" <li id="+obj.id+" onclick=\"getSecond(7,this)\">"+new Date(obj.createTime).Format("yyyyMMdd-hhmmss")+"</li>")
                 }
             }else {
-                jQuery.alertWindow(re.msg);
+                //jQuery.alertWindow(re.msg);
             }
         }
     });

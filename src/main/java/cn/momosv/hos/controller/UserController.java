@@ -95,6 +95,7 @@ public class UserController extends BasicController{
                if(!doctorService.checkAuth(doctorVO,casePO.getId())){
                    return failMsg("您无权限查看该病历数据");
                }
+
             }catch (Exception ed){
                 TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
                  user = validUser();

@@ -58,6 +58,10 @@ function getCaseDetail(){
             id:$("#caseId").val(),
         },
         success: function (re) {
+            if(re.code==-1){
+                window.open("/hos/login");
+                jQuery.alertWindow("登录已经失效，请重新登录！",10000);
+            }
             if (re.code != 200) {
                 var patient=re.extend.patient;
                 var user=re.extend.user;
@@ -98,8 +102,9 @@ function getCaseDetail(){
                      $("#orgName").val(caseo.fromOrgName);
                      $("#deptName").val(caseo.fromDeptName);
                 }
+                getCaseSecondList();
             }else {
-                jQuery.alertWindow(re.msg);
+                jQuery.alertWindow(re.msg,2000);
             }
         }
     });
@@ -173,7 +178,7 @@ function getCaseSecondList() {
                     $("#leaL").append(" <li id="+obj.id+" onclick=\"getSecond(7,this)\">"+new Date(obj.createTime).Format("yyyyMMdd-hhmmss")+"</li>")
                 }
             }else {
-                jQuery.alertWindow(re.msg);
+               // jQuery.alertWindow(re.msg);
             }
         }
     });

@@ -589,6 +589,22 @@ public class DoctorController extends BasicController {
                               @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
         return  doctorService.getCaseList(key,keyType,validDoctor(),pageNum, pageSize);
     }
+    /**
+     * 申请的初诊列表
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("getCaseApplyList")
+    public Object getCaseApplyList(String key, String keyType,String isAllow,
+                              @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
+                              @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
+        if(StringUtils.isEmpty(key)){key=null;}
+        else{
+            key="%"+key+"%";
+        }
+        if(StringUtils.isEmpty(isAllow)||isAllow.equals("-1")){isAllow=null;}
+        return  doctorService.getCaseApplyList(key,keyType,isAllow,validDoctor(),pageNum, pageSize);
+    }
 
     @RequestMapping("getPatient")
     public Object getPatient(String idCard, String treatCode) throws Exception {

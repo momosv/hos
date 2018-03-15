@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/doc.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/js/user/user.js"></script>
+    <script src="/js/doc/caseAppy.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/main.js"></script>
     <style type="text/css" >
@@ -15,35 +15,46 @@
 
 <body>
 <div id="sys_content">
-    <div id="org_right" style="z-index: 1;margin: 0 auto;min-height: 800px;width: 1050px">
+    <div id="sys_left" style="float: left;min-height: 800px;width: 200px;padding-top: 80px">
+        <ul class="ul" >
+            <li onclick="getAuthList(-1)">全部</li>
+            <li onclick="getAuthList(1)">通过</li>
+            <li onclick="getAuthList(0)">未通过</li>
+        </ul>
+    </div>
+    <div id="org_right" style="float: left;z-index: 1;margin: 0 auto;min-height: 800px;width: 850px">
         <div class="case_table" id="case_search">
             <input type="button" value="搜索" id="case_search_btn" onclick="case_search_key()">
             <input type="text" value="" placeholder="请输入名称" id="case_search_key" onchange="case_search_key()">
             <select id="case_key" onchange="case_search_key()">
                 <option value="diagnosis" selected>诊断</option>
-                <option value="docName">医生名字</option>
-                <option value="orgName">机构名字</option>
+                <option value="userName">患者名字</option>
             </select>
         </div>
-        <div class="case_table" id="case_table">
-            <table id="case_table_data">
+        <div class="case_table" id="case_table" style="width: 850px">
+            <table id="case_table_data" style="width: 850px">
                 <tr>
+                    <th>姓名</th>
                     <th>诊断</th>
-                    <th>时间</th>
+                    <th>诊断时间</th>
                     <th>医生</th>
                     <th>科室</th>
                     <th>机构</th>
+                    <th>权限有效期</th>
                     <th>操作</th>
                 </tr>
             </table>
             <table id="case_table_model" style="display: none">
-                <tr style="cursor: pointer" id="{id}" onclick="getUserCaseDetail(this)">
-                    <td>{diagnosis}</td>
+                <tr  >
+
+                    <td style="cursor: pointer" id="{id0}" onclick="getUserCaseDetail(this)">{user_name}</td>
+                    <td style="cursor: pointer" id="{id1}" onclick="getUserCaseDetail(this)">{diagnosis}</td>
                     <td>{create_time}</td>
                     <td>{doc_name}</td>
                     <td>{dept_name}</td>
                     <td>{org_name}</td>
-                    <td>详情</td>
+                    <td>{deadline}</td>
+                    <td style="cursor: pointer" id="{id2}" onclick="applyAgain(this)">申请延期</td>
                 </tr>
             </table>
 

@@ -29,4 +29,6 @@ public interface DoctorService {
     boolean checkAuth(TbDoctorVO doctorVO, String caseId) throws IllegalAccessException, InstantiationException, Exception;
 
     void updateMy(TbDoctorPO doctorPO, TbBaseUserPO user);
+
+    Object getCaseApplyList(String key, String keyType,String isAllow, TbDoctorVO tbDoctorVO, int pageNum, int pageSize);
 }

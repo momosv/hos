@@ -1,11 +1,13 @@
 package cn.momosv.hos.dao;
 
 import cn.momosv.hos.model.*;
+import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbHospitalizedVO;
 import cn.momosv.hos.vo.TbSurgeryVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,4 +38,6 @@ public interface TbDoctorPOMapper {
 
     @Select("select id ,second_id,create_time from tb_return_visit where case_id=#{caseId} and second_id=#{secondId} and type=#{type} order by create_time desc")
     List<TbSurgeryPO> getReturnSecondList(@Param("caseId") String caseId,@Param("secondId") String secondId,@Param("type") Integer type);
+
+    List<Object> getCaseApplyList(@Param("key")String key, @Param("keyType")String keyType,@Param("isAllow")String isAllow,  @Param("tbDoctorVO") TbDoctorVO tbDoctorVO,@Param("date") Date date);
 }

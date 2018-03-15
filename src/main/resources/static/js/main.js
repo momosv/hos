@@ -10,6 +10,11 @@ function doc_case_manager(){
     $("#doc_page").show();
     $("#doc_iframe").attr("src",'/allowHtml/doc/caseHead.html');
 }
+function doc_auth_manager(){
+    hide_head();
+    $("#doc_page").show();
+    $("#doc_iframe").attr("src",'/allowHtml/doc/applyCaseHead.html');
+}
 
 //org 管理员
 function org_dept_manager(){

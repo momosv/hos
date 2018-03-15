@@ -52,7 +52,7 @@ function getAuthorityList(allow,pageNum) {
                         .replace("{org_name}",list[i].org_name==undefined?"":list[i].org_name)
                         .replace("{allow_grade}",allow_grade)
                         .replace("{create_time}",list[i].create_time==undefined?"":getMyDate(list[i].create_time))
-                        .replace("{isAllow}",list[i].is_allow==undefined?"不通过":(list[i].isAllow==1?"通过":"不通过"));
+                        .replace("{isAllow}",list[i].is_allow==undefined?"不通过":(list[i].is_allow==1?"通过":"不通过"));
                 }
                 $("#org_table_data").append(inHtml);
             } else {
@@ -109,6 +109,8 @@ function ajaxAuthorityDetail() {
                 $("#email").val(detail.doc_email==undefined?"":detail.doc_email);
                 $("#orgPhone").val(detail.org_phone==undefined?"":detail.org_phone);
                 $("#linkman").val(detail.linkman==undefined?"":detail.linkman);
+
+                $("#deadline").val(detail.deadline==undefined?"":detail.deadline);
 
                 $("#caseTitle").val(detail.diagnosis==undefined?"":detail.diagnosis+"-"+detail.user_name==undefined?"":detail.user_name);
                 $("#allowGrade").val(detail.allow_grade==undefined?"":detail.allow_grade);

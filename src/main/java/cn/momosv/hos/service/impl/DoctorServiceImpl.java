@@ -224,17 +224,18 @@ public class DoctorServiceImpl implements DoctorService {
         criteria.andVarEqualTo("case_id",caseId);
         criteria.andVarEqualTo("allow_grade","2");
         criteria.andVarEqualTo("is_allow","1");
-        example.or();
-        criteria.andVarEqualTo("apply_dept_id",doctorVO.getDeptId());
-        criteria.andVarEqualTo("case_id",caseId);
-        criteria.andVarEqualTo("allow_grade","1");
-        criteria.andVarEqualTo("is_allow","1");
-        example.or();
-        criteria.andVarEqualTo("doctor_id",doctorVO.getId());
-        criteria.andVarEqualTo("case_id",caseId);
-        criteria.andVarEqualTo("allow_grade","0");
-        criteria.andVarEqualTo("is_allow","1");
-        TbDataAuthorityPO auth = (TbDataAuthorityPO) basicService.selectByExample(example);
+        criteria.andVarEqualTo("deadline",new Date().toString());
+        example.or().andVarEqualTo("apply_dept_id",doctorVO.getDeptId())
+                .andVarEqualTo("case_id",caseId)
+                .andVarEqualTo("allow_grade","1")
+                .andVarEqualTo("is_allow","1")
+                .andVarEqualTo("deadline",new Date().toString());
+        example.or().andVarEqualTo("doctor_id",doctorVO.getId())
+                .andVarEqualTo("case_id",caseId)
+        .andVarEqualTo("allow_grade","0")
+        .andVarEqualTo("is_allow","1")
+                .andVarEqualTo("deadline",new Date().toString());
+        TbDataAuthorityPO auth = (TbDataAuthorityPO) basicService.selectOneByExample(example);
         if(auth==null||!auth.getIsAllow().equals(1)){
             return false;
         }
@@ -247,6 +248,13 @@ public class DoctorServiceImpl implements DoctorService {
         if(!StringUtils.isEmpty(user.getId())){
             basicService.updateOne(user,true);
         }
+    }
+
+    @Override
+    public Object getCaseApplyList(String key, String keyType,String isAllow, TbDoctorVO tbDoctorVO, int pageNum, int pageSize) {
+        Page page =PageHelper.startPage(pageNum,pageSize);
+         doctorMapper.getCaseApplyList(key,keyType,isAllow,tbDoctorVO,new Date());
+        return Msg.success().add("page",new PageInfo<>(page.getResult()));
     }
 
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {

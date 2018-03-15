@@ -26,4 +26,30 @@
     from tb_doctor
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getCaseApplyList" resultType="java.util.Map">
+    select a.id as auth_id ,a.create_time as apply_time,a.deadline,c.id as case_id,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,
+    d.`name` as case_doc_name
+    from  tb_data_authority a
+    join tb_case c on  a.case_id=c.id
+    join tb_doctor d on c.doctor_id=d.id
+    join tb_base_user u on a.user_id=u.id_card
+    WHERE (a.doctor_id=#{tbDoctorVO.id}
+      or (allow_grade=1 and a.apply_dept_id=#{tbDoctorVO.deptId})
+      or (allow_grade=2 and a.apply_org_id=#{tbDoctorVO.orgId}))
+    <if test="isAllow!=null">
+      and is_allow=${isAllow}
+    </if>
+
+    <if test="key!=null">
+      <choose>
+        <when test='keyType=="userName"'>
+          and u.NAME like #{key}
+        </when>
+        <when test='keyType=="diagnosis"'>
+          and c.diagnosis like #{key}
+        </when>
+      </choose>
+    </if>
+  </select>
 </mapper>
