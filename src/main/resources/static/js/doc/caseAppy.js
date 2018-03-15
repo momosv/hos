@@ -96,6 +96,8 @@ function getUserCaseDetail(t) {
 }
 
 function applyAgain(t){
+    alert("asas");
+    $("#cdiv").toggle();
 }
 
 

@@ -11,6 +11,11 @@
     <script src="/js/main.js"></script>
     <style type="text/css" >
     </style>
+    <script>
+        function hideC() {
+            $("#cdiv").toggle();
+        }
+    </script>
 </head>
 
 <body>
@@ -74,6 +79,39 @@
             <span id="total_num">共1页 </span>
             <span id="pre_num">第1页 </span>
         </div>
+    </div>
+    <div  id="cdiv" style="display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
+        <span style="float: right;margin-right: 20px;font-size: 28px;color: #818181;cursor: pointer" onclick="hideC()">X</span>
+        <table style="margin: 0 auto;width: 400px">
+            <tr style="text-align: center;font-size: 24px;color: black">
+                <td colspan="2" id="cTitle">更新管理员</td>
+            </tr>
+            <tr>
+                <td>名字</td>
+                <td><input id="cname" type="text"><input type="hidden" id="hiddenId" value=""></td>
+            </tr>
+            <tr>
+                <td>账号</td>
+                <td><input id="caccount" type="text"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input id="cpasswd" type="text"></td>
+            </tr>
+            <tr>
+                <td>电子邮箱</td>
+                <td><input id="cemail" type="text"></td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td><input id="cphone" type="text"></td>
+            </tr>
+            <tr>
+                <td>等级</td>
+                <td><input id="cgrade" type="text"></td>
+            </tr>
+        </table>
+        <input class="btn" type="button" value="保存" onclick="saveOrUpdate()">
     </div>
 </div>
 </body>
