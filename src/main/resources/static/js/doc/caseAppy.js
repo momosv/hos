@@ -39,10 +39,20 @@ function getCaseList(pageNum) {
                 var htmlModel=document.getElementById("case_table_model").innerHTML;
                 var inHtml="";
                 for(var i=0;i<list.length;i++){
+
+                    var ia="待审批";
+                    if(list[i].is_allow==undefined){
+
+                    }else if(list[i].is_allow==1){
+                        ia="通过";
+                    }else if(list[i].is_allow==0){
+                        ia="不通过";
+                    }
                     inHtml+=htmlModel
                         .replace("{id0}",list[i].case_id)
                         .replace("{id1}",list[i].case_id)
-                        .replace("{id2}",list[i].case_id)
+                        .replace("{id2}",list[i].auth_id)
+                        .replace("{isAllow}",ia)
                         .replace("{user_name}",list[i].user_name==undefined?"":list[i].user_name)
                         .replace("{deadline}",list[i].deadline==undefined?"":list[i].deadline)
                         .replace("{doc_name}",list[i].case_doc_name==undefined?"":list[i].case_doc_name)

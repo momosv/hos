@@ -28,7 +28,7 @@
   </select>
   
   <select id="getCaseApplyList" resultType="java.util.Map">
-    select a.id as auth_id ,a.create_time as apply_time,a.deadline,c.id as case_id,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,
+    select a.id as auth_id ,a.is_allow,a.create_time as apply_time,a.deadline,c.id as case_id,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,
     d.`name` as case_doc_name
     from  tb_data_authority a
     join tb_case c on  a.case_id=c.id
@@ -38,7 +38,12 @@
       or (allow_grade=1 and a.apply_dept_id=#{tbDoctorVO.deptId})
       or (allow_grade=2 and a.apply_org_id=#{tbDoctorVO.orgId}))
     <if test="isAllow!=null">
-      and is_allow=${isAllow}
+      <if test='isAllow=="1"'>
+        and is_allow=1
+      </if>
+      <if test='isAllow!="1"'>
+        and is_allow!=1
+      </if>
     </if>
 
     <if test="key!=null">
