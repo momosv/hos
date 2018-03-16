@@ -1,12 +1,11 @@
 package cn.momosv.hos.service;
 
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbCasePO;
-import cn.momosv.hos.model.TbDoctorPO;
-import cn.momosv.hos.model.TbOrgPatientPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.vo.TbDoctorVO;
+
+import java.util.List;
 
 public interface DoctorService {
 
@@ -28,7 +27,14 @@ public interface DoctorService {
 
     boolean checkAuth(TbDoctorVO doctorVO, String caseId) throws IllegalAccessException, InstantiationException, Exception;
 
+    boolean checkApplyAuth(TbDoctorVO doctorVO, String caseId,Integer allowGrade) throws Exception;
+
     void updateMy(TbDoctorPO doctorPO, TbBaseUserPO user);
 
     Object getCaseApplyList(String key, String keyType,String isAllow, TbDoctorVO tbDoctorVO, int pageNum, int pageSize);
+
+    void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO);
+
+    List<Object> getUserCaseList(TbDoctorVO doctorVO, List<String> pList, String diagnosis);
+
 }

@@ -28,7 +28,7 @@
   </select>
   
   <select id="getCaseApplyList" resultType="java.util.Map">
-    select a.id as auth_id ,a.is_allow,a.create_time as apply_time,a.deadline,c.id as case_id,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,
+    select a.id as auth_id ,a.is_allow,a.allow_grade,a.create_time as apply_time,a.deadline,c.id as case_id,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,
     d.`name` as case_doc_name
     from  tb_data_authority a
     join tb_case c on  a.case_id=c.id
@@ -56,5 +56,27 @@
         </when>
       </choose>
     </if>
+  </select>
+  
+  <select id="getUserCaseList" resultType="java.util.Map">
+        select DISTINCT c.id,c.diagnosis,c.create_time,doc.name as doc_name,org.name as org_name,dept.name as dept_name,a.is_allow,a.allow_grade
+     from tb_case c
+    LEFT JOIN tb_doctor doc on doc.id=c.doctor_id
+    LEFT JOIN tb_medical_org org on c.org_id=org.id
+    LEFT JOIN  tb_department dept ON  c.dept_id=dept.id
+     LEFT JOIN tb_data_authority a on c.id=a.case_id and (a.allow_grade=0 and a.doctor_id=#{tbDoctorVO.id}
+    or (a.allow_grade=1 and a.apply_dept_id=#{tbDoctorVO.deptId})
+    or (a.allow_grade=2 and a.apply_org_id=#{tbDoctorVO.orgId}))
+     <where>
+      patient_id in
+    <foreach collection="pList" item="listItem"
+             open="(" close=")" separator=",">
+      #{listItem}
+    </foreach>
+     and c.doctor_id!=#{tbDoctorVO.id}
+       <if test="diagnosis!=null">
+         and c.diagnosis like #{diagnosis}
+       </if>
+     </where>
   </select>
 </mapper>

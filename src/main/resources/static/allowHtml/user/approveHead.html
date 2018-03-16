@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/org.css">
     <script src="/js/common.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/js/org/approve.js"></script>
+    <script src="/js/user/approve.js"></script>
     <script src="/js/main.js"></script>
 
     <script language="JavaScript">
@@ -31,7 +31,6 @@
             <input type="text" value="" placeholder="请输入关键字" id="auth_search_key" onchange="auth_search_key()">
             <select id="data_key" onchange="case_search_key()">
                 <option value="diagnosis" selected>诊断</option>
-                <option value="name">病人名字</option>
                 <option value="org">申请所在机构</option>
             </select>
         </div>
@@ -41,9 +40,9 @@
                     <th>诊断</th>
                     <th>看诊时间</th>
                     <th>病历机构|科室</th>
-                    <th>申请人</th>
-                    <th>申请人机构|科室</th>
+                    <th>申请人|机构|科室</th>
                     <th>申请级别</th>
+                    <th>截止日期</th>
                     <th>申请时间</th>
                     <th>状态</th>
                 </tr>
@@ -53,9 +52,9 @@
                     <td>{diagnosis}</td>
                     <td>{case_time}</td>
                     <td>{case_org}|{case_dept}</td>
-                    <td>{doc_name}</td>
-                    <td>{dept_name}|{org_name}</td>
+                    <td>{doc_name}|{dept_name}|{org_name}</td>
                     <td>{allow_grade}</td>
+                    <td>{deadline}</td>
                     <td>{create_time}</td>
                     <td>{isAllow}</td>
                 </tr>

@@ -174,8 +174,17 @@ public class PageController extends BasicController {
     }
     @RequestMapping("org/AuthorityDetail/{authId}")
     public String getAuthorityDetail(@PathVariable("authId") String authId) throws Exception {
-        validOrgManager();
+        try {
+            validOrgManager();
+        }catch (Exception e){
+            validUser();
+        }
         return "org/authorityDetail";
+    }
+    @RequestMapping("user/AuthorityDetail/{authId}")
+    public String getAuthorityDetail0(@PathVariable("authId") String authId) throws Exception {
+            validUser();
+        return "user/authorityDetail";
     }
 
     private TbOrgManagerVO validOrgManager() throws Exception {

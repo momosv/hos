@@ -1,6 +1,7 @@
 package cn.momosv.hos.controller;
 
 import cn.momosv.hos.controller.base.BasicController;
+import cn.momosv.hos.exception.MyException;
 import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
@@ -9,6 +10,9 @@ import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbOrgManagerVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +71,7 @@ public class DoctorController extends BasicController {
         TbBaseUserPO userPO = null;
         if(null!=patientPO){
             userPO = userService.getUserByIdCard(patientPO.getUserId());
+            if(userPO!=null)userPO.setPasswd(null);
         }
         return successMsg("保存成功").add("patient",patientPO).add("user",userPO);
     }
@@ -88,7 +93,76 @@ public class DoctorController extends BasicController {
         return msg;
     }
 
+    @RequestMapping("applyAgainDetail")
+    public Object applyAgainDetail(String id) throws Exception {
+        TbDataAuthorityPO authorityPO= (TbDataAuthorityPO) basicService.selectByPrimaryKey(TbDataAuthorityPO.class,id);
+        if(authorityPO==null){
+            return failMsg("获取权限数据从失败,数据不存在");
+        }
+        return  this.getCase(authorityPO.getCaseId());
+    }
 
+    @RequestMapping("applyCase")
+    public Object applyCase(TbDataAuthorityPO authorityPO) throws Exception {
+      TbDoctorVO doctorVO= validDoctor();
+        TbCasePO casePO=null;
+      if(!StringUtils.isEmpty(authorityPO.getId())){//更新
+         TbDataAuthorityPO old= (TbDataAuthorityPO) basicService.selectByPrimaryKey(TbDataAuthorityPO.class,authorityPO.getId());
+            if(authorityPO==null){
+                 return failMsg("获取权限数据从失败,数据不存在");
+            }else {
+                casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,old.getCaseId());
+                  if(casePO==null){
+                      throw new MyException("病历数据不存在或者已经被删除，申请失败");
+                  }
+                  authorityPO.setIsAllow(-1);
+            }
+            basicService.updateOne(authorityPO,true);
+      }else{
+           casePO= (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,authorityPO.getCaseId());
+           if(casePO==null){
+                throw new MyException("病历数据不存在或者已经被删除，申请失败");
+           }
+           if(doctorService.checkApplyAuth(doctorVO,casePO.getId(),authorityPO.getAllowGrade())){
+              throw new MyException("已经存在同级别的申请，申请失败");
+          }
+            TbBaseUserPO userPO = userService.getUserByPatientId(casePO.getPatientId());
+            authorityPO.setId(UUID36());
+            authorityPO.setCreateTime(new Date());
+            authorityPO.setDoctorId(doctorVO.getId());
+            authorityPO.setApplyDeptId(doctorVO.getDeptId());
+            authorityPO.setApplyOrgId(doctorVO.getOrgId());
+            authorityPO.setCaseOrgId(casePO.getOrgId());
+            authorityPO.setIsAllow(-1);
+            if(userPO!=null)
+            authorityPO.setUserId(userPO.getIdCard());
+            basicService.insertOne(authorityPO);
+      }
+     doctorService.sendAuthMail(doctorVO,authorityPO,casePO); //邮件通知
+      return  successMsg("申请成功");
+    }
+
+
+    @RequestMapping("getUserCaseList")
+    public Object getUserCaseList(
+            String id,
+            String diagnosis,
+            @RequestParam(name="pageNum",defaultValue = "1") int pageNum,
+            @RequestParam(name="pageSize",defaultValue = "10")int pageSize) throws Exception {
+        TbDoctorVO doctorVO=validDoctor();
+        TbBaseUserPO userPO = (TbBaseUserPO) userService.getUserByIdCard(id);
+        if(userPO==null){
+            return failMsg("患者信息不存在");
+        }
+        userPO.setPasswd(null);
+        List<String> pList= userService.getPatientIdListByIdCard(id);
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        if(pList.size()==0){
+            return Msg.success().add("page",new PageInfo(page.getResult()));
+        }
+        doctorService.getUserCaseList(doctorVO,pList,diagnosis);
+        return Msg.success().add("page",new PageInfo(page.getResult())).add("user",userPO);
+    }
     /**
      * 更新
      * @param casePO
@@ -236,7 +310,7 @@ public class DoctorController extends BasicController {
             }catch (Exception ed){
                 TbBaseUserPO userPO0 = userService.getUserByPatientId(casePO.getPatientId());
                 TbBaseUserPO user = validUser();
-                if(userPO0.getIdCard().equals(user.getIdCard())){
+                if(!userPO0.getIdCard().equals(user.getIdCard())){
                     return failMsg("您无权限查看该病历数据");
                 }
             }

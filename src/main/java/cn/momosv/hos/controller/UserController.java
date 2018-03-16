@@ -4,11 +4,13 @@ import cn.momosv.hos.controller.base.BasicController;
 import cn.momosv.hos.exception.MyException;
 import cn.momosv.hos.model.TbBaseUserPO;
 import cn.momosv.hos.model.TbCasePO;
+import cn.momosv.hos.model.TbDataAuthorityPO;
 import cn.momosv.hos.model.TbOrgPatientPO;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.BasicExample.Criteria;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.DoctorService;
+import cn.momosv.hos.service.OrgService;
 import cn.momosv.hos.service.UserService;
 import cn.momosv.hos.util.Constants;
 import cn.momosv.hos.util.SysUtil;
@@ -32,6 +34,9 @@ public class UserController extends BasicController{
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    public OrgService orgService;
 
     @Autowired
     DoctorService doctorService;
@@ -167,6 +172,44 @@ public class UserController extends BasicController{
         return successMsg("更改成功，请退出重新登录生效");
     }
 
+
+    @RequestMapping("getAuthorityList")
+    public Msg getAuthorityList(@RequestParam(defaultValue = "-2") int isAllow,//-1未审批,-2全部
+                                String key,
+                                String keyType,
+                                @RequestParam(defaultValue = "1")Integer pageNum,
+                                @RequestParam(defaultValue = "10")Integer pageSize) throws Exception {
+        TbBaseUserPO user= validUser();
+        Page page= PageHelper.startPage(pageNum,pageSize);
+        userService.getAuthorityList(isAllow,key,keyType,user);
+        return successMsg().add("page",new PageInfo<>(page.getResult()));
+    }
+
+    @RequestMapping("getAuthorityDetail")
+    public Msg getAuthorityListDetail(String authId) throws Exception {
+        TbBaseUserPO user= validUser();
+        return successMsg().add("detail",userService.getAuthorityDetail(authId,user.getIdCard()));
+    }
+
+    @RequestMapping("approveAuthority")
+    public Msg getAuthorityListDetail(TbDataAuthorityPO auth) throws Exception {
+        TbBaseUserPO user= validUser();
+        if(StringUtils.isEmpty(auth.getId())){
+            return failMsg("权限id不能为空");
+        }
+        TbDataAuthorityPO old= (TbDataAuthorityPO) basicService.selectByPrimaryKey(TbDataAuthorityPO.class,auth.getId());
+        if(!old.getUserId().equals(user.getIdCard())){
+            return failMsg("您无权限操作不是本人数据");
+        }
+        if(auth.getDeadline()==null){
+            return failMsg("权限截止日期不能为空");
+        }
+        auth.setCaseId(old.getCaseId());
+        auth.setDoctorId(old.getDoctorId());
+        basicService.updateOne(auth,true);
+        orgService.sendAuthApproveMsg(auth);
+        return successMsg("更新成功");
+    }
 
     private TbBaseUserPO validUser() throws Exception {
         try{

@@ -26,4 +26,8 @@ public interface UserService {
     List<TbBaseUserPO> getUserListByName(String userName) throws Exception;
 
     List<String> getPatientIdListByIdCard(String idCard) throws Exception;
+
+    Object getAuthorityList(int isAllow, String key, String keyType, TbBaseUserPO user);
+
+    Object getAuthorityDetail(String authId, String idCard) throws Exception;
 }

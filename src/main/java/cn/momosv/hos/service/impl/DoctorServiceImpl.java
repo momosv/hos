@@ -15,7 +15,6 @@ import cn.momosv.hos.vo.TbSurgeryVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -224,19 +223,42 @@ public class DoctorServiceImpl implements DoctorService {
         criteria.andVarEqualTo("case_id",caseId);
         criteria.andVarEqualTo("allow_grade","2");
         criteria.andVarEqualTo("is_allow","1");
-        criteria.andVarEqualTo("deadline",new Date().toString());
+        criteria.andVarLessThanOrEqualTo("deadline",new Date().toString());
         example.or().andVarEqualTo("apply_dept_id",doctorVO.getDeptId())
                 .andVarEqualTo("case_id",caseId)
                 .andVarEqualTo("allow_grade","1")
                 .andVarEqualTo("is_allow","1")
-                .andVarEqualTo("deadline",new Date().toString());
+                .andVarLessThanOrEqualTo("deadline",new Date().toString());
         example.or().andVarEqualTo("doctor_id",doctorVO.getId())
                 .andVarEqualTo("case_id",caseId)
-        .andVarEqualTo("allow_grade","0")
-        .andVarEqualTo("is_allow","1")
-                .andVarEqualTo("deadline",new Date().toString());
+                .andVarEqualTo("allow_grade","0")
+                .andVarEqualTo("is_allow","1")
+                .andVarLessThanOrEqualTo("deadline",new Date().toString());
         TbDataAuthorityPO auth = (TbDataAuthorityPO) basicService.selectOneByExample(example);
         if(auth==null||!auth.getIsAllow().equals(1)){
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public boolean checkApplyAuth(TbDoctorVO doctorVO, String caseId,Integer allowGrade) throws Exception {
+        BasicExample example =new BasicExample(TbDataAuthorityPO.class);
+        BasicExample.Criteria criteria= example.createCriteria();
+        if(allowGrade.equals(0)){
+            criteria.andVarEqualTo("doctor_id",doctorVO.getId())
+                    .andVarEqualTo("case_id",caseId)
+                    .andVarEqualTo("allow_grade","0");
+        }else if(allowGrade.equals(1)){
+            criteria.andVarEqualTo("apply_dept_id",doctorVO.getDeptId())
+                    .andVarEqualTo("case_id",caseId)
+                    .andVarEqualTo("allow_grade","1");
+        }else{
+            criteria.andVarEqualTo("apply_org_id",doctorVO.getOrgId())
+                    .andVarEqualTo("case_id",caseId)
+                    .andVarEqualTo("allow_grade","2");
+        }
+        TbDataAuthorityPO auth = (TbDataAuthorityPO) basicService.selectOneByExample(example);
+        if(auth==null){
             return false;
         }
         return true;
@@ -255,6 +277,18 @@ public class DoctorServiceImpl implements DoctorService {
         Page page =PageHelper.startPage(pageNum,pageSize);
          doctorMapper.getCaseApplyList(key,keyType,isAllow,tbDoctorVO,new Date());
         return Msg.success().add("page",new PageInfo<>(page.getResult()));
+    }
+
+    @Override
+    public void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO) {
+
+    }
+
+    @Override
+    public List<Object> getUserCaseList(TbDoctorVO doctorVO, List<String> pList, String diagnosis) {
+        if(StringUtils.isEmpty(diagnosis))diagnosis=null;
+        else diagnosis="%"+diagnosis+"%";
+      return doctorMapper.getUserCaseList( doctorVO, pList,diagnosis);
     }
 
     private TbOrgPatientPO getTbOrgPatient(TbBaseUserPO user) throws Exception {

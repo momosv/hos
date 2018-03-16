@@ -34,4 +34,34 @@
     from tb_base_user
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getAuthorityList" resultType="java.util.Map">
+          select a.*,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name
+      from tb_data_authority a
+        LEFT JOIN tb_base_user u ON a.user_id=u.id_card
+        LEFT JOIN tb_case c on c.id=a.case_id
+        LEFT JOIN tb_doctor d ON a.doctor_id=d.id
+        LEFT JOIN tb_department de ON a.apply_dept_id=de.id
+        LEFT JOIN tb_medical_org o on a.apply_org_id=o.id
+      where u.id_card=#{user.idCard}
+    <if test="isAllow!=null">
+      <if test='isAllow=="-1"'>
+        and is_allow=-1
+      </if>
+      <if test='isAllow>"-1"'>
+        and is_allow>-1
+      </if>
+    </if>
+
+    <if test="key!=null">
+      <choose>
+        <when test='keyType=="org"'>
+          and o.NAME like #{key}
+        </when>
+        <when test='keyType=="diagnosis"'>
+          and c.diagnosis like #{key}
+        </when>
+      </choose>
+    </if>
+  </select>
 </mapper>

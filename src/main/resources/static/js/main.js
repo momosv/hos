@@ -4,6 +4,11 @@ function user_case_manager(){
     $("#user_page").show();
     $("#user_iframe").attr("src",'/allowHtml/user/caseHead.html');
 }
+function user_auth_manager(){
+    hide_head();
+    $("#user_page").show();
+    $("#user_iframe").attr("src",'/allowHtml/user/approveHead.html');
+}
 
 function doc_case_manager(){
     hide_head();

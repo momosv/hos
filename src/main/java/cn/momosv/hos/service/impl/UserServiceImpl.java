@@ -8,6 +8,7 @@ import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,5 +108,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getPatientIdListByIdCard(String idCard) throws Exception {
         return userPOMapper.getPatientIdListByIdCard(idCard);
+    }
+
+    @Override
+    public Object getAuthorityList(int isAllow, String key, String keyType, TbBaseUserPO user) {
+        if(StringUtils.isEmpty(key)){key=null;}else {
+            key="%"+key+"%";
+        }
+        return userPOMapper.getAuthorityList(isAllow,key,keyType,user);
+    }
+
+    @Override
+    public Object getAuthorityDetail(String authId, String idCard) throws Exception {
+        BasicExample example =new BasicExample();
+        BasicExample.Criteria criteria=example.createCriteria();
+        criteria.andVarEqualTo("a.user_id",idCard);
+        example.setCol("a.*," +
+                " c.diagnosis,c.create_time as case_time," +
+                " u.name as user_name," +
+                " d.`name` as doc_name,d.account as doc_email,d.position,du.telephone as doc_phone ," +
+                " de.`name` as dept_name," +
+                " o.`name` as org_name,o.linkman,o.telephone as org_phone " );
+        example.setTName(" tb_data_authority a " +
+                "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
+                "LEFT JOIN tb_base_user du ON d.user_id=du.id " +
+                "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
+                "LEFT JOIN tb_base_user u ON a.user_id=u.id_card " +
+                "LEFT JOIN tb_case c on c.id=a.case_id " +
+                "LEFT JOIN tb_medical_org o on a.apply_org_id=o.id ");
+        criteria.andVarEqualTo("a.id",authId);
+        return  basicService.selectJoint(example);
     }
 }

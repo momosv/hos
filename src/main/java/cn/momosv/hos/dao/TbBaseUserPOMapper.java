@@ -11,4 +11,6 @@ public interface TbBaseUserPOMapper {
 
     @Select("select id from tb_org_patient where user_id = #{idCard}")
     List<String> getPatientIdListByIdCard(@Param("idCard") String idCard);
+
+    List<Object> getAuthorityList(@Param("isAllow")int isAllow,@Param("key") String key,@Param("keyType") String keyType, @Param("user") TbBaseUserPO user);
 }

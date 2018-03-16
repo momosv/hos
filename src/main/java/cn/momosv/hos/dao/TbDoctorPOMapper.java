@@ -40,4 +40,6 @@ public interface TbDoctorPOMapper {
     List<TbSurgeryPO> getReturnSecondList(@Param("caseId") String caseId,@Param("secondId") String secondId,@Param("type") Integer type);
 
     List<Object> getCaseApplyList(@Param("key")String key, @Param("keyType")String keyType,@Param("isAllow")String isAllow,  @Param("tbDoctorVO") TbDoctorVO tbDoctorVO,@Param("date") Date date);
+
+    List<Object> getUserCaseList(@Param("tbDoctorVO") TbDoctorVO doctorVO, @Param("pList") List<String> pList,@Param("diagnosis") String diagnosis);
 }

@@ -2,10 +2,7 @@ package cn.momosv.hos.service.impl;
 
 import cn.momosv.hos.dao.TbOrgManagerPOMapper;
 import cn.momosv.hos.email.MailService;
-import cn.momosv.hos.model.TbBaseUserPO;
-import cn.momosv.hos.model.TbCasePO;
-import cn.momosv.hos.model.TbDataAuthorityPO;
-import cn.momosv.hos.model.TbDoctorPO;
+import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.OrgService;
@@ -190,21 +187,27 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public void sendAuthApproveMsg(TbDataAuthorityPO auth) throws Exception {
-        TbDoctorPO doc= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,auth.getDoctorId());
-        TbCasePO casePO= (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,auth.getCaseId());
-        TbBaseUserPO userPO=userService.getUserByPatientId(casePO.getPatientId());
-        //下发邮件
-        Map<String, String> map = new HashedMap();
-        map.put("isAllow",auth.getIsAllow().toString());
-        map.put("case",casePO.getDiagnosis()+"-"+userPO.getName());
-        map.put("isPass", auth.getIsAllow().equals(1)?"通过":"不通过");
-        map.put("orgName", ((TbOrgManagerVO)session.getAttribute("user")).getOrgName());
-        map.put("name", doc.getName());
-        map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
-        // 通过指定模板名获取FreeMarker模板实例
-        Template template = freeMarkerConfig.getConfiguration().getTemplate("org/approveCaseAuthEmail.html");
-        // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
-        String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
-        mailService.sendHtmlMail(doc.getAccount(), "病历【"+casePO.getDiagnosis()+"-"+userPO.getName()+"】权限审核["+map.get("isPass")+"]通知", htmlText);
+        try {
+            TbDoctorPO doc= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,auth.getDoctorId());
+            TbCasePO casePO= (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,auth.getCaseId());
+            TbMedicalOrgPO org= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,casePO.getOrgId());
+            TbBaseUserPO userPO=userService.getUserByPatientId(casePO.getPatientId());
+            //下发邮件
+            Map<String, String> map = new HashedMap();
+            map.put("isAllow",auth.getIsAllow().toString());
+            map.put("case",casePO.getDiagnosis()+"-"+userPO.getName());
+            map.put("isPass", auth.getIsAllow().equals(1)?"通过":"不通过");
+            map.put("orgName", org.getName());
+            map.put("name", doc.getName());
+            map.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+            // 通过指定模板名获取FreeMarker模板实例
+            Template template = freeMarkerConfig.getConfiguration().getTemplate("org/approveCaseAuthEmail.html");
+            // 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+            String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
+            mailService.sendHtmlMail(doc.getAccount(), "病历【"+casePO.getDiagnosis()+"-"+userPO.getName()+"】权限审核["+map.get("isPass")+"]通知", htmlText);
+
+        }catch (Exception e){
+            return;
+        }
     }
 }
