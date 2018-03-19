@@ -331,7 +331,7 @@ public class DoctorServiceImpl implements DoctorService {
         if(list!=null){
             for (TbOrgManagerPO po : list) {
                 pMap.put("name",po.getName());
-                mailService.sendHtmlMail(po.getEmail(), "病历权限申请通知", "doc/applyCaseAuthEmail.html",pMap);
+                mailService.sendHtmlMail(po.getEmail(), "病历权限申请通知", "doc/applyCaseAuthEmailOrg.html",pMap);
             }
         }
     }
