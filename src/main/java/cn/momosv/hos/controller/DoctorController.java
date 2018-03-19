@@ -106,9 +106,9 @@ public class DoctorController extends BasicController {
     public Object applyCase(TbDataAuthorityPO authorityPO) throws Exception {
       TbDoctorVO doctorVO= validDoctor();
         TbCasePO casePO=null;
-      if(!StringUtils.isEmpty(authorityPO.getId())){//更新
+      if(!StringUtils.isEmpty(authorityPO.getId())){//更新权限日期
          TbDataAuthorityPO old= (TbDataAuthorityPO) basicService.selectByPrimaryKey(TbDataAuthorityPO.class,authorityPO.getId());
-            if(authorityPO==null){
+            if(old==null){
                  return failMsg("获取权限数据从失败,数据不存在");
             }else {
                 casePO = (TbCasePO) basicService.selectByPrimaryKey(TbCasePO.class,old.getCaseId());

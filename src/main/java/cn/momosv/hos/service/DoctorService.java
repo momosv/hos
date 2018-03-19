@@ -33,7 +33,7 @@ public interface DoctorService {
 
     Object getCaseApplyList(String key, String keyType,String isAllow, TbDoctorVO tbDoctorVO, int pageNum, int pageSize);
 
-    void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO);
+    void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO) throws Exception;
 
     List<Object> getUserCaseList(TbDoctorVO doctorVO, List<String> pList, String diagnosis);
 

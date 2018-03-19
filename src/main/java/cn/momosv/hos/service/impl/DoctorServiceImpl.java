@@ -2,12 +2,15 @@ package cn.momosv.hos.service.impl;
 
 import cn.momosv.hos.dao.TbCasePOMapper;
 import cn.momosv.hos.dao.TbDoctorPOMapper;
+import cn.momosv.hos.email.MailService;
 import cn.momosv.hos.model.*;
 import cn.momosv.hos.model.base.BasicExample;
 import cn.momosv.hos.model.base.Msg;
 import cn.momosv.hos.service.BasicService;
 import cn.momosv.hos.service.DoctorService;
+import cn.momosv.hos.service.OrgService;
 import cn.momosv.hos.service.UserService;
+import cn.momosv.hos.util.SysUtil;
 import cn.momosv.hos.util.XDateUtils;
 import cn.momosv.hos.vo.TbDoctorVO;
 import cn.momosv.hos.vo.TbHospitalizedVO;
@@ -15,10 +18,15 @@ import cn.momosv.hos.vo.TbSurgeryVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import freemarker.template.Template;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Service("doctorService")
@@ -34,10 +42,23 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorService doctorService;
 
     @Autowired
+    private OrgService orgService;
+
+    @Autowired
     private TbDoctorPOMapper doctorMapper;
 
     @Autowired
     private TbCasePOMapper caseMapper;
+
+    @Autowired
+    HttpSession session;
+
+
+    @Autowired
+    FreeMarkerConfig freeMarkerConfig;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     public void addCase( TbBaseUserPO user, TbCasePO casePO, Integer isAgent, TbDoctorVO tbDoctorVO , String id ) throws Exception {
@@ -280,8 +301,39 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO) {
-
+    public void sendAuthMail(TbDoctorVO doctorVO, TbDataAuthorityPO authorityPO, TbCasePO casePO) throws Exception {
+       Map<String, Object> pMap=new HashedMap();
+        pMap.put("doctor",doctorVO.getName());
+        pMap.put("docOrg",doctorVO.getOrgName());
+        pMap.put("docDept",doctorVO.getDeptName());
+        pMap.put("case",casePO.getDiagnosis());
+        pMap.put(SysUtil.BASE_PATH, (String) session.getAttribute(SysUtil.BASE_PATH));
+        TbMedicalOrgPO medicalOrgPO= (TbMedicalOrgPO) basicService.selectByPrimaryKey(TbMedicalOrgPO.class,casePO.getOrgId());
+        if(medicalOrgPO!=null){
+            pMap.put("orgName",medicalOrgPO.getName());
+        }
+        pMap.put("deadline", XDateUtils.dateToString(authorityPO.getDeadline(),"yyyy-MM-dd"));
+        if(authorityPO.getAllowGrade().equals(1)){
+            pMap.put("grade","部门");
+        }else if(authorityPO.getAllowGrade().equals(2)){
+            pMap.put("grade","机构");
+        }else{
+            pMap.put("grade", "个人");
+        }
+        //通知user
+        TbBaseUserPO user = userService.getUserByPatientId(casePO.getPatientId());
+        if(user != null && !StringUtils.isEmpty(user.getEmail())){
+            pMap.put("name",user.getName());
+            mailService.sendHtmlMail(user.getEmail(), "病历权限申请通知", "doc/applyCaseAuthEmail.html",pMap);
+        }
+        //通知orgManager
+       List<TbOrgManagerPO> list = orgService.getManagerList(casePO.getOrgId());
+        if(list!=null){
+            for (TbOrgManagerPO po : list) {
+                pMap.put("name",po.getName());
+                mailService.sendHtmlMail(po.getEmail(), "病历权限申请通知", "doc/applyCaseAuthEmail.html",pMap);
+            }
+        }
     }
 
     @Override

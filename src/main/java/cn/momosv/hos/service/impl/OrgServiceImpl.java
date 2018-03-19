@@ -210,4 +210,9 @@ public class OrgServiceImpl implements OrgService {
             return;
         }
     }
+
+    @Override
+    public List<TbOrgManagerPO> getManagerList(String orgId) {
+       return orgMapper.getManagerList( orgId);
+    }
 }

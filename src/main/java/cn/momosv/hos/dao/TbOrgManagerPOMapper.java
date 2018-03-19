@@ -22,4 +22,7 @@ public interface TbOrgManagerPOMapper {
     @Select("select d.* from tb_base_user u,tb_doctor d where u.id=d.user_id " +
             "and d.org_id=#{orgId} and u.id_card=#{idCard}")
     List<TbDoctorPO> getDoctorByIdCard(@Param("orgId") String orgId, @Param("idCard") String idCard);
+
+    @Select("select * from tb_org_manager  where org_id=#{orgId}")
+    List<TbOrgManagerPO> getManagerList(@Param("orgId")String orgId);
 }

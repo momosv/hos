@@ -1,5 +1,7 @@
 package cn.momosv.hos.email;
 
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -8,10 +10,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class MailService {
@@ -22,7 +28,10 @@ public class MailService {
 	
 	@Value("${spring.mail.username}")
 	private String from;
-	
+
+
+	@Autowired
+	FreeMarkerConfig freeMarkerConfig;
 	/**
 	 * 发送纯文本的简单邮件
 	 * @param to
@@ -126,5 +135,13 @@ public class MailService {
 		} catch (MessagingException e) {
 		//	logger.error("发送嵌入静态资源的邮件时发生异常！", e);
 		}
+	}
+	@Async
+	public void sendHtmlMail(String email, String title, String s, Map<String, Object> pMap) throws IOException, TemplateException {
+		// 通过指定模板名获取FreeMarker模板实例
+		Template template = freeMarkerConfig.getConfiguration().getTemplate(s);
+		// 解析模板并替换动态数据，最终content将替换模板文件中的${content}标签。
+		String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, pMap);
+		this.sendHtmlMail(email, title, htmlText);
 	}
 }
