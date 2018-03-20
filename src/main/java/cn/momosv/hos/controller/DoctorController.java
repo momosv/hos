@@ -699,7 +699,7 @@ public class DoctorController extends BasicController {
         }catch (Exception e){
             try {
                 TbDoctorVO doctorVO = validDoctor();
-                if(!doctorVO.getDeptId().equals(casePO.getDeptId())||!doctorService.checkAuth(doctorVO,casePO.getId())){
+                if(!doctorVO.getDeptId().equals(casePO.getDeptId())&&!doctorService.checkAuth(doctorVO,casePO.getId())){
                     return failMsg("您无权限查看该病历数据");
                 }
             }catch (Exception ed){
