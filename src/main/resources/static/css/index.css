@@ -11,6 +11,7 @@ ul li{
 #body{
 	background-color: #66ccff;
 	background-image: url(/images/momo1.jpg);
+	background-size: 100%;
 }
 #login_button{
 	background-color: white;

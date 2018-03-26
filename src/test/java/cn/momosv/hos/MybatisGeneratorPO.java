@@ -31,4 +31,12 @@ public void test()  throws Exception{
 		System.out.println(name);
 
 	}
+	@Test
+	public void test2(){
+		List list=new ArrayList();
+		list.add("asd");
+		list.add("123");
+		System.out.println(list.get(1));
+		System.out.println(list.get(new Integer(1)-1));
+	}
 }

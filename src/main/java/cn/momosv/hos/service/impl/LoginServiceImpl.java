@@ -109,7 +109,7 @@ public class LoginServiceImpl  implements LoginService{
             uexample.createCriteria().andVarEqualTo("email",user.getEmail());
             otherUser= (TbBaseUserPO) basicService.selectOneByExample(uexample);
             if(otherUser!=null&&(!otherUser.getActCode().equals(0)&&!otherUser.getActCode().equals(1))){
-                throw new MyException("注册失败，该邮箱已经被注册且身份验证,可以直接登录");
+                throw new MyException("注册失败，该邮箱已经被注册且验证,可以直接登录");
             }
         }
 
