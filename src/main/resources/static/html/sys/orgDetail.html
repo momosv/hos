@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/common.css">
     <script language="JavaScript">
         $(function(){
             //查询机构系详情
@@ -86,7 +88,6 @@
         table tr td:first-child{
             text-align: right;
             width: 200px;
-
         }
         #org_name{
             border: none;outline: none;font-size: 44px;
@@ -109,11 +110,11 @@
 <body style="width: 1100px;margin:0 auto">
 <input type="hidden" value="${id}" id="orgId">
 <input type="text" readonly="readonly"  id="org_name" value="">
-<table>
+<table class=" table " id="myTable" cellpadding="0" border="0" cellspacing="0">
     <tr>
         <td>简介:</td>
         <td>
-            <textarea id="descr" readonly="readonly" style="border: none;resize: none" >
+            <textarea id="descr" readonly="readonly" >
             </textarea>
         </td>
     </tr>
@@ -126,57 +127,57 @@
         <td id="type"></td>
     </tr>
     <tr>
-        <td>省市区</td>
+        <td>省市区::</td>
         <td id="area">
 
         </td>
     </tr>
     <tr>
-        <td>详细地址</td>
+        <td>详细地址:</td>
         <td id="address"></td>
     </tr>
     <tr>
-        <td>法定代表人</td>
+        <td>法定代表人:</td>
         <td id="legal"></td>
     </tr>
     <tr>
-        <td>主要负责人</td>
+        <td>主要负责人:</td>
         <td id="principal">
 
         </td>
     </tr>
     <tr>
-        <td>联系人</td>
+        <td>联系人:</td>
         <td id="linkman"></td>
     </tr>
     <tr>
-        <td>联系电话</td>
+        <td>联系电话:</td>
         <td id="telephone"></td>
     </tr>
     <tr>
-        <td>邮箱</td>
+        <td>邮箱:</td>
         <td id="email"></td>
     </tr>
     <tr>
-        <td>许可证登记号</td>
+        <td>许可证登记号:</td>
         <td id="licence"></td>
     </tr>
     <tr>
-        <td>许可证</td>
+        <td>许可证:</td>
         <td>
-            <img id="licenceImage" style="width: 600px;height: 450px">
+            <img id="licenceImage" >
         </td>
     </tr> <tr>
-        <td>门面图片</td>
+        <td>门面图片:</td>
         <td>
-            <img id="image" style="width: 600px;height: 450px">
+            <img id="image" >
         </td>
     </tr>
 </table>
 
-<div style="height: 300px;width: 1100px;margin: auto 0;padding: 50px 50px;text-align: center">
-    <input class="button" type="button" value="通过" onclick="orgApprove(1)" style="background-color: #66ccff">
-    <input class="button" type="button" value="不通过" onclick="orgApprove(2)" style="background-color: hotpink">
+<div style="height: 150px;width: 1100px;margin: auto 0;padding: 10px 10px;text-align: center;">
+    <input class="btn btn-success" type="button" value="通过" onclick="orgApprove(1)" >
+    <input class="btn btn-warning" type="button" value="不通过" onclick="orgApprove(2)" >
 </div>
 </body>
 </html>

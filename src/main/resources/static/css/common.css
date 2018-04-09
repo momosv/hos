@@ -16,3 +16,24 @@
 ul li{
     list-style: none;
 }
+#myTable {
+    border-top: 1px solid #337ab7;
+    border-bottom: 1px solid #337ab7;
+}
+#myTable td{
+    border-top: none;
+}
+
+#myTable img{
+     width:450px;
+ }
+#myTable textarea{
+     min-width: 450px;
+    min-height: 100px;
+    border: 1px solid #66ccff;
+}
+#myTable tr td:first-child{
+    text-align: right;
+    width: 200px;
+
+}

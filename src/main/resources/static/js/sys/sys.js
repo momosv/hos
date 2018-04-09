@@ -80,5 +80,5 @@ function pageMenu(page) {
 }
 function getOrgDetail(t) {
     var id=$(t).attr("orgId");
-    window.open("/hos/page/sys/orgDetail/"+id);
+    window.open("/hos/page/sys/orgDetail/"+id,"newWindow");
 }
