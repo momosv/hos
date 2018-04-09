@@ -38,7 +38,7 @@ function getConList(type,pageNum) {
                         .replace("{id}",list[i].id)
                         .replace("{name}",list[i].name==undefined?"":list[i].name)
                         .replace("{title}",list[i].title==undefined?"":list[i].title)
-                        .replace("{time}",list[i].create_time==undefined?"":list[i].create_time)
+                        .replace("{time}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm"))
                         .replace("{phone}",list[i].phone==undefined?"":list[i].phone)
                         .replace("{email}",list[i].email==undefined?"":list[i].email)
                         .replace("{isRead}",list[i].is_read==1?"已读":"未读")

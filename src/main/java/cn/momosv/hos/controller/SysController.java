@@ -46,8 +46,9 @@ public class SysController extends BasicController{
         if(!StringUtils.isEmpty(key)){
             criteria.andVarLike("name","%"+key+"%");
         }
+        example.setOrderByClause("create_time desc");
         Page page= PageHelper.startPage(pageNum, pageSize);
-        basicService.selectByExample(TbMedicalOrgPO.class,example);
+        basicService.selectByExample(example);
         return Msg.success().add("page",new PageInfo(page.getResult()));
     }
 

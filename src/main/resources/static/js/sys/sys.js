@@ -48,7 +48,7 @@ function getOrgList(type,pageNum) {
                         .replace("{phone}",list[i].telephone==undefined?"":list[i].telephone)
                         .replace("{email}",list[i].email==undefined?"":list[i].email)
                         .replace("{act}",actCode)
-                        .replace("{time}",list[i].create_time==undefined?"":list[i].create_time);
+                        .replace("{time}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm"));
                 }
                 $("#org_table_data").append(inHtml);
             } else {
