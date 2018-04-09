@@ -159,11 +159,12 @@ public class UserController extends BasicController{
         return successMsg("更改成功，请退出重新登录生效");
     }
 
+
     @RequestMapping("updateMyA")
     public Msg updateMyA(TbBaseUserPO userPO) throws Exception {
         TbBaseUserPO old = validUser();
         userPO.setId(old.getId());
-        userPO.setActCode(2);
+        userPO.setActCode(2);//状态修改为申请待审批
         if(userPO.getIdCard()!=null&&!userPO.getIdCard().equals(old.getIdCard())){
             return failMsg("不能对身份证号进行修改");
         }
@@ -180,6 +181,9 @@ public class UserController extends BasicController{
                                 @RequestParam(defaultValue = "1")Integer pageNum,
                                 @RequestParam(defaultValue = "10")Integer pageSize) throws Exception {
         TbBaseUserPO user= validUser();
+        if(!user.getActCode().equals(Constants.USER_PASSED)){
+            return failMsg("身份信息尚未通过实名认证，不能进行病历权限审批，请到个人中心进行实名认证申请！");
+        }
         Page page= PageHelper.startPage(pageNum,pageSize);
         userService.getAuthorityList(isAllow,key,keyType,user);
         return successMsg().add("page",new PageInfo<>(page.getResult()));

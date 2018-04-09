@@ -136,7 +136,8 @@ public class OrgServiceImpl implements OrgService {
         BasicExample.Criteria criteria=example.createCriteria();
         criteria.andVarEqualTo("case_org_id",orgId);
         example.setOrderByClause("create_time");
-        example.setCol("a.*,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name " );
+        example.setCol("a.*,c.diagnosis,c.create_time as case_time,c.from_dept_name,c.from_org_name, " +
+                "u.name as user_name,d.`name` as doc_name,de.`name` as dept_name,o.`name` as org_name " );
         example.setTName(" tb_data_authority a " +
                 "LEFT JOIN tb_doctor d ON a.doctor_id=d.id " +
                 "LEFT JOIN tb_department de ON a.apply_dept_id=de.id " +
@@ -184,6 +185,7 @@ public class OrgServiceImpl implements OrgService {
         criteria.andVarEqualTo("a.id",authId);
         return  basicService.selectJoint(example);
     }
+ //select a.*, c.diagnosis,c.create_time as case_time, u.name as user_name, d.`name` as doc_name,d.account as doc_email,d.position,du.telephone as doc_phone , de.`name` as dept_name, o.`name` as org_name,o.linkman,o.telephone as org_phone from tb_data_authority a left join tb_doctor d on a.doctor_id=d.id left join tb_base_user du on d.user_id=du.id left join tb_department de on a.apply_dept_id=de.id left join tb_base_user u on a.user_id=u.id_card left join tb_case c on c.id=a.case_id left join tb_medical_org o on a.apply_org_id=o.id where ( case_org_id = '1' and a.id = '1352c1d0-796b-48e9-b247-305b0a5be429' )
 
     @Override
     public void sendAuthApproveMsg(TbDataAuthorityPO auth) throws Exception {

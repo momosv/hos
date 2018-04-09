@@ -1,6 +1,6 @@
 @charset "UTF-8";
 *{
-	color: #66ccff;
+/*	color: #66ccff;*/
 }
 #sys_content{
 	border: none;
@@ -10,7 +10,7 @@
 .org_table{
 	width: 850px;
 }
-
+/*
 #org_search input,#data_key{
 	float: right;
 	outline: none;
@@ -36,7 +36,7 @@
 	 padding-top: 30px;
 	 height: 100px;
 	 width: auto;
- }
+ }*/
 #ul_page li{
 	cursor: pointer;
 	margin-left: 5px;

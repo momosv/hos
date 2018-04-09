@@ -35,9 +35,15 @@ function getDeptList(){
         success:function(re){
             if(re.code!=200){
                 var list=re.extend.list;
-                $("#deptUl").empty();
+                $("#typeS").empty();
+                var iii=0;
                 for (var dept of list) {
-                    $("#deptUl").append("<li did="+dept.id+" onclick=getDeptPerson('"+dept.id+"',-1,1,'"+dept.name+"')>"+dept.name+"</li>");
+                    var  act='';
+                    if(iii==0){
+                        act="class='active'";
+                    }
+                    $("#typeS").append("<li "+act+" onclick=getDeptPerson('"+dept.id+"',-1,1,'"+dept.name+"',this)"+" did="+dept.id+")><a>"+dept.name+"</a></li>");
+                    iii++;
                 }
                 if(list.length>0){
                     getDeptPerson(list[0].id,-1,1,list[0].name);
@@ -64,7 +70,9 @@ function doc_search_key() {
     getDeptPerson(did,isLeave,1,deptName)
 }
 
-function getDeptPerson(d,isL,pageNum,name) {
+function getDeptPerson(d,isL,pageNum,name,t) {
+    $('#typeS li').removeClass("active");
+    $(t).addClass("active");
     $("#deptName").html(name);
     if(d=='')return;
     did=d;
@@ -105,23 +113,22 @@ function getDeptPerson(d,isL,pageNum,name) {
 }
 function pageMenu(page) {
     $("#ul_page").empty();
-    $("#ul_page").append("<li onclick='navPage(this)' pNum='1'>首页</li>");
+    $("#ul_page").append("<li><a onclick='navPage(this)' pNum='1'> <span aria-hidden=true>&laquo;</span></a></li>");
     if (page.hasPreviousPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.prePage + ">上一页</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.prePage + "><span aria-hidden=true>&lt;</span></a></li>");
     }
     for (var i = 0; i < page.navigatepageNums.length; i++) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</a></li>");
     }
     if (page.hasNextPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.nextPage + ">下一页</li>");
+        $("#ul_page").append("<li ><a onclick='navPage(this)' pNum=" + page.nextPage + "><span aria-hidden=true>&gt;</span></a></li>");
     }
-    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + ">末页</li>");
+    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + "><span aria-hidden=true>&raquo;</span></li>");
     $("#total_num").empty();
     $("#total_num").html("共" + page.pages + "页");
     $("#pre_num").empty();
     $("#pre_num").html("第" + page.pageNum + "页");
 }
-
 function getDoctorDetail(t) {
     var id=$(t).attr("doctorId");
     window.open("/hos/page/org/docDetail/"+id);

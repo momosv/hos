@@ -1,6 +1,6 @@
 @charset "UTF-8";
 *{
-    color: #66ccff;
+   /* color: #66ccff;*/
 }
 #sys_content{
     border: none;
@@ -11,7 +11,7 @@
     width: 1050px;
 }
 
-#case_search input,#case_key{
+/*#case_search input,#case_key{
     float: right;
     outline: none;
     padding: 3px 10px;
@@ -22,8 +22,8 @@
     width: 280px;
     height: 32px;
     color: black;
-}
-#case_search_btn{
+}*/
+/*#case_search_btn{
     border: none;
     outline: none;
     margin-left: 10px;
@@ -31,12 +31,12 @@
     height: 42px;
     background-color: #66ccff;
     color: white;
-}
-#case_search,#right_top{
+}*/
+/*#case_search,#right_top{
     padding-top: 30px;
     height: 100px;
     width: auto;
-}
+}*/
 #ul_page li{
     cursor: pointer;
     margin-left: 5px;

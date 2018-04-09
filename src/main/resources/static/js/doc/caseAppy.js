@@ -28,7 +28,7 @@ function getCaseList(pageNum) {
         success: function(re) {
             var extend=re.extend;
             if(re.code==-1){
-                window.open("/hos/login")
+                window.open("/hos/login","newWindow")
             }
             if (re.code != 200) {
                 var page=extend.page;
@@ -82,17 +82,17 @@ function getCaseList(pageNum) {
 }
 function pageMenu(page) {
     $("#ul_page").empty();
-    $("#ul_page").append("<li onclick='navPage(this)' pNum='1'>首页</li>");
+    $("#ul_page").append("<li><a onclick='navPage(this)' pNum='1'> <span aria-hidden=true>&laquo;</span></a></li>");
     if (page.hasPreviousPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.prePage + ">上一页</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.prePage + "><span aria-hidden=true>&lt;</span></a></li>");
     }
     for (var i = 0; i < page.navigatepageNums.length; i++) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</a></li>");
     }
     if (page.hasNextPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.nextPage + ">下一页</li>");
+        $("#ul_page").append("<li ><a onclick='navPage(this)' pNum=" + page.nextPage + "><span aria-hidden=true>&gt;</span></a></li>");
     }
-    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + ">末页</li>");
+    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + "><span aria-hidden=true>&raquo;</span></li>");
     $("#total_num").empty();
     $("#total_num").html("共" + page.pages + "页");
     $("#pre_num").empty();
@@ -101,7 +101,7 @@ function pageMenu(page) {
 
 function getUserCaseDetail(t) {
     var id=$(t).attr("id");
-    window.open("/hos/page/user/caseDetail/"+id);
+    window.open("/hos/page/user/caseDetail/"+id,"newWindow");
 }
 
 function applyAgain(t){
@@ -129,7 +129,7 @@ function applyAgainSub(){
         data:{id:$("#hiddenApplyId").val(),reason:$("#reason").val(),deadline:$("#deadline").val(),allowGrade:$("#allowGrade").val()},
         success:function (re) {
             if(re.code==-1){
-                window.open("/hos/login")
+                window.open("/hos/login","newWindow")
             }else{
                 jQuery.alertWindow(re.msg);
             }
@@ -137,7 +137,7 @@ function applyAgainSub(){
     });
 }
 function newApplyCase() {
-    window.open('/allowHtml/doc/newApplyCase.html');
+    window.open('/allowHtml/doc/newApplyCase.html',"newWindow");
 }
 
 
