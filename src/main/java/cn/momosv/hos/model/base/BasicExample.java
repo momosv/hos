@@ -326,7 +326,7 @@ public class BasicExample <T extends IBaseDBPO>{
 
 		public Criteria andVarNotBetween(String var,String value1, String value2) {
 			var = RegexUtils.humpToLine(var);
-			addCriterion(var + " not between", value1, value2, "id");
+			addCriterion(var + " not between", value1, value2, var);
 			return (Criteria) this;
 		}
 

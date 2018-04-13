@@ -188,6 +188,44 @@ public class LoginController extends BasicController{
 
 	}
 
+
+	@ResponseBody
+	@RequestMapping("register/validEmail")
+	public Msg validEmail(String email) throws Exception {
+		if(StringUtils.isEmpty(email)){
+			throw new MyException("邮箱不能为空");
+		}
+
+		BasicExample uexample=new BasicExample(TbBaseUserPO.class);
+		uexample.createCriteria().andVarEqualTo("email",email);
+		TbBaseUserPO otherUser= (TbBaseUserPO) basicService.selectOneByExample(uexample);
+		if(otherUser!=null&&(!otherUser.getActCode().equals(0)&&!otherUser.getActCode().equals(1))){
+			throw new MyException("注册失败，该邮箱已经被注册且验证,可以直接登录");
+		}
+		return successMsg("验证通过");
+
+	}
+	@ResponseBody
+	@RequestMapping("register/validIdCard")
+	public Msg validIdCard(String idCard) throws Exception {
+		//检查是否有认证过得身份证
+		if(StringUtils.isEmpty(idCard)){
+			return  Msg.fail("注册身份证号不能为空");
+		}
+		BasicExample example=new BasicExample(TbBaseUserPO.class);
+		example.createCriteria().andVarEqualTo("id_card",idCard);
+		TbBaseUserPO otherUser=null;
+		TbBaseUserPO userPO = (TbBaseUserPO) basicService.selectOneByExample(example);
+		if(null!=userPO){
+			if(userPO.getActCode().equals(Constants.USER_PASSED)||(userPO.getActCode().equals(Constants.USER_UN_APPROVED))){
+				return Msg.fail(200,"注册失败，身份信息已经被注册认证或处于待审批认证中");
+			}
+
+		}
+		return  Msg.success("验证通过");
+
+	}
+
 	@ResponseBody
 	@RequestMapping("register/org")
 	public Msg registerOrg(TbMedicalOrgPO org){

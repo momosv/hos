@@ -5,6 +5,8 @@
 	<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
 	<script src="/js/common.js"></script>
 	<script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
 	<script language="JavaScript">
 
         function register() {
@@ -29,6 +31,58 @@
 					}
                 }
             });
+        }
+
+        function validEmail() {
+            $.ajax({
+                url: "/hos/register/validEmail",
+                type:'post',
+                data:{
+                    email:$("#email").val(),
+                },
+                success:function (re) {
+                    if(re.code!=200){
+                        $("#rTips").text(re.msg);
+                        $("#sub").attr("disabled", false);
+                        return true;
+                    }else {
+                        $("#rTips").text(re.msg);
+                        $("#sub").attr("disabled", true);
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function validIdCard() {
+            $.ajax({
+                url: "/hos/register/validIdCard",
+                type:'post',
+                data:{
+                    idCard:$("#idCard").val(),
+                },
+                success:function (re) {
+                    if(re.code!=200){
+                        $("#idTips").text(re.msg);
+                        $("#sub").attr("disabled", false);
+                        return true;
+                    }else {
+                        $("#idTips").text(re.msg);
+                        $("#sub").attr("disabled", true);
+                        return false;
+                    }
+                }
+            });
+        }
+        function validPW() {
+            if($("#passwd").val()!=$("#passwd1").val()){
+                $("#pTips").text("两次密码不一致");
+                $("#sub").attr("disabled", true);
+                return false;
+			}
+            $("#sub").attr("disabled", false);
+            return true;
+
         }
 
         function uploadimag(){
@@ -58,12 +112,31 @@
         function clickImg() {
             $("#files0").click();
         }
+        function clearRT() {
+            $("#rTips").empty();
+        }
+        function clearPT() {
+            $("#pTips").empty();
+        }
+        function clearIdT() {
+            $("#idTips").empty();
+        }
 	</script>
 	<style>
 		table tr td{
 			padding-left: 20px;
-			width: 700px;
+			width: 400px;
 
+		}
+		table tr td input{
+			padding-left: 5px;
+			width: 200px;
+			height: 30px;
+			border-radius: 3px;
+			border: 1px solid ;
+		}
+		table tr td span{
+			color:#66ccff;
 		}
 		table tr td:first-child{
 			text-align: right;
@@ -73,39 +146,30 @@
 		#title{
 			border: none;outline: none;font-size: 44px;
 			margin:auto 0;
-			width: 1100px;
+			width: 600px;
 			text-align: center;
 		}
-		.button{
-			width: 100px;
-			height: 40px;
-			border-radius: 10px;
-			color: white;
-			text-align: center;
-			font-size: 24px;
-			outline: none;
-			border: none;
-		}
+
 	</style>
 </head>
-<body style="width: 1100px;margin:0 auto">
+<body style="width: 600px;margin:0 auto">
 <input type="text" readonly="readonly" id="title"  value="注册个人账号">
-<table>
+<table class="table" id="myTable" style="width: 600px">
 	<tr>
 		<td>头像</td>
 		<td>
-			<img id="headImage" style="width: 80px;height: 100px" onclick="clickImg()">
+			<img class="img-rounded" id="headImage" style="width: 80px;height: 100px" onclick="clickImg()">
 			<input id="headImageI" type="hidden" >
 		</td>
 	</tr>
 	<tr>
 		<td>姓名:</td>
-		<td><input id="name" type="text">
+		<td><input class="" id="name" type="text">
 		</td>
 	</tr>
 	<tr>
 		<td>邮箱:</td>
-		<td><input id="email" type="text" value="">
+		<td><input id="email" type="text" value="" onclick="clearRT()" onblur="validEmail()"><span id="rTips"></span>
 		</td>
 	</tr>
 	<tr>
@@ -115,7 +179,7 @@
 	</tr>
 	<tr>
 		<td>再次输入密码:</td>
-		<td><input id="passwd1" type="text">
+		<td><input id="passwd1" type="text" onclick="clearPT()" onblur="validPW()"><span id="pTips"></span>
 		</td>
 	</tr>
 	<tr>
@@ -138,13 +202,13 @@
 	</tr>
 	<tr>
 		<td>身份证号:</td>
-		<td><input id="idCard" type="text">
+		<td><input id="idCard" type="text" onclick="clearIdT()" onblur="validIdCard()"><span id="idTips"></span>
 		</td>
 	</tr>
 </table>
 
-<div style="height: 300px;width: 1100px;margin: auto 0;padding: 50px 50px;text-align: center">
-	<input class="button" type="button" value="提交注册" onclick="register()" style="background-color: #66ccff">
+<div style="height: 300px;width: 600px;padding: 5px 5px;text-align: center">
+	<input id="sub" class="btn btn-success" type="button" value="提交注册"  onclick="register()" style="cursor: pointer;">
 </div>
 
 <div id="my" style="display: none">
