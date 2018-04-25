@@ -33,7 +33,11 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         System.out.println("开始preHandle,判断请求是否需要拦截");
-        SysUtil.setBasePath(request,"http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/");
+        String ip=request.getLocalAddr();
+        if(!ip.equals("127.0.0.1")){
+            ip="123.207.23.166";
+        }
+        SysUtil.setBasePath(request,"http://"+ip+":"+request.getLocalPort()+"/");
          // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
