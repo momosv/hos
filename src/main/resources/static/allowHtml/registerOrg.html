@@ -5,10 +5,12 @@
     <meta charset="UTF-8"/>
     <title>机构入驻申请</title>
     <!-- <link href="style/reset.css" type="text/css" rel="stylesheet"> -->
-    <link rel="stylesheet" type="text/css" href="/css/otherhtm.css">
-    <script type="text/javascript" src="/js/demo.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+ <!--   <link rel="stylesheet" type="text/css" href="/css/otherhtm.css">-->
+    <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script type="text/javascript">
         function get_imag() {
             document.getElementById("image").src = document.getElementById("pic_url").value;
@@ -87,20 +89,45 @@
                 }
             });
         }
+
+        function clickImg0() {
+            $("#files0").click();
+        }
+        function clickImg1() {
+            $("#files1").click();
+        }
     </script>
+    <style>
+        table tr td{
+            padding-left: 20px;
+            width: 400px;
+
+        }
+        table tr td input{
+            padding-left: 5px;
+            width: 200px;
+            height: 30px;
+            border-radius: 3px;
+            border: 1px solid ;
+        }
+        table tr td span{
+            color:#66ccff;
+        }
+        table tr td:first-child{
+            text-align: right;
+            width: 200px;
+
+        }
+    </style>
 </head>
 
-<body>
-<a href="/hos/login/index"><img src="" style="z-index: 9999px;margin-top: 25px;margin-left: 10px; position: absolute;padding-left:23px;">
-</a><a href="/hos/login/index" style="position: absolute;left: 76px;top: 30px;text-decoration: none;font-size: 18px;">返回首页</a>
-<div id="post" >
-    <div>
-        <div id="titleText">
+<body style="width: 600px;margin:0 auto">
+<div id="post" style="width: 600px">
+        <div id="titleText" style="width: 600px;margin:0 auto;text-align: center">
             <h2>机构入驻申请</h2>
         </div>
-    </div>
-    <form action="" id="upform">
-        <table>
+    <form action="" id="upform" style="font-size: 20px">
+        <table class="table myTable1" id="myTable"  >
             <tr>
                 <td>
                     <div><span>机构名称：</span></div>
@@ -167,35 +194,36 @@
             <tr>
                 <td><span>许可证图片：</span></td>
                 <td>
-                    <img id="licenceImage">
+                    <img id="licenceImage" alt="点击选择图像"  style="width:250px;height: 200px;;border: 1px solid gray" onclick="clickImg1()">
                 </td>
                 <input type="hidden" name="licenceImage" id="licenceImageUrl" >
             </tr>
             <tr>
                 <td><span>门面图片：</span></td>
                 <td>
-                    <img id="image">
+                    <img id="image" alt="点击选择图像" style="width: 250px;height:200px;border: 1px solid gray" onclick="clickImg0()">
                 </td>
                 <input type="hidden" name="image" id="imageUrl" value="">
             </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="button" class="btn btn-success" value="提交" id="submitbtn" onclick="submit_org()">
+                </td>
+            </tr>
         </table>
-        <tr>
-            <td>
-                <input type="button" value="提交" id="submitbtn" onclick="submit_org()">
-            </td>
-        </tr>
+
     </form>
 
-    <div id="my" >
-        <form method="post" action="" enctype="multipart/form-data" id="upload_my_img" >
-            <input type="file" id="files0" name="file" onchange="uploadimag()" accept="image/*"
-                   style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
-        </form>
-    </div>
-    <div id="licence" >
+    <div id="licence"  style="display: none">
         <form method="post" action="" enctype="multipart/form-data" id="upload_licence_img" >
             <input  type="file" id="files1" name="file" onchange="uploadlicenceimag()" accept="image/*"
                     style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+        </form>
+    </div>
+    <div id="my" style="display: none">
+        <form method="post" action="" enctype="multipart/form-data" id="upload_my_img" >
+            <input type="file" id="files0" name="file" onchange="uploadimag()" accept="image/*"
+                   style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
         </form>
     </div>
 <br/>

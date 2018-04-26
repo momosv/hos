@@ -8,8 +8,6 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 }
 #post {
     margin: 0 auto;
-    padding-left: 280px;
-    padding-top: 25px;
     /*background: url("/images/bg1.gif") repeat center;*/
     min-height: 650px;
     font-family: "宋体";
