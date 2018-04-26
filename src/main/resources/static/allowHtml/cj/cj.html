@@ -9,7 +9,7 @@
     <style type="text/css" >
     </style>
     <script>
-        function init(){
+        function init1(){
             var num=$("#init").val();
             $("#sub").empty();
             var model=$("#initModel").html();
@@ -23,11 +23,11 @@
         }
         function submitm(){
             var num=$("#init").val();
-            var m1=$("#0").val();
-            var name1=$("#0v").val();
+            var m1=$("#0v").val();
+            var name1=$("#0").val();
             for(var i=1;i<num;i++){
-                var a="#"+i;
-                var b="#"+i+"v";
+                var a="#"+i+"v";
+                var b="#"+i;
                  m1+=","+$(a).val();
                  name1+=","+$(b).val();
             }
@@ -57,7 +57,7 @@
 <div id="sys_content" style="width: 400px;margin-top: 100px;float: left">
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">产品分类数</span>
-        <input type="number" id="init" class="form-control" placeholder="产品分类数" aria-describedby="basic-addon1" onchange="init()">
+        <input type="number" id="init" class="form-control" placeholder="产品分类数" aria-describedby="basic-addon1" onchange="init1()">
         <button>初始化</button>
     </div>
 
