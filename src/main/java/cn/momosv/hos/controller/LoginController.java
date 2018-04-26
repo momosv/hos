@@ -412,4 +412,53 @@ public class LoginController extends BasicController{
 		}
 		return  successMsg("已经通过电子邮件给您重新下发密码，请注意查收!");
 	}
+
+	@ResponseBody
+	@RequestMapping("cj")
+	public Object cj(String m,String name){
+		int[] p = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
+		String[] mm1 = m.split(",");
+		int[] mm=new int[mm1.length];
+		for (int i=0;i<mm1.length;i++) {
+			mm[i]=Integer.valueOf(mm1[i]);
+		}
+		int[][] dr = new int[mm.length][mm.length];
+		int[] out = new int[p.length];
+		for (int i = 0; i < mm.length; i++) {
+			for (int j = i; j < mm.length; j++) {
+				int mj = mm[j];
+				if( mm[i] <= 0){
+					break;
+				}
+				if (j == i && mj <= 0) {
+					break;
+				}else if (j == i && mj >= 2) {
+					mm[i] = mm[i] - 2;
+					dr[i][j] += 1;
+				} else if (mj > 1) {
+					mm[j] = mm[j] - 1;
+					mm[i] = mm[i] - 1;
+					dr[i][j] += 1;
+				}
+
+				if (j>i&& j == mm.length - 1&&mm[i]>0) {
+					j=i-1;
+				}else if (j==i&& j == mm.length - 1&&mm[i]>1) {
+					j=i-1;
+				}
+			}
+		}
+		List list=new ArrayList();
+		String nam[]=name.split(",");
+		for (int i = 0; i < mm.length; i++) {
+			for (int j =i; j < mm.length; j++) {
+				Map<String,Object> map=new HashMap<>();
+					map.put(nam[i]+"|"+nam[j],dr[i][j]);
+					list.add(map);
+					System.out.println("m"+i+""+j+":"+dr[i][j]);
+			}
+		}
+		return list;
+	}
 }

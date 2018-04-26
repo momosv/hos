@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -787,4 +788,6 @@ public class DoctorController extends BasicController {
             throw new Exception("非法请求，请登录机构管理员后再操作");
         }
     }
+
+
 }
