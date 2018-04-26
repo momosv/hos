@@ -12,6 +12,7 @@
         function init1(){
             var num=$("#init").val();
             $("#sub").empty();
+
             var model=$("#initModel").html();
             var ih="";
             for(var i=0;i<num;i++){
@@ -46,7 +47,7 @@
                                 ih+=h.replace("{name}",temp).replace("{value}",re[j][temp]);
                             }
                         }
-                    $("#initModel2").empty();
+                    $("#sug").empty();
                    $("#sug").html(ih);
                 }
             });
