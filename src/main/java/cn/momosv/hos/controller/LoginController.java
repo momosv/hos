@@ -441,8 +441,10 @@ public class LoginController extends BasicController{
 
      				if (j > i && j == m.length - 1 && m[i] > 0&&(pre||m[i]>=2)) {
 						j = i - 1;
+						pre=false;
 					} else if (j == i && j == m.length - 1 && m[i] > 1) {
 						j = i - 1;
+						pre=false;
 					}
 				}
 		}
@@ -455,6 +457,76 @@ public class LoginController extends BasicController{
 					System.out.println("m"+i+""+j+":"+dr[i][j]);
 			}
 		}
+
+		for (int i = 0; i < m.length; i++) {
+			if(m[i]>0){
+				Map<String,Object> map=new HashMap<>();
+				map.put(name[i]+"(剩余)", m[i]);
+				list.add(map);
+			}
+		}
+		Map<String,Object> mapr=new HashMap<>();
+		mapr.put("detail",list);
+		return mapr;
+	}
+	@ResponseBody
+	@RequestMapping("cj1")
+	public Object cj1(int[] m,String[] name){
+		int[][] dr = new int[m.length][m.length];
+		for (int i = 0; i < m.length; i++) {
+			w:while (m[i]>0){
+				boolean pre=false;
+				for (int j = 0;j< m.length;j++) {
+					int mj = m[j];
+
+					if (m[i] <= 0) {
+						break;
+					}
+					if(j==m.length-1&&j==i){
+						break w;
+					}
+					if (j == i ) {
+						continue ;
+					} else if (mj >= 1) {
+						m[j] = m[j] - 1;
+						m[i] = m[i] - 1;
+						dr[i][j] += 1;
+					}
+					if(m[j]>0){
+						pre=true;
+					}
+					if(j==m.length-1&&pre){
+						pre=false;
+					}else {
+						break w;
+					}
+				}
+			}
+		}
+		for (int i=0;i<m.length ;i++) {
+			if(m[i]>1){
+				dr[i][i]+=(int)m[i]/2;
+				m[i]=m[i]-(int)m[i]/2;
+			}
+		}
+		List list=new ArrayList();
+		for (int i = 0; i < m.length; i++) {
+			for (int j =i; j < m.length; j++) {
+				Map<String,Object> map=new HashMap<>();
+				map.put(name[i]+"|"+name[j],dr[i][j]);
+				list.add(map);
+			}
+		}
+
+		for (int i = 0; i < m.length; i++) {
+			if(m[i]>0){
+				Map<String,Object> map=new HashMap<>();
+				map.put(name[i]+"(剩余)", m[i]);
+				list.add(map);
+			}
+		}
+		Map<String,Object> mapr=new HashMap<>();
+		mapr.put("detail",list);
 		return list;
 	}
 }

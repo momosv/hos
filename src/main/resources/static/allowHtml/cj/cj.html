@@ -42,21 +42,42 @@
                     name: name1
                 },
                 success: function (re) {
-                        for(var j  in re){
-                            for(var temp in re[j]){
-                                ih+=h.replace("{name}",temp).replace("{value}",re[j][temp]);
+                    var detail=re.detail;
+                        for(var j  in detail){
+                            for(var temp in detail[j]){
+                                ih+=h.replace("{name}",temp).replace("{value}",detail[j][temp]);
                             }
                         }
                     $("#sug").empty();
                    $("#sug").html(ih);
                 }
             });
+            /*var ih1="";
+            $.ajax({
+                url: "/hos/cj1",
+                type: "post",
+                data: {
+                    m: m1,
+                    name: name1
+                },
+                success: function (re) {
+                    var detail1=re.detail;
+                        for(var jj  in detail1){
+                            for(var temp1 in detail1[jj]){
+                                alert(temp1+" "+detail[jj][temp1]);
+                                ih1+=h.replace("{name}",temp1).replace("{value}",detail1[jj][temp1]);
+                            }
+                        }
+                    $("#sug1").empty();
+                   $("#sug1").html(ih1);
+                }
+            });*/
         }
+
     </script>
 </head>
 
-<body style="width: 1000px;margin: 0 auto">
-123
+<body style="width: 1200px;margin: 0 auto">
 <div id="sys_content" style="width: 400px;margin-top: 100px;float: left">
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">产品分类数</span>
@@ -68,14 +89,22 @@
 
     </form>
 </div>
-<div id="right" style="float: left;margin-left: 50px;margin-top: 100px;">
+<div id="right" style="width: 400px;float: left;margin-left: 50px;margin-top: 100px;">
     <div>
-        <h4>组合建议</h4>
+        <h4>平均组合建议</h4>
     </div>
     <form class="form-horizontal" id="sug">
 
     </form>
 </div>
+<!--<div id="right1" style="width: 400px;float: left;margin-left: 50px;margin-top: 100px;">
+    <div>
+        <h4>优先混搭组合建议</h4>
+    </div>
+    <form class="form-horizontal" id="sug1">
+
+    </form>
+</div>-->
 <div id="initModel" style="display: none;">
     <div class="form-group">
         <input type="text" value="" id="{id1}" class="col-sm-8 control-label" placeholder="产品名字"/>
@@ -92,8 +121,8 @@
 
 <div id="initModel2" style="display: none;">
     <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">{name}</label>
-        <div class="col-sm-10">
+        <label for="inputEmail3" class="col-sm-6 control-label">{name}</label>
+        <div class="col-sm-4">
             <input type="text" class="form-control" value="{value}" id="inputEmail3" placeholder="Email">
         </div>
     </div>
