@@ -418,28 +418,33 @@ public class LoginController extends BasicController{
 	public Object cj(int[] m,String[] name){
 		int[][] dr = new int[m.length][m.length];
 		for (int i = 0; i < m.length; i++) {
-			for (int j = i; j < m.length; j++) {
-				int mj = m[j];
-				if( m[i] <= 0){
-					break;
-				}
-				if (j == i && mj <= 0) {
-					break;
-				}else if (j == i && mj >= 2) {
-					m[i] = m[i] - 2;
-					dr[i][j] += 1;
-				} else if (mj > 1) {
-					m[j] = m[j] - 1;
-					m[i] = m[i] - 1;
-					dr[i][j] += 1;
-				}
+			    boolean pre=false;
+				for (int j = i; j < m.length; j++) {
+					int mj = m[j];
 
-				if (j>i&& j == m.length - 1&&m[i]>0) {
-					j=i-1;
-				}else if (j==i&& j == m.length - 1&&m[i]>1) {
-					j=i-1;
+					if (m[i] <= 0) {
+						break;
+					}
+					if (j == i && mj <= 0) {
+						break;
+					} else if (j == i && mj >= 2) {
+						m[i] = m[i] - 2;
+						dr[i][j] += 1;
+					} else if (j > i && mj >= 1) {
+						m[j] = m[j] - 1;
+						m[i] = m[i] - 1;
+						dr[i][j] += 1;
+					}
+					//当前可以继续
+					if((j>i&&m[j]>0))pre=true;
+					else if(pre==false) pre=false;
+
+     				if (j > i && j == m.length - 1 && m[i] > 0&&(pre||m[i]>=2)) {
+						j = i - 1;
+					} else if (j == i && j == m.length - 1 && m[i] > 1) {
+						j = i - 1;
+					}
 				}
-			}
 		}
 		List list=new ArrayList();
 		for (int i = 0; i < m.length; i++) {
