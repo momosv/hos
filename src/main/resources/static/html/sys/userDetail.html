@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/common.css">
     <script src="/js/common.js"></script>
     <script language="JavaScript">
         $(function(){
@@ -77,7 +79,7 @@
 <body style="width: 1100px;margin:0 auto">
 <input type="hidden" value="${id}" id="userId">
 <input type="text" readonly="readonly"  id="userName" value="">
-<table>
+<table class=" table myTable1" id="myTable" cellpadding="0" border="0" cellspacing="0" >
     <tr>
         <td>头像</td>
         <td>
@@ -130,8 +132,8 @@
 </table>
 
 <div style="height: 300px;width: 1100px;margin: auto 0;padding: 50px 50px;text-align: center">
-    <input class="button" type="button" value="通过" onclick="userApprove(3)" style="background-color: #66ccff">
-    <input class="button" type="button" value="不通过" onclick="userApprove(4)" style="background-color: hotpink">
+    <input  class="btn btn-success" type="button" value="通过" onclick="userApprove(3)" >
+    <input  class="btn btn-warning" type="button" value="不通过" onclick="userApprove(4)">
 </div>
 </body>
 </html>

@@ -56,17 +56,17 @@ function getManagerList(pageNum) {
 }
 function pageMenu(page) {
     $("#ul_page").empty();
-    $("#ul_page").append("<li onclick='navPage(this)' pNum='1'>首页</li>");
+    $("#ul_page").append("<li><a onclick='navPage(this)' pNum='1'> <span aria-hidden=true>&laquo;</span></a></li>");
     if (page.hasPreviousPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.prePage + ">上一页</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.prePage + "><span aria-hidden=true>&lt;</span></a></li>");
     }
     for (var i = 0; i < page.navigatepageNums.length; i++) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</li>");
+        $("#ul_page").append("<li><a onclick='navPage(this)' pNum=" + page.navigatepageNums[i] + ">" + page.navigatepageNums[i] + "</a></li>");
     }
     if (page.hasNextPage == true) {
-        $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.nextPage + ">下一页</li>");
+        $("#ul_page").append("<li ><a onclick='navPage(this)' pNum=" + page.nextPage + "><span aria-hidden=true>&gt;</span></a></li>");
     }
-    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + ">末页</li>");
+    $("#ul_page").append("<li onclick='navPage(this)' pNum=" + page.pages + "><span aria-hidden=true>&raquo;</span></li>");
     $("#total_num").empty();
     $("#total_num").html("共" + page.pages + "页");
     $("#pre_num").empty();

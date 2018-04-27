@@ -22,6 +22,7 @@
             $("#sub").html(ih);
         }
         function submitm(){
+            submitm1();
             var num=$("#init").val();
             var m1=$("#0v").val();
             var name1=$("#0").val();
@@ -31,7 +32,6 @@
                  m1+=","+$(a).val();
                  name1+=","+$(b).val();
             }
-
             var h=$("#initModel2").html();
             var ih="";
             $.ajax({
@@ -43,16 +43,30 @@
                 },
                 success: function (re) {
                     var detail=re.detail;
-                        for(var j  in detail){
-                            for(var temp in detail[j]){
-                                ih+=h.replace("{name}",temp).replace("{value}",detail[j][temp]);
-                            }
+                    for(var j  in detail){
+                        for(var temp in detail[j]){
+                            ih+=h.replace("{name}",temp).replace("{value}",detail[j][temp]);
                         }
+                    }
+
                     $("#sug").empty();
                    $("#sug").html(ih);
                 }
             });
-            /*var ih1="";
+        }
+        function submitm1(){
+            var num=$("#init").val();
+            var m1=$("#0v").val();
+            var name1=$("#0").val();
+            for(var i=1;i<num;i++){
+                var a="#"+i+"v";
+                var b="#"+i;
+                m1+=","+$(a).val();
+                name1+=","+$(b).val();
+            }
+
+            var h1=$("#initModel2").html();
+            var ih1="";
             $.ajax({
                 url: "/hos/cj1",
                 type: "post",
@@ -62,22 +76,21 @@
                 },
                 success: function (re) {
                     var detail1=re.detail;
-                        for(var jj  in detail1){
-                            for(var temp1 in detail1[jj]){
-                                alert(temp1+" "+detail[jj][temp1]);
-                                ih1+=h.replace("{name}",temp1).replace("{value}",detail1[jj][temp1]);
-                            }
-                        }
-                    $("#sug1").empty();
-                   $("#sug1").html(ih1);
-                }
-            });*/
-        }
 
+                    for(var i  in detail1){
+                        for(var temp1 in detail1[i]){
+                            ih1+=h1.replace("{name}",temp1).replace("{value}",detail1[i][temp1]);
+                        }
+                    }
+                    $("#sug1").empty();
+                    $("#sug1").html(ih1);
+                }
+            });
+        }
     </script>
 </head>
 
-<body style="width: 1200px;margin: 0 auto">
+<body style="width: 1400px;margin: 0 auto">
 <div id="sys_content" style="width: 400px;margin-top: 100px;float: left">
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">产品分类数</span>
@@ -97,25 +110,25 @@
 
     </form>
 </div>
-<!--<div id="right1" style="width: 400px;float: left;margin-left: 50px;margin-top: 100px;">
+<div id="right1" style="width: 400px;float: left;margin-left: 50px;margin-top: 100px;">
     <div>
         <h4>优先混搭组合建议</h4>
     </div>
     <form class="form-horizontal" id="sug1">
 
     </form>
-</div>-->
+</div>
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" >
+        <button  class="btn btn-success" onclick="submitm()" >提交</button>
+    </div>
+</div>
 <div id="initModel" style="display: none;">
     <div class="form-group">
         <input type="text" value="" id="{id1}" class="col-sm-8 control-label" placeholder="产品名字"/>
         <div class="col-sm-4">
             <input type="text"  id="{id2}"  class="form-control" placeholder="产品数">
         </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10" >
-        <button  class="btn btn-success" onclick="submitm()" >提交</button>
     </div>
 </div>
 

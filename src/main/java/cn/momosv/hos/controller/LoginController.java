@@ -461,7 +461,7 @@ public class LoginController extends BasicController{
 		for (int i = 0; i < m.length; i++) {
 			if(m[i]>0){
 				Map<String,Object> map=new HashMap<>();
-				map.put(name[i]+"(剩余)", m[i]);
+				map.put(name[i]+"(剩余单件)", m[i]);
 				list.add(map);
 			}
 		}
@@ -472,7 +472,7 @@ public class LoginController extends BasicController{
 	@ResponseBody
 	@RequestMapping("cj1")
 	public Object cj1(int[] m,String[] name){
-		int[][] dr = new int[m.length][m.length];
+		int[][] dr1 = new int[m.length][m.length];
 		for (int i = 0; i < m.length; i++) {
 			w:while (m[i]>0){
 				boolean pre=false;
@@ -490,14 +490,14 @@ public class LoginController extends BasicController{
 					} else if (mj >= 1) {
 						m[j] = m[j] - 1;
 						m[i] = m[i] - 1;
-						dr[i][j] += 1;
+						dr1[i][j] += 1;
 					}
 					if(m[j]>0){
 						pre=true;
 					}
 					if(j==m.length-1&&pre){
 						pre=false;
-					}else {
+					}else if(j==m.length-1) {
 						break w;
 					}
 				}
@@ -505,15 +505,15 @@ public class LoginController extends BasicController{
 		}
 		for (int i=0;i<m.length ;i++) {
 			if(m[i]>1){
-				dr[i][i]+=(int)m[i]/2;
-				m[i]=m[i]-(int)m[i]/2;
+				dr1[i][i]+=(int)m[i]/2;
+				m[i]=m[i]-((int)m[i]/2)*2;
 			}
 		}
 		List list=new ArrayList();
 		for (int i = 0; i < m.length; i++) {
 			for (int j =i; j < m.length; j++) {
 				Map<String,Object> map=new HashMap<>();
-				map.put(name[i]+"|"+name[j],dr[i][j]);
+				map.put(name[i]+"|"+name[j],dr1[i][j]);
 				list.add(map);
 			}
 		}
@@ -521,12 +521,13 @@ public class LoginController extends BasicController{
 		for (int i = 0; i < m.length; i++) {
 			if(m[i]>0){
 				Map<String,Object> map=new HashMap<>();
-				map.put(name[i]+"(剩余)", m[i]);
+				map.put(name[i]+"(剩余单件)", m[i]);
 				list.add(map);
 			}
 		}
+
 		Map<String,Object> mapr=new HashMap<>();
 		mapr.put("detail",list);
-		return list;
+		return mapr;
 	}
 }
