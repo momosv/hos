@@ -78,7 +78,7 @@ function pageMenu(page) {
 
 function getCaseDetail(t) {
     var id=$(t).attr("caseId");
-    window.open("/hos/page/doc/caseDetail/"+id,"newWindow");
+    window.open("/hos/page/doc/caseDetail/"+id,"detailWindow");
 }
 
 

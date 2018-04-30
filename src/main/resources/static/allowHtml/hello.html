@@ -5,6 +5,7 @@
     <title>联系我们</title>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script src="/js/common.js"></script>
     <script src="/js/sys/contact.js"></script>
     <link rel="stylesheet" href="/css/common.css">
@@ -13,40 +14,46 @@
             text-align: right;
         }
         table tr td{
+            border: none;
             font-size: 20px;
             color: #66ccff;
+            margin-top: 10px;
+        }
+        table tr {
+            border: none;
+           margin: 10px 10px;
         }
     </style>
 </head>
 <body>
-<div  id="nav" style="position: relative;width: 1050px;margin: 0 auto;border: solid pink 1px;
+<div  id="nav" style="position: relative;width: 1050px;margin: 0 auto;
 min-height: 800px;text-align: center;padding-top: 150px;">
-    <span style="font-size: 36px;">信息反馈/帮助/建议</span> <a href="/hos/login" style="float: right">返回首页</a>
+    <span style="font-size: 36px;">信息反馈/帮助/建议</span>
 
-    <table style="width: 400px;margin:0 auto">
+    <table cellpadding="0" border="0" cellspacing="0" class="  " style="width: 400px;margin:0 auto;border-collapse:separate; border-spacing:0px 10px;">
         <tr>
             <td>标题：</td>
-            <td ><input id="title" type="text" placeholder="最多30个字"></td>
+            <td ><input class="form-control" id="title" type="text" placeholder="最多30个字"></td>
         </tr>
         <tr>
             <td>内容：</td>
-            <td ><textarea id="content"></textarea></td>
+            <td ><textarea class="form-control"  style="height: 150px"  id="content"></textarea></td>
         </tr>
         <tr>
             <td>您的名字：</td>
-            <td ><input id="name" type="text"></td>
+            <td ><input class="form-control"  id="name" type="text"></td>
         </tr>
         <tr>
-            <td>您的E-mail：</td>
-            <td ><input id="email" type="text"></td>
+            <td>E-mail：</td>
+            <td ><input class="form-control"  id="email" type="text"></td>
         </tr>
         <tr>
-            <td>联系电话</td>
-            <td ><input id="phone" type="text"></td>
+            <td>联系电话：</td>
+            <td ><input class="form-control"  id="phone" type="text"></td>
         </tr>
-        <tr>
-            <td colspan="2" style="text-align: center">
-                <input type="button" class="btn" value="提交" onclick="saveCon()">
+        <tr style="margin-top: 10px">
+            <td colspan="2" style="text-align: center;margin-top: 10px">
+                <input  type="button" class="btn btn-success" value="提交" onclick="saveCon()">
             </td>
         </tr>
     </table>
