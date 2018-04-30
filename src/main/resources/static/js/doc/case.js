@@ -35,7 +35,7 @@ function getCaseSecondDetail(isTreat){
                     $("#allergicHistory").val('');
                 }
                 if(caseo!=null){
-                    $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-ddThh:mm"));
+                    $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-dd hh:mm"));
                     $("#bedNum").val(caseo.bedNum);
                     $("#complaint").val(caseo.complaint);
                     $("#allergicHistory").val(caseo.allergicHistory);
