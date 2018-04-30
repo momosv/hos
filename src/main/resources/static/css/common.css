@@ -74,7 +74,8 @@ ul li{
     /*          border: 1px orchid solid;*/
 }
 #secondT tr td:first-child{
-        width: 100px;
+        width: 130px;
+    text-align: right;
 }
 #secondT textarea{
     height: 100px;

@@ -5,20 +5,18 @@
     <title>添加</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script src="/js/common.js"></script>
     <script src="/js/doc/case.js"></script>
     <style type="text/css">
-        #head,#user,#case,#save_btn{
-            width: 1100px;
-            margin: 0 auto;
-            border: 1px orchid solid;
-        }
+
     </style>
     <script language="JavaScript">
         $(function () {
             var today=new Date();
             var submitTime=new Date(today).Format("yyyy-MM-ddThh:mm");
-            $("#returnDate").val(submitTime);
+            $("#hosDate").val(submitTime);
             getCaseDetail();
         });
     </script>
@@ -30,77 +28,77 @@
     <input type="hidden" id="caseId" value="${caseId}" >
 </div>
 <div id="user" style="">
-    <table style="height: 200px">
+    <table class="" id="firstT" style="height: 200px">
         <tr>
-            <td>科别：<input type="text" id="deptName" value="${deptName}"></td>
-            <td>初诊时间：<input id="caseDate1" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>入院时间：<input id="hosDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
-            <td>门诊卡号：<input id="treatCode" type="text" value=""></td>
-
+            <td><span>科别：</span></td><td><input type="text" id="deptName" value="${deptName}" readonly></td>
+            <td><span>初诊时间：</span></td><td><input id="caseDate1" type="text"  format="yyyy-MM-dd HH:mm" value="" readonly></td>
+            <td><span>入院时间：</span></td><td><input id="hosDate" type="datetime-local"  format="yyyy-MM-ddThh:mm" value=""></td>
+            <td><span>门诊卡号：</span></td><td><input id="treatCode" type="text" value="" readonly></td>
         </tr>
         <tr>
-            <td>姓名：<input id="name" type="text" value=""></td>
-            <td>性别：<select id="sex"><option id="sex0"  value="0">女</option><option id="sex1" value="1">男</option></select></td>
-            <td>出生日期：<input id="birthday" type="date" format="yyyy-MM-dd" value="" onchange="setAge(this.value)"></td>
-            <td>年龄：<input id="age" type="text" value=""></td>
+            <td><span>姓名：</span></td><td><input id="name" type="text" value=""></td>
+            <td><span>年龄：</span></td><td><input id="age" type="text" value=""></td>
+            <td><span>性别：</span></td><td><select  class="form-control"  id="sex"><option id="sex0"  value="0">女</option><option id="sex1" value="1">男</option></select></td>
+            <td><span>出生日期：</span></td><td><input id="birthday" type="date" format="yyyy-MM-dd" value="" onchange="setAge(this.value)"></td>
         </tr>
         <tr>
-            <td>联系电话：<input id="telephone" type="text" value=""></td>
-            <td>邮箱：<input id="email" type="text" value=""></td>
-            <td>婚姻：<select id="maritalStatus"><option value="0">未婚</option><option value="1">已婚</option></select></td>
-            <td>身份证：<input id="idCard" type="text" value=""></td>
+            <td><span>联系电话：</span></td><td><input id="telephone" type="text" value=""></td>
+            <td><span>邮箱：</span></td><td><input id="email" type="text" value=""></td>
+            <td><span>婚姻：</span></td><td><select  class="form-control"  id="maritalStatus"><option value="0">未婚</option><option value="1">已婚</option></select></td>
+            <td><span>身份证：</span></td><td><input id="idCard" type="text" value=""></td>
         </tr>
         <tr>
-            <td>血型：<input id="bloodType" type="text" value=""></td>
-            <td>体重：<input id="weight" type="text" value="">kg</td>
-            <td colspan="2">过敏史：<input id="allergicHistory" type="text"></td>
+            <td><span>血型：</span></td><td><input id="bloodType" type="text" value=""></td>
+            <td><span>体重：</span></td><td><input id="weight" type="text" value="" placeholder="kg"></td>
+            <td ><span>过敏史：</span></td><td colspan="3"><input  class="form-control"  id="allergicHistory" type="text"></td>
         </tr>
         <tr>
-            <td>地址：<input id="address" type="text"></td>
-            <td>权限代理：<select id="isAgent"><option selected value="0">否</option><option value="1">是</option></select></td>
-            <td>床位号：<input id="bedNum" type="text"></td>
+            <td><span>地址：</span></td><td><input id="address" type="text"></td>
+            <td><span>权限代理：</span></td><td><select class="form-control" id="isAgent"><option selected value="0">否</option><option value="1">是</option></select></td>
+            <td><span>床位号：</span></td><td><input  class="form-control"  id="bedNum" type="text"></td>
         </tr>
     </table>
 </div>
-<div id="case" style="height: 800px">
-    <table>
-        <tr>
+<div id="case" style="">
+    <table id="secondT" class="table">
+
+    <tr>
             <td>入院原因：</td>
-            <td><input id="cause" type="text" value=""></td>
+            <td><input class="form-control"   id="cause" type="text" value=""></td>
         </tr>
         <tr>
             <td>病情摘要</td>
-            <td><input id="summary" type="text" value=""></td>
+            <td><input  class="form-control"  id="summary" type="text" value=""></td>
         </tr>
         <tr>
             <td>内科情况</td>
-            <td><textarea id="internal"></textarea></td>
+            <td><textarea class="form-control"   id="internal"></textarea></td>
         </tr>
         <tr>
             <td>外科情况</td>
-            <td><textarea id="external"></textarea></td>
+            <td><textarea class="form-control"   id="external"></textarea></td>
         </tr>
         <tr>
             <td>体格检查</td>
-            <td><textarea id="phyExam"></textarea></td>
+            <td><textarea  class="form-control"  id="phyExam"></textarea></td>
         </tr>
         <tr>
             <td>医技报告</td>
-            <td><textarea id="medicalRecord"></textarea></td>
+            <td><textarea  class="form-control"  id="medicalRecord"></textarea></td>
         </tr>
         <tr>
             <td>入院诊断</td>
-            <td><input id="diagnosis"></input></td>
+            <td><input  class="form-control"  id="diagnosis"></input></td>
         </tr>   <tr>
             <td>备注</td>
-            <td><textarea id="remark"></textarea></td>
+            <td><textarea  class="form-control"  id="remark"></textarea></td>
         </tr>
 
     </table>
 
 </div>
 <div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="保存" onclick="saveHospitalized()">
+    <input type="button" class="btn btn-success" value="保存" onclick="saveHospitalized()">
 </div>
 </body>
 </html>

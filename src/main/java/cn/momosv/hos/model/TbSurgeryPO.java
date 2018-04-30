@@ -51,8 +51,17 @@ public class TbSurgeryPO   extends IBaseDBPO {
     private String attention;
 
     private String surgeon;
+    private String remark;
 
     private Date createTime;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getProcess() {
         return process;

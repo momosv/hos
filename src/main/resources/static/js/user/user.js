@@ -37,7 +37,7 @@ function getCaseList(pageNum) {
                         .replace("{id}",list[i].id)
                         .replace("{doc_name}",list[i].doc_name==undefined?"":list[i].doc_name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
-                        .replace("{create_time}",list[i].create_time==undefined?"":list[i].create_time)
+                        .replace("{create_time}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm"))
                         .replace("{org_name}",list[i].org_name==undefined?"":list[i].org_name)
                         .replace("{dept_name}",list[i].dept_name==undefined?"":list[i].dept_name);
                 }

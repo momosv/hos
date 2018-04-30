@@ -46,7 +46,7 @@ function getAuthorityList(allow,pageNum) {
                         .replace("{case_dept}",list[i].from_dept_name==undefined?"":list[i].from_dept_name)
                         .replace("{case_org}",list[i].from_org_name==undefined?"":list[i].from_org_name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
-                        .replace("{case_time}",list[i].case_time==undefined?"":list[i].case_time)
+                        .replace("{case_time}",list[i].case_time==undefined?"":getMyDate(list[i].case_time))
                         .replace("{user_name}",list[i].user_name==undefined?"":list[i].user_name)
                         .replace("{doc_name}",list[i].doc_name==undefined?"":list[i].doc_name)
                         .replace("{dept_name}",list[i].dept_name==undefined?"":list[i].dept_name)

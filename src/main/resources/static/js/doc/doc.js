@@ -44,7 +44,7 @@ function getCaseList(pageNum) {
                         .replace("{cid}",list[i].id)
                         .replace("{name}",list[i].name==undefined?"":list[i].name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
-                        .replace("{createTime}",list[i].create_time==undefined?"":list[i].create_time)
+                        .replace("{createTime}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm"))
                         .replace("{treatCode}",list[i].treat_code==undefined?"":list[i].treat_code);
                 }
                 $("#case_table_data").append(inHtml);

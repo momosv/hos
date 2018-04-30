@@ -84,3 +84,7 @@ function jsGetAge(startDate)
     return Math.floor(newDate / 1000 / 60 / 60 / 24 / 365);
 
 }
+$(function () {
+   $(".myReadOnly input").attr("readonly","readonly");
+   $(".myReadOnly textarea").attr("readonly","readonly");
+});

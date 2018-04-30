@@ -35,7 +35,7 @@ function getCaseSecondDetail(isTreat){
                     $("#allergicHistory").val('');
                 }
                 if(caseo!=null){
-                    $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-dd hh:mm"));
+                    $("#caseDate1").val(new Date(caseo.createTime).Format("yyyy-MM-ddThh:mm"));
                     $("#bedNum").val(caseo.bedNum);
                     $("#complaint").val(caseo.complaint);
                     $("#allergicHistory").val(caseo.allergicHistory);
@@ -310,7 +310,7 @@ function addSecond(num){
 
 }
 function addSecondReturn(num,t){
-    alert($(t).attr("id"));window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$(t).attr("id")+"/"+num);
+    window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$(t).attr("id")+"/"+num);
 }
 function addSingelSecondReturn(num){
     window.open("/hos/page/doc/addSecondReturn/"+$("#caseId").val()+"/"+$("#secondId").val()+"/"+num);

@@ -583,7 +583,7 @@ public class DoctorController extends BasicController {
     @RequestMapping("updateSurgery")
     public Object updateSurgery(TbSurgeryPO surgery) throws Exception {
         TbDoctorVO doctorVO=validDoctor();
-        TbConsultationPO old= (TbConsultationPO) basicService.selectByPrimaryKey(TbSurgeryPO.class,surgery.getId());
+        TbSurgeryPO old= (TbSurgeryPO) basicService.selectByPrimaryKey(TbSurgeryPO.class,surgery.getId());
         if(null== old){
             return failMsg("手术记录不存在或者已经被删除");
         }

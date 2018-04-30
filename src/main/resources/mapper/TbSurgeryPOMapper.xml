@@ -13,11 +13,12 @@
     <result column="diagnosis" property="diagnosis" jdbcType="VARCHAR" />
     <result column="attention" property="attention" jdbcType="VARCHAR" />
     <result column="surgeon" property="surgeon" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, case_id, cause,start, finding, treat, end, after_treat, diagnosis, attention, surgeon,
-    create_time
+    create_time,remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
