@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script src="/js/common.js"></script>
     <link rel="stylesheet" href="/css/common.css">
     <script language="JavaScript">
@@ -97,7 +98,29 @@
                     address:$("#uaddress").val(),
                     telephone:$("#utelephone").val(),
                     email:$("#uemail").val(),
-                    passwd:$("#passwd").val(),
+                  /*  passwd:$("#passwd").val(),*/
+                    headImage:$("#uheadImage").attr("src"),
+                },
+                success:function (re) {
+                    jQuery.alertWindow(re.msg);
+                }
+            });
+        }
+        function updatepw() {
+            if($("#passwd").val()==""){
+                jQuery.alertWindow("操作失败，新密码不能为空");
+                return;
+            }
+            if($("#passwd").val()!=$("#passwd0").val()){
+                jQuery.alertWindow("操作失败，新密码两次不一致");
+                return;
+            }
+            $.ajax({
+                url: "/user/updatePW",
+                type:'post',
+                data:{
+                    id:$("#userId").val(),
+                   passwd:$("#passwd").val(),
                 },
                 success:function (re) {
                     jQuery.alertWindow(re.msg);
@@ -128,24 +151,36 @@
                     oldP: $("#oPasswd").val(),
                 },
                 success:function(re) {
-                    jQuery.alertWindow(re.msg);
+                    $("#ptips").text(re.msg);
                     if(re.code==100){
-                        $("#btn_u").removeAttr("disabled")
+                        $("#btn_pw").removeAttr("disabled");
+                        $("#ptips").css("color","green");
+
                     }else{
-                        $("#btn_u").attr("disabled","true")
+                        $("#btn_pw").attr("disabled","true");
+                        $("#ptips").css("color","red");
                     }
                 }
              });
         }
         function u() {
             $("#navDetail").hide();
+            $("#pwUpdate").hide();
             $("#navUpdate").show();
 
             init1();
         }
         function p() {
             $("#navDetail").hide();
+            $("#pwUpdate").hide();
             $("#navApply").show();
+
+            init1();
+        }
+        function pw() {
+            $("#navDetail").hide();
+            $("#navApply").hide();
+            $("#pwUpdate").show();
 
             init1();
         }
@@ -167,6 +202,29 @@
                 success: function(rs) {
                     if(rs.code!="200"){
                         document.getElementById("aidHand").src=rs.extend.url;
+                    }else{
+                        alert(rs.msg);
+                    }
+                }
+            });
+        }
+        function uploadHeadImag(){
+            if( $("#files0").val==null){
+                return;
+            }
+            var formData = new FormData(document.getElementById('upload_Head_img'));
+            $.ajax({
+                url: "/upload/up",
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                datatype:"json",
+                success: function(rs) {
+                    if(rs.code!="200"){
+                        document.getElementById("uheadImage").src=rs.extend.url;
                     }else{
                         alert(rs.msg);
                     }
@@ -228,17 +286,22 @@
         function clickNImg() {
             $("#files2").click();
         }
+        function clickHeadImg() {
+            $("#files3").click();
+        }
     </script>
     <style>
         table tr td{
             padding-left: 20px;
-            width: 700px;
 
         }
-        table tr td:first-child{
-            text-align: right;
-            width: 200px;
+        table tr td{
+            height: 40px;
+           margin: 5px 5px 5px 5px;
 
+        } table tr td:nth-child(even){
+          text-align: left;
+            width: 200px;
         }
         #userName{
             border: none;outline: none;font-size: 44px;
@@ -246,33 +309,32 @@
             width: 1100px;
             text-align: center;
         }
-        .button{
-            width: 100px;
-            height: 40px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-            font-size: 24px;
-            outline: none;
-            border: none;
-        }
+
+
+
     </style>
 </head>
 <body style="width: 1100px;margin:0 auto;height: 1500px;overflow-y: auto">
 <input type="hidden" value="${user.id}" id="userId">
-<div id="navDetail">
-<input type="text" readonly="readonly"  id="userName" value="">
-<table>
+<div id="navDetail" style="margin: 0 auto;width: 800px;text-align: center">
+<input type="text" readonly="readonly"  id="userName" value="" style="width: 500px;text-align: center">
+<table id="firstT">
     <tr>
         <td>头像</td>
         <td>
             <img id="headImage" style="width: 80px;height: 100px">
         </td>
-        <td ><input type="button" class="btn" value="修改基本资料" onclick="u()"></td>
+        <td >
+            <button  type="button" class="btn btn-success" value="" onclick="u()">修改基本资料</button>
+        </td>
+
     </tr>
     <tr>
         <td>身份认证状态:</td>
-        <td ><span id="act"></span><input  type="button" class="btn" id="actTips" onclick="p()" value="申请认证"></td>
+        <td ><span id="act"></span><input style="background-color: #66ccff;color: white" type="button" class="btn btn-primary" id="actTips" onclick="p()" value="申请认证"></td>
+        <td >
+            <button  type="button" class="btn btn-success" value="" onclick="pw()">修改密码</button>
+        </td>
     </tr>
     <tr>
         <td>性别:</td>
@@ -315,8 +377,8 @@
     </tr>
 </table>
 </div>
-<div id="navUpdate" style="display: none">
-    <table>
+<div id="navUpdate" style="display: none;width: 600px;text-align: center;margin: 0 auto ">
+    <table id="firstT1">
         <tr>
             <td>姓名</td>
             <td><input type="text" id="uuserName"></td>
@@ -324,7 +386,7 @@
         </tr><tr>
         <td>头像</td>
         <td>
-            <img id="uheadImage" style="width: 80px;height: 100px">
+            <img id="uheadImage" onclick="clickHeadImg()" alt="点击上传图片" style="width: 80px;height: 100px">
         </td>
     </tr>
         <tr>
@@ -348,18 +410,7 @@
             <td>邮箱:</td>
             <td ><input type="text" id="uemail"></td>
         </tr>
-        <tr>
-            <td>旧密码:</td>
-            <td ><input type="password" id="oPasswd" value="" placeholder="请输入旧密码" onblur="validP()"></td>
-        </tr>
-        <tr>
-            <td>密码:</td>
-            <td ><input type="text" id="passwd"></td>
-        </tr>
-        <tr>
-            <td>再次输入密码:</td>
-            <td ><input type="text" id="passwd0"></td>
-        </tr>
+
         <tr>
             <td>详细地址:</td>
             <td><input type="text"  id="uaddress"></td>
@@ -371,7 +422,7 @@
         <tr>
             <td>身份证照（人脸）</td>
             <td>
-                <img id="uidFace" style="max-width: 450px;max-height: 320px">
+                <img  id="uidFace" style="max-width: 450px;max-height: 320px">
             </td>
         </tr>
         <tr>
@@ -387,37 +438,61 @@
             </td>
         </tr>
         <tr style="text-align: center">
-            <td style="text-align: center" colspan="2"><input type="button" class="btn" disabled id="btn_u" value="保存更新" onclick="update()"></td>
+            <td></td>
+            <td ><button type="button" class="btn btn-warning"  id="btn_u" value="" onclick="update()">保存更新</button></td>
+        </tr>
+    </table>
+</div>
+<div id="pwUpdate" style="display: none;width: 600px;text-align: center;margin: 0 auto ">
+    <table id="firstT">
+
+        <tr>
+            <td>旧密码:</td>
+            <td ><input class="form-control" type="password" id="oPasswd" value="" placeholder="请输入旧密码" onblur="validP()"></td>
+            <td><span style="color: burlywood" id="ptips"></span></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td ><input class="form-control"  type="password" id="passwd"></td>
+        </tr>
+        <tr>
+            <td>再次输入密码:</td>
+            <td ><input class="form-control"  type="password" id="passwd0"></td>
+        </tr>
+
+        <tr >
+            <td></td>
+            <td ><input type="button" class="btn btn-warning" style="color: white;background-color: #f0ad4e"  id="btn_pw" value="更新"  onclick="updatepw()"></input></td>
         </tr>
     </table>
 </div>
 
-<div id="navApply" style="display: none">
+<div id="navApply" style="display: none;display: none;width: 600px;text-align: center;margin: 0 auto">
     <table>
         <tr>
             <td>身份证号:</td>
             <td id="aidCard"></td>
         </tr>
-        <tr>
-            <td>身份证照（人脸）</td>
-            <td>
-                <img id="aidFace" style="width: 450px;height: 320px" onclick="clickFImg()">
+        <tr style="width: 300px;height: 200px;margin-bottom: 10px">
+        <td>身份证照（人脸）</td>
+            <td style="width: 300px;height: 200px;margin-bottom: 10px">
+                <img id="aidFace" alt="点击选择图片" style="width: 300px;height: 200px;border-radius: 10px" onclick="clickFImg()">
             </td>
         </tr>
-        <tr>
+        <tr style="width: 300px;height: 200px;margin-bottom: 10px">
             <td>身份证照（国徽）</td>
-            <td>
-                <img id="aidNational" style="width: 450px;height: 320px" onclick="clickNImg()">
+            <td >
+                <img id="aidNational" alt="点击选择图片"  style="width: 300px;height: 200px;border-radius: 10px" onclick="clickNImg()">
             </td>
         </tr>
-        <tr>
+        <tr style="width: 300px;height: 200px;margin-bottom: 10px">
             <td>身份证照（手持）</td>
-            <td>
-                <img id="aidHand" style="width: 450px;height: 320px" onclick="clickHImg()">
+            <td style="width: 300px;height: 200px;margin-bottom: 10px">
+                <img id="aidHand" alt="点击选择图片"  style="width: 300px;height: 200px;border-radius: 10px" onclick="clickHImg()">
             </td>
         </tr>
         <tr style="text-align: center">
-            <td style="text-align: center" colspan="2"><input type="button" class="btn"  id="btn_a" value="提交申请" onclick="updateA()"></td>
+            <td style="text-align: center" colspan="2"><input style="color: white;background-color: green"   type="button" class="btn"  id="btn_a" value="提交申请" onclick="updateA()"></td>
         </tr>
     </table>
 </div>
@@ -439,6 +514,13 @@
 <div id="nation" style="display: none">
     <form method="post" action="" enctype="multipart/form-data" id="upload_n_img" >
         <input type="file" id="files2" name="file" onchange="uploadNimag()" accept="image/*"
+               style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
+    </form>
+</div>
+
+<div id="head_image" style="display: none">
+    <form method="post" action="" enctype="multipart/form-data" id="upload_Head_img" >
+        <input type="file" id="files3" name="file" onchange="uploadHeadImag()" accept="image/*"
                style="border:none;color: lightsteelblue;margin: 2px; padding: 0;width: 170px;word-break: normal;float: left;" >
     </form>
 </div>

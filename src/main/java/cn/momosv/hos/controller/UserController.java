@@ -156,6 +156,16 @@ public class UserController extends BasicController{
             return failMsg("账号/邮箱已经被其他用户注册");
         }
         basicService.updateOne(userPO,true);
+        return successMsg("更改成功");
+    }
+    @RequestMapping("updatePW")
+    public Msg updatePW(TbBaseUserPO userPO) throws Exception {
+        if(StringUtils.isEmpty(userPO.getPasswd())){
+            return successMsg("更改失败，密码不能为空");
+        }
+        TbBaseUserPO old = validUser();
+        userPO.setId(old.getId());
+        basicService.updateOne(userPO,true);
         return successMsg("更改成功，请退出重新登录生效");
     }
 
@@ -170,7 +180,7 @@ public class UserController extends BasicController{
         }
         userPO.setIdCard(null);
         basicService.updateOne(userPO,true);
-        return successMsg("更改成功，请退出重新登录生效");
+        return successMsg("提交申请成功");
     }
 
 

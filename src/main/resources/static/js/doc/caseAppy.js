@@ -63,7 +63,7 @@ function getCaseList(pageNum) {
                         .replace("{isAllow}",ia)
                         .replace("{user_name}",list[i].user_name==undefined?"":list[i].user_name)
                         .replace("{allow_grade}",allow_grade)
-                        .replace("{deadline}",list[i].deadline==undefined?"":list[i].deadline)
+                        .replace("{deadline}",list[i].deadline==undefined?"":new Date(list[i].deadline).Format("yyyy-MM-dd"))
                         .replace("{doc_name}",list[i].case_doc_name==undefined?"":list[i].case_doc_name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
                         .replace("{create_time}",list[i].case_time==undefined?"":new Date(list[i].case_time).Format("yyyy-MM-dd hh:mm:ss"))

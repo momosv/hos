@@ -36,7 +36,7 @@
             <li onclick="newApplyCase()"><a>新建申请</a></li>
         </ul>
     </div>
-    <div id="org_right" style="float: left;z-index: 1;margin: 0 auto;min-height: 800px;width: 850px">
+    <div id="org_right" style="float: left;z-index: 1;margin: 0 auto;min-height: 800px;width: 950px">
             <div class="input-group">
                 <select id="case_key" class="btn btn-default  pull-right"  onchange="case_search_key()">
                     <option value="diagnosis" selected>诊断</option>
@@ -64,7 +64,6 @@
             </table>
             <table id="case_table_model" style="display: none">
                 <tr  >
-
                     <td style="cursor: pointer" id="{id0}" onclick="getUserCaseDetail(this)">{user_name}</td>
                     <td style="cursor: pointer" id="{id1}" onclick="getUserCaseDetail(this)">{diagnosis}</td>
                     <td>{create_time}</td>
@@ -93,39 +92,39 @@
             </nav>
         </div>
     </div>
-    <div  id="cdiv" style="display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
+    <div  id="cdiv" style="border-radius: 10px;display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
         <span style="float: right;margin-right: 20px;font-size: 28px;color: #818181;cursor: pointer" onclick="hideC()">X</span>
-        <table style="margin: 0 auto;width: 400px">
+        <table class="table" style="margin: 0 auto;width: 400px">
             <tr style="text-align: center;font-size: 24px;color: black">
                 <td colspan="2" id="cTitle">权限申请延期</td>
                 <input type="hidden" id="hiddenApplyId" value="">
             </tr>
             <tr>
-                <td>患者名字</td>
+                <td style="text-align: right">患者名字：</td>
                 <td id="cname"></td>
             </tr>
             <tr>
-                <td>病历</td>
+                <td style="text-align: right">病历：</td>
                 <td  id="caseDesc" ></td>
             </tr>
             <tr>
-                <td>申请理由</td>
-                <td><textarea id="reason" ></textarea></td>
+                <td style="text-align: right">申请理由：</td>
+                <td><textarea  class="form-control"  id="reason" ></textarea></td>
             </tr>
             <tr>
-                <td>申请级别</td>
-                <td><select id="allowGrade" >
+                <td style="text-align: right">申请级别：</td>
+                <td><select class="form-control" id="allowGrade" >
                     <option value="0" selected="selected">个人</option>
                     <option value="1">科室</option>
                     <option value="2">机构</option>
                 </select></td>
             </tr>
             <tr>
-                <td>截止日期</td>
-                <td><input id="deadline" type="date"></td>
+                <td style="text-align: right">截止日期</td>
+                <td><input  class="form-control"  id="deadline" type="date"></td>
             </tr>
         </table>
-        <input class="btn" type="button" value="提交申请" onclick="applyAgainSub()">
+        <input class="btn btn-success" type="button" value="提交申请" onclick="applyAgainSub()">
     </div>
 </div>
 </body>

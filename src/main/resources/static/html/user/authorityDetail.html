@@ -5,13 +5,15 @@
     <title>病历详情</title>
     <link rel="stylesheet" href="/css/common.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script src="/js/common.js"></script>
     <script src="/js/user/approve.js"></script>
     <style type="text/css">
-        #head,#user,#save_btn{
-            width: 1100px;
-            margin: 0 auto;
-            border: 1px orchid solid;
+        table tr td{
+            height: 40px;
+            margin: 5px 5px 5px 5px;
+
         }
     </style>
     <script language="JavaScript">
@@ -27,43 +29,45 @@
     <input type="hidden" id="authId" value="${authId}" >
 </div>
 <div id="user" style="">
-    <table style="height: 200px">
-        <tr>
-            <td>申请人：<input readonly="readonly" type="text" id="docName" value=""></td>
-            <td>职位：<input type="text" id="position" value=""></td>
-            <td>科室/部门：<input type="text" id="deptName" value=""></td>
-            <td>机构：<input type="text" id="orgName" value=""></td>
+    <table class="" id="firstT" style="height: 200px">
+        <tr >
+            <td  > <span> 申请人</span></td><td><input  type="text" id="docName" value=""  readonly></td>
+            <td> <span> 职位</span></td><td><input type="text" id="position" value=""  readonly></td>
+            <td> <span> 科室/部门</span></td><td><input type="text" id="deptName" value=""  readonly></td>
+            <td> <span> 机构</span></td><td><input type="text" id="orgName" value=""  readonly></td>
 
         </tr>
-        <tr>
-            <td>申请人电话：<input id="docPhone" type="text" value=""></td>
-            <td>申请人邮箱：<input id="email" type="text" value=""></td>
-            <td>机构联系人：<input id="linkman" type="text" ></td>
-            <td>机构联系电话：<input id="orgPhone" type="text" value=""></td>
+        <tr >
+            <td > <span> 申请人电话</span></td><td><input id="docPhone" type="text" value=""  readonly></td>
+            <td> <span> 申请人邮箱</span></td><td><input id="email" type="text" value=""  readonly></td>
+            <td> <span> 机构联系人</span></td><td><input id="linkman" type="text"  readonly></td>
+            <td> <span> 机构电话</span></td><td><input id="orgPhone" type="text" value=""  readonly></td>
         </tr>
         <tr>
-            <td colspan="3">申请病历：<input id="caseTitle" type="text" value=""></td>
+            <td > <span> 申请病历</span></td><td colspan="3"><input class="form-control"  id="caseTitle" type="text" value=""  readonly></td>
             <td ><a target="_blank" id="caseA" href="">病历详情</a></td>
         </tr>
         <tr>
-            <td>申请级别：<select id="allowGrade" >
+            <td> <span> 申请级别</span></td>
+            <td><select class="form-control" id="allowGrade" >
                 <option value="0" selected="selected">个人</option>
                 <option value="1">部门</option>
                 <option value="2">机构</option>
             </select></td>
         </tr>
         <tr>
-            <td colspan="4">申请理由：<textarea id="reason" readonly="readonly"></textarea></td>
+            <td > <span> 申请理由</span></td><td colspan="3"><textarea class="form-control" id="reason" readonly="readonly"></textarea></td>
         </tr>
         <tr>
-            <td>权限截止日期：<input type="date" id="deadline"></td>
+            <td><span>截止日期</span></td><td><input type="date" id="deadline"></td>
         </tr>
     </table>
 </div>
 
-<div id="save_btn" style="height: 100px;text-align: center">
-    <input type="button" class="btn" value="通过" onclick="approveAuthority(1)">
-    <input type="button" class="btn" value="不通过" onclick="approveAuthority(0)">
+<div class="input-group" id="save_btn" style="margin-top: 30px;height: 100px;text-align: center">
+    <input type="button" class="btn btn-success" value="通过" onclick="approveAuthority(1)">
+    <span style="margin-left: 10px"></span>
+    <input type="button" class="btn btn-warning" value="不通过" onclick="approveAuthority(0)">
 </div>
 </body>
 </html>

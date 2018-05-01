@@ -47,7 +47,7 @@ function getCaseList(pageNum) {
                         .replace("{is_allow}",list[i].is_allow==undefined?"未授权":list[i].is_allow==1?"已授权":list[i].is_allow==-1?"待审批":"授权不通过")
                         .replace("{doc_name}",list[i].doc_name==undefined?"":list[i].doc_name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
-                        .replace("{create_time}",list[i].create_time==undefined?"":list[i].create_time)
+                        .replace("{create_time}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm:ss"))
                         .replace("{org_name}",list[i].org_name==undefined?"":list[i].org_name)
                         .replace("{dept_name}",list[i].dept_name==undefined?"":list[i].dept_name);
                 }

@@ -35,7 +35,7 @@ ul li{
 #firstT tr td span{
     margin-left: 5px;
 }
-#firstT tr td:nth-child(odd){
+#firstT tr td:nth-child(odd),#firstT1 tr td:nth-child(odd){
     text-align: right;
 }
 #firstT button{
@@ -46,7 +46,7 @@ ul li{
     border-radius: 2px;
  }
 
-#firstT input{
+#firstT input,#firstT1 input{
     display: block;
     height: 34px;
     padding: 6px 12px;

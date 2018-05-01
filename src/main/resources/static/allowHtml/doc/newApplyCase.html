@@ -78,39 +78,39 @@
             </nav>
         </div>
     </div>
-    <div  id="cdiv" style="display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
-        <span style="float: right;margin-right: 20px;font-size: 28px;color: #818181;cursor: pointer" onclick="hideC()">X</span>
-        <table style="margin: 0 auto;width: 400px">
+    <div  id="cdiv" style="border-radius: 10px;display: none;background-color: white;left: 250px;position: absolute;width: 400px;height: 500px;margin: 0 auto;z-index: 999;border: solid palegoldenrod 1px;text-align: center">
+    <span style="float: right;margin-right: 20px;font-size: 28px;color: #818181;cursor: pointer" onclick="hideC()">X</span>
+        <table class="table" style="margin: 0 auto;width: 400px">
             <tr style="text-align: center;font-size: 24px;color: black">
                 <td colspan="2" id="cTitle">权限申请</td>
                 <input type="hidden" id="hiddenCaseId" value="">
             </tr>
             <tr>
-                <td>患者名字</td>
+                <td  style="text-align: right">患者名字</td>
                 <td id="cname"></td>
             </tr>
             <tr>
-                <td>病历</td>
+                <td style="text-align: right">病历</td>
                 <td  id="caseDesc" ></td>
             </tr>
             <tr>
-                <td>申请理由</td>
-                <td><textarea id="reason" ></textarea></td>
+                <td style="text-align: right">申请理由</td>
+                <td><textarea  class="form-control"  id="reason" ></textarea></td>
             </tr>
             <tr>
-                <td>申请级别</td>
-                <td><select id="allowGrade" >
+                <td style="text-align: right">申请级别</td>
+                <td><select  class="form-control"  id="allowGrade" >
                     <option value="0" selected="selected">个人</option>
                     <option value="1">科室</option>
                     <option value="2">机构</option>
                 </select></td>
             </tr>
             <tr>
-                <td>截止日期</td>
-                <td><input id="deadline" type="date"></td>
+                <td style="text-align: right">截止日期</td>
+                <td><input  class="form-control"  id="deadline" type="date"></td>
             </tr>
         </table>
-        <input class="btn" type="button" value="提交申请" onclick="applySub()">
+        <input class="btn btn-success" type="button" value="提交申请" onclick="applySub()">
     </div>
 </div>
 </body>
