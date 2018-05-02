@@ -65,8 +65,8 @@ ul li{
 }
 #addDeptDiv{
 	position: absolute;
-	width: 400px;
-	height: 600px;
+	width: 350px;
+	height: 300px;
 	border: solid 1px cornflowerblue;
 	display: none;
 	z-index: 999;

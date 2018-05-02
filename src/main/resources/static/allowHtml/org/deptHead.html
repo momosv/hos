@@ -31,21 +31,23 @@
           -->  </ul>
             <input type="button" value="添加部门/科室" class="btn btn-success" id="btn_addDept" onclick="addDpetDiv()">
         </div>
-        <div id="addDeptDiv">
-            <div style="width: 30px;float: right;text-align: right;padding: 5px 10px 5px 20px;font-size: 24px;cursor: pointer" onclick="myClose(addDeptDiv)" id="closeAddDeptDiv">X</div>
+        <div id="addDeptDiv" style="border-radius: 10px;background-color: white;text-align: center">
+            <div style="width: 10px;float: right;margin-right:20px;text-align: right;padding: 5px 10px 5px 20px;font-size: 24px;cursor: pointer" onclick="myClose(addDeptDiv)" id="closeAddDeptDiv">X</div>
+            <br/>
+            <br/>
             <table id="addDeptT">
                 <tr>
                     <td>部门(科室)名称:</td>
-                    <td ><input type="text" id="deptNameInput"></td>
+                    <td style="height: 40px;margin-bottom: 5px;"><input class="form-control" type="text" id="deptNameInput"></td>
                 </tr>
                 <tr>
                     <td>简介:</td>
-                    <td><textarea id="deptDescrInput"></textarea>
+                    <td style="height: 40px;margin-bottom: 5px;"><textarea class="form-control" id="deptDescrInput"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td><input type="button" class="btn" value="保存" onclick="addDept()"></td>
+                    <td style="height: 40px;margin-bottom: 5px;"></td>
+                    <td style="text-align: left"><input type="button" class="btn btn-success" value="保存" onclick="addDept()"></td>
                 </tr>
             </table>
         </div>

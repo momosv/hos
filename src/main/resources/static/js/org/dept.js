@@ -37,12 +37,12 @@ function getDeptList(){
                 var list=re.extend.list;
                 $("#typeS").empty();
                 var iii=0;
-                for (var dept of list) {
+                for (var i in list) {
                     var  act='';
                     if(iii==0){
                         act="class='active'";
                     }
-                    $("#typeS").append("<li "+act+" onclick=getDeptPerson('"+dept.id+"',-1,1,'"+dept.name+"',this)"+" did="+dept.id+")><a>"+dept.name+"</a></li>");
+                    $("#typeS").append("<li "+act+" onclick=getDeptPerson('"+list[i].id+"',-1,1,'"+list[i].name+"',this)"+" did="+list[i].id+")><a>"+list[i].name+"</a></li>");
                     iii++;
                 }
                 if(list.length>0){
