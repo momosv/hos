@@ -76,12 +76,12 @@
                 </tr>
             </table>
             <table id="org_table_model" style="display: none">
-                <tr style="cursor: pointer" doctorId="{id}" onclick="getDoctorDetail(this)">
+                <tr style="cursor: pointer">
                     <td>{name}</td>
                     <td>{position}</td>
                     <td>{entryTime}</td>
                     <td>{isLeave}</td>
-                    <td>编辑|删除</td>
+                    <td><button class="btn btn-warning" type="button"  doctorId="{id}" onclick="getDoctorDetail(this)">编辑</button>|<button type="button" class="btn btn-danger"    doctorId="{did}" onclick="delDoctorS(this)">删除</button></td>
                 </tr>
             </table>
 
@@ -98,6 +98,29 @@
                     <span id="pre_num">第0页 </span>
                 </div>
             </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span onclick="hideDeldoctorS()" aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">确认框</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">确定要删除医生？</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="hideDeldoctorS()" type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button docId="" id="delButton"  onclick="delDoctor(this)" type="button" class="btn btn-primary">确认</button>
+            </div>
         </div>
     </div>
 </div>

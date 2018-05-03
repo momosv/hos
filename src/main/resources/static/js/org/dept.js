@@ -96,6 +96,7 @@ function getDeptPerson(d,isL,pageNum,name,t) {
                 for(var i=0;i<list.length;i++){
                     inHtml+=htmlModel
                         .replace("{id}",list[i].id)
+                        .replace("{did}",list[i].id)
                         .replace("{name}",list[i].name==undefined?"":list[i].name)
                         .replace("{position}",list[i].position==undefined?"":list[i].position)
                         .replace("{entryTime}",list[i].entry_time==undefined?"":list[i].entry_time)
@@ -132,4 +133,30 @@ function pageMenu(page) {
 function getDoctorDetail(t) {
     var id=$(t).attr("doctorId");
     window.open("/hos/page/org/docDetail/"+id);
+}
+
+function delDoctorS(t) {
+    $("#exampleModal").show();
+    $("#exampleModal").addClass("in");
+    var id=$(t).attr("doctorId");
+    $("#delButton").attr("docId",id);
+}
+function delDoctor(t) {
+    $("#exampleModal").hide();
+    $("#exampleModal").removeClass("in");
+    var id=$(t).attr("docId");
+    $.ajax({
+        url: "/org/delDoctor",
+        type: 'POST',
+        data:{id:id},
+        success: function(re) {
+            jQuery.alertWindow(re.msg);
+            getDeptPerson(did,isLeave,1,deptName);
+        }
+    });
+
+}
+function hideDeldoctorS() {
+    $("#exampleModal").hide();
+    $("#exampleModal").removeClass("in");
 }

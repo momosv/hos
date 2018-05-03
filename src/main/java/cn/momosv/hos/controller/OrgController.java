@@ -107,6 +107,17 @@ public class OrgController extends BasicController {
         return getDeptList().add("doctor",doctorPO).add("user",userPO);
 
     }
+    @RequestMapping("delDoctor")
+    public Msg delDoctor(String id) throws Exception {
+        TbOrgManagerVO org = validOrgManager();
+        TbDoctorPO doctorPO= (TbDoctorPO) basicService.selectByPrimaryKey(TbDoctorPO.class,id);
+        if(!org.getOrgId().equals(doctorPO.getOrgId())){
+            return failMsg("您无权限删除非本机构人员");
+        }
+       int i = basicService.deleteByPrimaryKey(TbDoctorPO.class,id);
+        return successMsg("删除成功");
+
+    }
 
     @RequestMapping("getDoctorList")
     public Msg getDoctorList(@RequestParam(defaultValue = "-1") Integer isLeave,

@@ -225,6 +225,7 @@ function saveCase(){
             isAgent: $("#isAgent").val(),
             maritalStatus:  $("#maritalStatus").val(),
             bedNum:  $("#bedNum").val(),
+            birthday: $("#birthday").val(),
 
             complaint: $("#complaint").val(),
             preHistory: $("#preHistory").val(),

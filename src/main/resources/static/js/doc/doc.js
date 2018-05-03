@@ -41,7 +41,9 @@ function getCaseList(pageNum) {
                 for(var i=0;i<list.length;i++){
                     inHtml+=htmlModel
                         .replace("{id}",list[i].id)
+                        .replace("{id1}",list[i].id)
                         .replace("{cid}",list[i].id)
+                        .replace("{cid1}",list[i].id)
                         .replace("{name}",list[i].name==undefined?"":list[i].name)
                         .replace("{diagnosis}",list[i].diagnosis==undefined?"":list[i].diagnosis)
                         .replace("{createTime}",list[i].create_time==undefined?"":new Date(list[i].create_time).Format("yyyy-MM-dd hh:mm"))
@@ -147,3 +149,29 @@ function addCase(){
     window.open("/hos/page/doc/addCase","newWindow")
 }
 
+
+function delCaseS(t) {
+    $("#delCaseModal").show();
+    $("#delCaseModal").addClass("in");
+    var id=$(t).attr("caseId");
+    $("#delButton").attr("caseId",id);
+}
+function delCase(t) {
+    $("#delCaseModal").hide();
+    $("#delCaseModal").removeClass("in");
+    var id=$(t).attr("caseId");
+    $.ajax({
+        url: "/doc/deleteCase",
+        type: 'POST',
+        data:{ids:id},
+        success: function(re) {
+            jQuery.alertWindow(re.msg);
+            getCaseList(1);
+        }
+    });
+
+}
+function hideDelCaseS() {
+    $("#delCaseModal").hide();
+    $("#delCaseModal").removeClass("in");
+}

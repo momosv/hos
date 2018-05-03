@@ -49,10 +49,10 @@
                 <tr style="cursor: pointer" >
                     <td><input type='checkbox' name="checkBoxId" value="{cid}" onclick='ppcheck(this);'/></td>
                     <td caseId="{id}"  onclick="getCaseDetail(this)">{name}</td>
-                    <td>{diagnosis}</td>
+                    <td caseId="{id1}"  onclick="getCaseDetail(this)">{diagnosis}</td>
                     <td>{createTime}</td>
                     <td>{treatCode}</td>
-                    <td>详情|编辑|删除</td>
+                    <td><button type="button" class="btn btn-danger"    caseId="{cid1}" onclick="delCaseS(this)">删除</button></td>
                 </tr>
             </table>
 
@@ -69,6 +69,28 @@
                 <span id="pre_num">第1页 </span>
                 </div>
             </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delCaseModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span onclick="hideDelCaseS()" aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">确认框</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">确定要删除医生？</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="hideDelCaseS()" type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button caseId="" id="delButton"  onclick="delCase(this)" type="button" class="btn btn-primary">确认</button>
+            </div>
         </div>
     </div>
 </div>

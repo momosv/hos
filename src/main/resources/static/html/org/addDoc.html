@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
     <script src="/js/common.js"></script>
     <script language="JavaScript">
         $(function(){
@@ -84,20 +85,21 @@
         }
     </style>
 </head>
-<body style="width: 1100px;margin:0 auto">
+<body style="width: 1100px;margin:0 auto;text-align: center">
 <input type="hidden" value="${id}" id="userId">
 <input type="text" readonly="readonly"  id="userName" value="">
-<table>
+<span style="font-size: 26px">新增人员</span>
+<table  style="width: 500px;margin: 0 auto">
     <tr>
         <td>姓名</td>
         <td>
-            <input id="name" type="text">
+            <input class="form-control" id="name" type="text">
         </td>
     </tr>
     <tr>
         <td>性别</td>
         <td>
-            <select id="sex">
+            <select class="form-control"  id="sex">
                 <option value="0" selected>男</option>
                 <option value="1" selected>女</option>
             </select>
@@ -106,7 +108,7 @@
     <tr>
         <td>部门(科室):</td>
         <td >
-            <select id="dept">
+            <select class="form-control"  id="dept">
                 <option value="">内二科</option>
             </select>
         </td>
@@ -114,57 +116,56 @@
     <tr>
         <td>职位:</td>
         <td >
-            <input id="position" type="text">
+            <input class="form-control"  id="position" type="text">
         </td>
     </tr>
     <tr>
         <td>入职时间:</td>
         <td >
-            <input id="entryTime" type="text">
-
+            <input class="form-control"  id="entryTime" type="text">
         </td>
     </tr>
     <tr>
         <td>工号:</td>
         <td >
-            <input id="workCode" type="text">
+            <input class="form-control"  id="workCode" type="text">
         </td>
     </tr>
     <tr>
         <td>邮箱:</td>
         <td >
-            <input id="email" type="text">
+            <input class="form-control"  id="email" type="text">
         </td>
     </tr>
     <tr>
         <td>密码:</td>
         <td >
-            <input id="passwd" type="text">
+            <input class="form-control"  id="passwd" type="text">
 
         </td>
     </tr>
     <tr>
         <td>联系电话:</td>
         <td >
-            <input id="telephone" type="text">
+            <input class="form-control"  id="telephone" type="text">
         </td>
     </tr>
     <tr>
         <td>居民身份证号:</td>
         <td >
-            <input id="idCard" type="text">
+            <input class="form-control"  id="idCard" type="text">
         </td>
     </tr>
     <tr>
         <td>地址:</td>
         <td >
-            <input id="address" type="text">
+            <input class="form-control"  id="address" type="text">
         </td>
     </tr>
-    <tr>
-        <td></td>
-        <td >
-            <input id="save" type="button" value="保存" onclick="add()">
+    <tr style="margin-top: 10px;height: 35px">
+        <td style="margin-top: 10px;height: 35px"></td>
+        <td style="margin-top: 10px;height: 35px">
+            <button style="margin-top: 10px;height: 35px" class="btn btn-success"  id="save" type="button" value="" onclick="add()">保存</button>
         </td>
     </tr>
 

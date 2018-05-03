@@ -194,6 +194,11 @@ public class DoctorServiceImpl implements DoctorService {
         basicService.deleteByExample(example);
         //case
         basicService.deleteByPrimaryKey(TbCasePO.class,ids);
+        //权限
+        //住院
+        example.setClazz(TbDataAuthorityPO.class);
+        basicService.deleteByExample(example);
+
     }
 
     @Override
