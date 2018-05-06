@@ -1,4 +1,4 @@
-logging:
+﻿logging:
   config: classpath:logback.xml
   path: logs
   level: 

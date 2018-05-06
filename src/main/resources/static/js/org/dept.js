@@ -99,7 +99,7 @@ function getDeptPerson(d,isL,pageNum,name,t) {
                         .replace("{did}",list[i].id)
                         .replace("{name}",list[i].name==undefined?"":list[i].name)
                         .replace("{position}",list[i].position==undefined?"":list[i].position)
-                        .replace("{entryTime}",list[i].entry_time==undefined?"":list[i].entry_time)
+                        .replace("{entryTime}",list[i].entry_time==undefined?"":new Date(list[i].entry_time).Format("yyyy-MM-dd"))
                         .replace("{isLeave}",list[i].is_leave==undefined?"":(list[i].is_leave==0?"在职":"离职"));
                 }
                 $("#org_table_data").append(inHtml);
