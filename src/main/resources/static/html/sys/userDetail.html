@@ -16,7 +16,7 @@
                     var detail=re.extend.detail;
                     if(detail!=null||detail!=undefined){
                         $("#userName").val(detail.name);
-                        $("#act").html(detail.actCode==0?'待审批':(detail.actCode==1?'审批通过':'审批不通过'));
+                        $("#act").html(detail.actCode==2?'待审批':(detail.actCode==3?'审批通过':'审批不通过'));
                         $("#sex").html(detail.sex==0?'男':'女');
                         $("#address").html(detail.address);
                         $("#telephone").html(detail.telephone);
