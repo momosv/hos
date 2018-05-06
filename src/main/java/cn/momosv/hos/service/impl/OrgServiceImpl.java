@@ -18,6 +18,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Transactional
 @Service("orgService")
 public class OrgServiceImpl implements OrgService {
 
