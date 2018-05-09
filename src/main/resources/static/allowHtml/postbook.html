@@ -6,7 +6,6 @@
     <title>我要发布</title>
     <!-- <link href="style/reset.css" type="text/css" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="/css/otherhtm.css">
-    <script type="text/javascript" src="/js/demo.js"></script>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
@@ -41,13 +40,13 @@
         <h1>在线生成图片URL</h1>
         <form method="post" action="" enctype="multipart/form-data" id="upload_my_img" >
             <div class="input-group">
-                <input  class="form-control" type="file" id="files" name="smfile" oninput="uploadimag()" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"  >
+                <input  class="form-control" type="file" id="files" name="smfile" onchange="uploadimag()" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"  >
             </div>
         </form>
         <br>
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">图片链接</span>
-            <input class="form-control input-lg" type="text" name="pic_url" id="pic_url" oninput="get_imag()" aria-describedby="basic-addon1">
+            <input class="form-control input-lg" type="text" name="pic_url" id="pic_url"  aria-describedby="basic-addon1">
         </div>
         <br>
         <div>
