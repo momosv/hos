@@ -3,9 +3,8 @@
 
 <head>
 	<meta charset="UTF-8"/>
-    <title>我要发布</title>
+    <title>图链接</title>
     <!-- <link href="style/reset.css" type="text/css" rel="stylesheet"> -->
-    <link rel="stylesheet" type="text/css" href="/css/otherhtm.css">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
@@ -21,7 +20,7 @@
             processData: false,
             // 告诉jQuery不要去设置Content-Type请求头
             contentType: false,
-            datatype:"json",
+            dataType:"json",
             success: function(rs) {
               if(rs.code!="error"){
               	$('#pic_url').val(rs.data.url);
