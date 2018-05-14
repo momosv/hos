@@ -9,12 +9,10 @@
 			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
 		</commentGenerator>
 
-		
 		<jdbcConnection
 			connectionURL="jdbc:mysql://momosv.cn:3306/tracking_treatment?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false"
 			driverClass="com.mysql.jdbc.Driver" password="LLLSWlllswmo" userId="momo" />
-		
-		
+
 		<javaModelGenerator targetPackage="cn.momosv.hos.model"
 			targetProject=".\src\main\java">
 			<property name="enableSubPackages" value="true" />
@@ -28,7 +26,7 @@
 		<javaClientGenerator targetPackage="cn.momosv.hos.dao"
 			targetProject=".\src\main\java" type="XMLMAPPER" />
 		
- 		<!--<table  tableName="tb_analyze_plan" domainObjectName="TbAnalyzePlanPO"
+ 		<table  tableName="tb_analyze_plan" domainObjectName="TbAnalyzePlanPO"
 				enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -52,7 +50,7 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
-		&lt;!&ndash;会诊&ndash;&gt;
+
 		<table  tableName="tb_consultation" domainObjectName="TbConsultationPO"
 				enableInsert="false"
 				enableSelectByExample="false"
@@ -61,7 +59,7 @@
 				enableDeleteByExample="false"
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
-		&lt;!&ndash;权限表&ndash;&gt;
+
 		<table  tableName="tb_data_authority" domainObjectName="TbDataAuthorityPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -86,7 +84,6 @@
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
 
-		&lt;!&ndash;住院记录&ndash;&gt;
 		<table  tableName="tb_hospitalized" domainObjectName="TbHospitalizedPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -95,7 +92,7 @@
 				enableCountByExample="false"
 				enableUpdateByExample="false"></table>
 
-		&lt;!&ndash;住院记录&ndash;&gt;
+
 		<table  tableName="tb_leave_hospital" domainObjectName="TbLeaveHospitalPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"
@@ -155,7 +152,7 @@
 				enableDeleteByPrimaryKey="false"
 				enableDeleteByExample="false"
 				enableCountByExample="false"
-				enableUpdateByExample="false"></table>-->
+				enableUpdateByExample="false"></table>
 		<table  tableName="tb_contact_us" domainObjectName="TbContactUsPO" enableInsert="false"
 				enableSelectByExample="false"
 				enableUpdateByPrimaryKey="false"

@@ -6,6 +6,8 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,21 +22,32 @@ import java.sql.SQLException;
 public class DatasourceConfig {
 	private Logger logger = LoggerFactory.getLogger(DatasourceConfig.class);
 	
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.db1.url}")
     private String dbUrl;
     
+    @Value("${spring.datasource.db1.username}")
+    private String username;
+
+    @Value("${spring.datasource.db1.password}")
+    private String password;
+    @Value("${spring.datasource.db1.driver-class-name}")
+    private String driverClassName;
+
+
+    @Value("${spring.datasource.db2.url}")
+    private String dbUrl2;
+
+    @Value("${spring.datasource.db2.username}")
+    private String username2;
+
+    @Value("${spring.datasource.db2.password}")
+    private String password2;
+    @Value("${spring.datasource.db2.driver-class-name}")
+    private String driverClassName2;
+
     @Value("${spring.datasource.type}")
     private String dbType;
-    
-    @Value("${spring.datasource.username}")
-    private String username;
-    
-    @Value("${spring.datasource.password}")
-    private String password;
-    
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
-    
+
     @Value("${spring.datasource.initialSize}")
     private int initialSize;
     
@@ -105,6 +118,45 @@ public class DatasourceConfig {
         }  
         return datasource;  
     }
+
+
+    @Bean(name = "db2",destroyMethod = "close", initMethod="init")
+    public DataSource dataSource2() {
+        DruidDataSource datasource = new DruidDataSource();
+        try {
+            datasource.setUrl(this.dbUrl2);
+            datasource.setDbType(dbType);
+            datasource.setUsername(username2);
+            datasource.setPassword(password2);
+            datasource.setDriverClassName(driverClassName2);
+            datasource.setInitialSize(initialSize);
+            datasource.setMinIdle(minIdle);
+            datasource.setMaxActive(maxActive);
+            datasource.setMaxWait(maxWait);
+            datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+            datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+            datasource.setValidationQuery(validationQuery);
+            datasource.setTestWhileIdle(testWhileIdle);
+            datasource.setTestOnBorrow(testOnBorrow);
+            datasource.setTestOnReturn(testOnReturn);
+            datasource.setPoolPreparedStatements(poolPreparedStatements);
+            datasource.setFilters(filters);
+        } catch (SQLException e) {
+            logger.error("druid configuration initialization filter", e);
+        }
+        return datasource;
+    }
+
+
+
+
+
+
+
+
+
+
+
     /////////  下面是druid 监控访问的设置  /////////////////  
     @Bean  
     public ServletRegistrationBean druidServlet() {  

@@ -24,18 +24,26 @@ security:
     password: 123
   basic:
     enabled: false
+
 mybatis:
      mapperLocations: classpath:/mapper/*.xml
-     typeAliasesPackage: cn.momosv.hos.dao    
+     mapperLocations2: classpath:/mapper/readOnly/*.xml
+     typeAliasesPackage: cn.momosv.hos.dao
      mapperScanPackage: cn.momosv.hos.dao
      configLocation: classpath:/mybatis-config.xml
-#C:\ProgramData\Oracle\Java\javapath;%INTEL_DEV_REDIST%redist\intel64\compiler;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;E:\Program Files\Git\cmd;E:\apache-maven-3.5.0-bin\apache-maven-3.5.0-bin\apache-maven-3.5.0\bin;C:\Program Files\TortoiseSVN\bin;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;E:\apache-maven-3.5.0-bin\apache-maven-3.5.0-bin\apache-maven-3.5.0\bin
+mybatis-readOnly:
+     mapperLocations: classpath:/mapper/readOnly/*.xml
+     typeAliasesPackage: cn.momosv.hos.dao.readOnly
+     mapperScanPackage: cn.momosv.hos.dao.readOnly
+     configLocation: classpath:/mybatis-config.xml
+
 spring:
     session:
         store-type: none
+    #主库
     datasource:
     #123.207.23.166:3306
-        name: db      
+        name: db
         url: jdbc:mysql://123.207.23.166:3306/tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
         username: momo
         password: LLLSWlllswmo
@@ -58,8 +66,20 @@ spring:
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录  
         useGlobalDataSourceStat: true # 合并多个DruidDataSource的监控数据  
         druidLoginName: momo # 登录druid的账号  
-        druidPassword: momo # 登录druid的密码    
-     # HTTP ENCODING  
+        druidPassword: momo # 登录druid的密码
+        db1:
+          name: db1
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://123.207.23.166:3306/tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
+          username: momo
+          password: LLLSWlllswmo
+        db2:
+          name: db2
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://123.207.23.166:3307/tracking_treatment?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
+          username: momo
+          password: LLLSWlllswmo
+     # HTTP ENCODING
     http:  
         encoding.charset: UTF-8  
         encoding.enable: true  
@@ -105,3 +125,9 @@ spring:
             starttls:  
               enable: true  
               required: true
+
+#多数据源
+# 更多数据源
+
+custom:
+  datasource:
