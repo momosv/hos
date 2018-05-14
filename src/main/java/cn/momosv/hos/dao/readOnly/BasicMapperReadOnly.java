@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-@Repository("basicMapper")
-public interface BasicMapper<T ,E> {
+@Repository("basicMapperReadOnly")
+public interface BasicMapperReadOnly<T ,E> {
     /**
      * 
      * @Title:统计，public all
