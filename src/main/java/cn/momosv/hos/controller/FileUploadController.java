@@ -57,6 +57,4 @@ public class FileUploadController {
         }
         return Msg.fail("上传的文件为空");
     }
-
-
 }

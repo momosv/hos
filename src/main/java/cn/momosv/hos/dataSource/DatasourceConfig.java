@@ -28,6 +28,9 @@ public class DatasourceConfig {
     
     @Value("${spring.datasource.username}")
     private String username;
+
+    @Value("${spring.datasource.name}")
+    private String name;
     
     @Value("${spring.datasource.password}")
     private String password;

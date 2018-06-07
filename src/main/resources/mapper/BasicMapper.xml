@@ -192,7 +192,7 @@
 
 	<select id="countByExample" parameterType="cn.momosv.hos.model.base.BasicExample"
 		resultType="java.lang.Integer">
-		select count(1) from ${example.tName}
+		select sellCount(1) from ${example.tName}
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
